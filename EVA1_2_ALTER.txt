@@ -1,0 +1,288 @@
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 17
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases
+                               -> ;
++--------------------+
+| Database           |
++--------------------+
+| hola               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  SQL > use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > create table tabla 1{
+                                     ->
+                                     ->
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1{' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table tabla 1(
+                                     -> id bigint unusigned auto_increment, primary key,
+                                     ->
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1(
+id bigint unusigned auto_increment, primary key,' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table tabla 1( id bigint unusigned auto_increment primary key,
+                                     -> nombre varchar(50));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1( id bigint unusigned auto_increment primary key,
+nombre varchar(50))' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table tabla1(id bigint unusigned auto_increment primary key, nombre varchar(50));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unusigned auto_increment primary key, nombre varchar(50))' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table tabla1(id bigint unsigned auto_increment primary key, nombre varchar(50));
+Query OK, 0 rows affected (1.7913 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1
+                                     -> ;
+Query OK, 0 rows affected (0.1453 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1 add edad int;
+Query OK, 0 rows affected (1.0664 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla1;
++--------+-----------------+------+-----+---------+----------------+
+| Field  | Type            | Null | Key | Default | Extra          |
++--------+-----------------+------+-----+---------+----------------+
+| id     | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)     | YES  |     | NULL    |                |
+| edad   | int             | YES  |     | NULL    |                |
++--------+-----------------+------+-----+---------+----------------+
+3 rows in set (0.0579 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1 drop edad;
+Query OK, 0 rows affected (2.7823 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla 1
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla1
+                                     -> ;
++--------+-----------------+------+-----+---------+----------------+
+| Field  | Type            | Null | Key | Default | Extra          |
++--------+-----------------+------+-----+---------+----------------+
+| id     | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)     | YES  |     | NULL    |                |
++--------+-----------------+------+-----+---------+----------------+
+2 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1 add column hapellidos varchar(50) after nombre;
+Query OK, 0 rows affected (0.4565 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla1;
++------------+-----------------+------+-----+---------+----------------+
+| Field      | Type            | Null | Key | Default | Extra          |
++------------+-----------------+------+-----+---------+----------------+
+| id         | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50)     | YES  |     | NULL    |                |
+| hapellidos | varchar(50)     | YES  |     | NULL    |                |
++------------+-----------------+------+-----+---------+----------------+
+3 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1
+                                     -> rename column hapellidos to apellidos;
+Query OK, 0 rows affected (0.1382 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > des tabla1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'des tabla1' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla1;
++-----------+-----------------+------+-----+---------+----------------+
+| Field     | Type            | Null | Key | Default | Extra          |
++-----------+-----------------+------+-----+---------+----------------+
+| id        | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50)     | YES  |     | NULL    |                |
+| apellidos | varchar(50)     | YES  |     | NULL    |                |
++-----------+-----------------+------+-----+---------+----------------+
+3 rows in set (0.0581 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > modify column nombre varchar(50) to varchar(250);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'modify column nombre varchar(50) to varchar(250)' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > modify column nombre varchar(255),
+                                     -> modify apellidos varchar(250);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'modify column nombre varchar(255),
+modify apellidos varchar(250)' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla 1 modify nombre varchar(255), modify apellidos varchar(250);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 modify nombre varchar(255), modify apellidos varchar(250)' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > alter table tabla1 modify nombre varchar(255), modify apellidos varchar(250);
+Query OK, 0 rows affected (4.5565 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc tabla1
+                                     -> ;
++-----------+-----------------+------+-----+---------+----------------+
+| Field     | Type            | Null | Key | Default | Extra          |
++-----------+-----------------+------+-----+---------+----------------+
+| id        | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(255)    | YES  |     | NULL    |                |
+| apellidos | varchar(250)    | YES  |     | NULL    |                |
++-----------+-----------------+------+-----+---------+----------------+
+3 rows in set (0.0531 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table empleados(id bigint unsigned auto_increment primary key, nombre varchar(50)
+                                     -> apellido varchar(50), fecha_nacimiento datetime, rfc varchar(13),
+                                     -> ciudad_nacimiento text, estado int, numero_tel varchar(50);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'apellido varchar(50), fecha_nacimiento datetime, rfc varchar(13),
+ciudad_nacimie' at line 2
+ MySQL  localhost:3306 ssl  hola  SQL > create table empleados(id bigint unsigned auto_increment primary key, nombre varchar(50), apellido varchar(50), fecha_nacimiento datetime, rfc varchar(13), ciudad_nacimiento text, estado int, numero_tel varchar(50);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table empleados(id int primary key, nombre varchar(50), apellido varchar(50), fecha_nacimiento datetime, rfc varchar(13), ciudad_nacimiento text, estado int, numero_tel varchar(50);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > create table empleados(id int primary key, nombre varchar(50), apellido varchar(50), fecha_nacimiento datetime, rfc varchar(13), ciudad_nacimiento text, estado int, numero_tel varchar(50));
+Query OK, 0 rows affected (0.9769 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| numero_tel        | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.0882 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados add column nss varchar(20) after rfc;
+Query OK, 0 rows affected (2.3150 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| numero_tel        | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+9 rows in set (0.0144 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados add column pais varchar(10) after estado;
+Query OK, 0 rows affected (2.5686 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| pais              | varchar(10) | YES  |     | NULL    |       |
+| numero_tel        | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+10 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados rename column numero_tel to celular;
+Query OK, 0 rows affected (0.4588 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| pais              | varchar(10) | YES  |     | NULL    |       |
+| celular           | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+10 rows in set (0.0671 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados add column tel_fijo varchar(50);
+Query OK, 0 rows affected (1.8604 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| pais              | varchar(10) | YES  |     | NULL    |       |
+| celular           | varchar(50) | YES  |     | NULL    |       |
+| tel_fijo          | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+11 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados add column id_depto int after id;
+Query OK, 0 rows affected (3.1300 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| id_depto          | int         | YES  |     | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| pais              | varchar(10) | YES  |     | NULL    |       |
+| celular           | varchar(50) | YES  |     | NULL    |       |
+| tel_fijo          | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+12 rows in set (0.0051 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table empleados add column iniciales varchar(10) after apellido;
+Query OK, 0 rows affected (1.8967 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc empleados;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| id                | int         | NO   | PRI | NULL    |       |
+| id_depto          | int         | YES  |     | NULL    |       |
+| nombre            | varchar(50) | YES  |     | NULL    |       |
+| apellido          | varchar(50) | YES  |     | NULL    |       |
+| iniciales         | varchar(10) | YES  |     | NULL    |       |
+| fecha_nacimiento  | datetime    | YES  |     | NULL    |       |
+| rfc               | varchar(13) | YES  |     | NULL    |       |
+| nss               | varchar(20) | YES  |     | NULL    |       |
+| ciudad_nacimiento | text        | YES  |     | NULL    |       |
+| estado            | int         | YES  |     | NULL    |       |
+| pais              | varchar(10) | YES  |     | NULL    |       |
+| celular           | varchar(50) | YES  |     | NULL    |       |
+| tel_fijo          | varchar(50) | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+13 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| empleados      |
+| tabla1         |
++----------------+
+2 rows in set (0.0231 sec)
