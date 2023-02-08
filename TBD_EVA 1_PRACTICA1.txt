@@ -1,0 +1,176 @@
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect
+\connect [--mx|--mysqlx|--mc|--mysql] <URI>
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ***********
+MySQL Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > \help
+The Shell Help is organized in categories and topics. To get help for a
+specific category or topic use: \? <pattern>
+
+The <pattern> argument should be the name of a category or a topic.
+
+The pattern is a filter to identify topics for which help is required, it can
+use the following wildcards:
+
+- ? matches any single character.
+- * matches any character sequence.
+
+The following are the main help categories:
+
+ - Shell Commands Provides details about the available built-in shell commands.
+ - SQL Syntax     Entry point to retrieve syntax help on SQL statements.
+
+The available topics include:
+
+- The available shell commands.
+- Any word that is part of an SQL statement.
+- Command Line - invoking built-in shell functions without entering interactive
+  mode.
+
+SHELL COMMANDS
+
+The shell commands allow executing specific operations including updating the
+shell configuration.
+
+The following shell commands are available:
+
+ - \                   Start multi-line input when in SQL mode.
+ - \connect    (\c)    Connects the shell to a MySQL server and assigns the
+                       global session.
+ - \disconnect         Disconnects the global session.
+ - \edit       (\e)    Launch a system editor to edit a command to be executed.
+ - \exit               Exits the MySQL Shell, same as \quit.
+ - \G                  Send command to mysql server, display result vertically.
+ - \g                  Send command to mysql server.
+ - \help       (\?,\h) Prints help information about a specific topic.
+ - \history            View and edit command line history.
+ - \js                 Switches to JavaScript processing mode.
+ - \nopager            Disables the current pager.
+ - \nowarnings (\w)    Don't show warnings after every statement.
+ - \option             Allows working with the available shell options.
+ - \pager      (\P)    Sets the current pager.
+ - \py                 Switches to Python processing mode.
+ - \quit       (\q)    Exits the MySQL Shell.
+ - \reconnect          Reconnects the global session.
+ - \rehash             Refresh the autocompletion cache.
+ - \show               Executes the given report with provided options and
+                       arguments.
+ - \source     (\.)    Loads and executes a script from a file.
+ - \sql                Executes SQL statement or switches to SQL processing
+                       mode when no statement is given.
+ - \status     (\s)    Print information about the current global session.
+ - \system     (\!)    Execute a system shell command.
+ - \use        (\u)    Sets the active schema.
+ - \warnings   (\W)    Show warnings after every statement.
+ - \watch              Executes the given report with provided options and
+                       arguments in a loop.
+
+EXAMPLES
+\? sql syntax
+      Displays the main SQL help categories.
+
+\? select
+      Displays information about the SELECT SQL statement.
+ MySQL  localhost:3306 ssl  SQL > \sql
+ MySQL  localhost:3306 ssl  SQL > sql
+                               -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sql' at line 1
+ MySQL  localhost:3306 ssl  SQL > show tables;
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > show databases
+                               -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  SQL > create daatabase;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'daatabase' at line 1
+ MySQL  localhost:3306 ssl  SQL > create daatabase hola;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'daatabase hola' at line 1
+ MySQL  localhost:3306 ssl  SQL > create database hola;
+Query OK, 1 row affected (0.3046 sec)
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| hola               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  SQL > select hola;
+ERROR: 1054 (42S22): Unknown column 'hola' in 'field list'
+ MySQL  localhost:3306 ssl  SQL > select database hola;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'hola' at line 1
+ MySQL  localhost:3306 ssl  SQL > use hola;
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > create table;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
+Empty set (0.0016 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table gente;
+ERROR: 1113 (42000): A table must have at least 1 column
+ MySQL  localhost:3306 ssl  hola  SQL > create table empleados (
+                                     -> id bigint unsigned auto_increment primary key,
+                                     -> nombre varchar(50));
+Query OK, 0 rows affected (2.9010 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables
+                                     -> ;
++----------------+
+| Tables_in_hola |
++----------------+
+| empleados      |
++----------------+
+1 row in set (0.0244 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > use empleados;
+MySQL Error 1049: Unknown database 'empleados'
+ MySQL  localhost:3306 ssl  hola  SQL > show table empleados;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empleados' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > show tables empleados;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empleados' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > use table empleados
+Incorrect number of arguments for use command, usage:
+\use <schema_name>
+ MySQL  localhost:3306 ssl  hola  SQL > use table empleados;
+Incorrect number of arguments for use command, usage:
+\use <schema_name>
+ MySQL  localhost:3306 ssl  hola  SQL > describe empleados;
++--------+-----------------+------+-----+---------+----------------+
+| Field  | Type            | Null | Key | Default | Extra          |
++--------+-----------------+------+-----+---------+----------------+
+| id     | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)     | YES  |     | NULL    |                |
++--------+-----------------+------+-----+---------+----------------+
+2 rows in set (0.1393 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > drop table empleados;
+Query OK, 0 rows affected (0.8303 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables
+                                     -> ;
+Empty set (0.0350 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > \disconnect
+ MySQL  SQL >
