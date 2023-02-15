@@ -1,0 +1,98 @@
+ insert into estudiantes( no_control, nombre, apellidos, edad, carrera, especialidad, telefono, direccion) values('20550404', 'Andres','Tavares', 20, 'ISC') ;
+ERROR: 1136 (21S01): Column count doesn't match value count at row 1
+ MySQL  localhost:3306 ssl  hola  SQL > insert into estudiantes( no_control, nombre, apellidos, edad, carrera, especialidad, telefono, direccion) values('20550404', 'Andres','Tavares', 20, 'ISC') ;
+ERROR: 1136 (21S01): Column count doesn't match value count at row 1
+ MySQL  localhost:3306 ssl  hola  SQL > desc estudiantes;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| no_control   | varchar(15) | NO   |     | NULL    |       |
+| nombre       | varchar(50) | NO   |     | NULL    |       |
+| apellidos    | varchar(50) | NO   |     | NULL    |       |
+| edad         | int         | NO   |     | NULL    |       |
+| carrera      | varchar(50) | NO   |     | NULL    |       |
+| especialidad | varchar(50) | YES  |     | NULL    |       |
+| telefono     | varchar(50) | YES  |     | NULL    |       |
+| direccion    | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into estudiantes( no_control, nombre, apellidos, edad, carrera) values('20550404', 'Andres','Tavares', 20, 'ISC') ;
+Query OK, 1 row affected (0.8244 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from estudiantes;
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+| no_control | nombre | apellidos | edad | carrera | especialidad | telefono | direccion |
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+| 20550404   | Andres | Tavares   |   20 | ISC     | NULL         | NULL     | NULL      |
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+1 row in set (0.0585 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table estudiantes modify no_control varchar(15) not null unique;
+Query OK, 0 rows affected (3.8430 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc estudiantes;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| no_control   | varchar(15) | NO   | PRI | NULL    |       |
+| nombre       | varchar(50) | NO   |     | NULL    |       |
+| apellidos    | varchar(50) | NO   |     | NULL    |       |
+| edad         | int         | NO   |     | NULL    |       |
+| carrera      | varchar(50) | NO   |     | NULL    |       |
+| especialidad | varchar(50) | YES  |     | NULL    |       |
+| telefono     | varchar(50) | YES  |     | NULL    |       |
+| direccion    | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.0291 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into estudiantes( no_control, nombre, apellidos, edad, carrera) values('20550404', 'Andres','Tavares', 20, 'ISC') ;
+ERROR: 1062 (23000): Duplicate entry '20550404' for key 'estudiantes.no_control'
+ MySQL  localhost:3306 ssl  hola  SQL > insert into estudiantes( no_control, nombre, apellidos, edad, carrera) values('20550402', 'Andres','Tavares', 20, 'ISC') ;
+Query OK, 1 row affected (0.1461 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc estudiantes;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| no_control   | varchar(15) | NO   | PRI | NULL    |       |
+| nombre       | varchar(50) | NO   |     | NULL    |       |
+| apellidos    | varchar(50) | NO   |     | NULL    |       |
+| edad         | int         | NO   |     | NULL    |       |
+| carrera      | varchar(50) | NO   |     | NULL    |       |
+| especialidad | varchar(50) | YES  |     | NULL    |       |
+| telefono     | varchar(50) | YES  |     | NULL    |       |
+| direccion    | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from estudiantes;
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+| no_control | nombre | apellidos | edad | carrera | especialidad | telefono | direccion |
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+| 20550402   | Andres | Tavares   |   20 | ISC     | NULL         | NULL     | NULL      |
+| 20550404   | Andres | Tavares   |   20 | ISC     | NULL         | NULL     | NULL      |
++------------+--------+-----------+------+---------+--------------+----------+-----------+
+2 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table asignaturas(nombre varchar(50) not null, creditos int not null,
+                                     -> semestre int not null, clave varchar(10) not null primary key);
+Query OK, 0 rows affected (0.9930 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc asignaturas;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| nombre   | varchar(50) | NO   |     | NULL    |       |
+| creditos | int         | NO   |     | NULL    |       |
+| semestre | int         | NO   |     | NULL    |       |
+| clave    | varchar(10) | NO   | PRI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.1395 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into asignaturas values('Taller de BD', 4, 5, '4P5');
+Query OK, 1 row affected (0.1619 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from asignaturas;
++--------------+----------+----------+-------+
+| nombre       | creditos | semestre | clave |
++--------------+----------+----------+-------+
+| Taller de BD |        4 |        5 | 4P5   |
++--------------+----------+----------+-------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into asignaturas(nombre, creditos, semestre) values('Taller de BD', 4, 5);
+ERROR: 1364 (HY000): Field 'clave' doesn't have a default value
+ MySQL  localhost:3306 ssl  hola  SQL > insert into asignaturas values('Taller de BD', 4, 5, '4P5');
+ERROR: 1062 (23000): Duplicate entry '4P5' for key 'asignaturas.PRIMARY'
+ MySQL  localhost:3306 ssl  hola  SQL >insert into asignaturas values('Estructura de datos, 5, 3, '2P3');
