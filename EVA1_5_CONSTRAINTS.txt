@@ -1,0 +1,316 @@
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \SQL
+Unknown command: '\SQL'
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databass;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databass' at line 1
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| hola               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  SQL > \use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| empleados      |
+| estudiantes    |
+| tabla1         |
++----------------+
+4 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc estudiates;
+ERROR: 1146 (42S02): Table 'hola.estudiates' doesn't exist
+ MySQL  localhost:3306 ssl  hola  SQL > desc estudiantes;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| no_control   | varchar(15) | NO   | PRI | NULL    |       |
+| nombre       | varchar(50) | NO   |     | NULL    |       |
+| apellidos    | varchar(50) | NO   |     | NULL    |       |
+| edad         | int         | NO   |     | NULL    |       |
+| carrera      | varchar(50) | NO   |     | NULL    |       |
+| especialidad | varchar(50) | YES  |     | NULL    |       |
+| telefono     | varchar(50) | YES  |     | NULL    |       |
+| direccion    | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table docentes(id int AUTO_INCREMENT key,
+                                     -> nombres varchar(50) not null,
+                                     -> apellidos varchar(50) not null,
+                                     -> rfc varchar(13) not null);
+Query OK, 0 rows affected (2.6002 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc docentes;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| nombres   | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | NO   |     | NULL    |                |
+| rfc       | varchar(13) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0025 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into docentes(nombres, apellidos, rfc)
+                                     -> values('Andres', 'Tavares Tena', '1325264589034');
+Query OK, 1 row affected (0.1875 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > sselect * from docentes;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sselect * from docentes' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > select * from docentes;
++----+---------+--------------+---------------+
+| id | nombres | apellidos    | rfc           |
++----+---------+--------------+---------------+
+|  1 | Andres  | Tavares Tena | 13252645      |
+----+---------+--------------+----------------+
+ MySQL  localhost:3306 ssl  hola  SQL > insert into docentes(nombres, apellidos, rfc) values('Juan Gerardo', 'Tavares Tena', '1325264589034')
+                                    
+Query OK, 1 row affected (0.0966 sec)
+ MySQL  localhost:3306 ssl  hola  SQL
+ MySQL  localhost:3306 ssl  hola  SQL > select * from docentes;
++----+--------------+--------------+---------------+
+| id | nombres      | apellidos    | rfc           |
++----+--------------+--------------+---------------+
+|  1 | Andres       | Tavares Tena | 1325264589034 |
+|  2 | Juan Gerardo | Tavares Tena | 1325264589034 |
++----+--------------+--------------+---------------+
+2 rows in set (0.0437 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into docentes(nombres, apellidos, rfc) values('Juanelo', 'Tavares Tena', '132526458764') ;
+Query OK, 1 row affected (0.1276 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from docentes;
++----+--------------+--------------+---------------+
+| id | nombres      | apellidos    | rfc           |
++----+--------------+--------------+---------------+
+|  1 | Andres       | Tavares Tena | 1325264589034 |
+|  2 | Juan Gerardo | Tavares Tena | 1325264589034 |
+|  3 | Juanelo      | Tavares Tena | 132526458764  |
++----+--------------+--------------+---------------+
+3 rows in set (0.0435 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > delete from docentes where id = 3;
+Query OK, 1 row affected (0.4162 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from docentes;
++----+--------------+--------------+---------------+
+| id | nombres      | apellidos    | rfc           |
++----+--------------+--------------+---------------+
+|  1 | Andres       | Tavares Tena | 1325264589034 |
+|  2 | Juan Gerardo | Tavares Tena | 1325264589034 |
++----+--------------+--------------+---------------+
+2 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into docentes(nombres, apellidos, rfc) values('Otro', 'Tavares Tena', '132526458764') ;
+Query OK, 1 row affected (0.2213 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from docentes;
++----+--------------+--------------+---------------+
+| id | nombres      | apellidos    | rfc           |
++----+--------------+--------------+---------------+
+|  1 | Andres       | Tavares Tena | 1325264589034 |
+|  2 | Juan Gerardo | Tavares Tena | 1325264589034 |
+|  4 | Otro         | Tavares Tena | 132526458764  |
++----+--------------+--------------+---------------+
+3 rows in set (0.0004 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table carreras(clave int auto_increment key,
+                                     -> nombre_carrera varchar(50),
+                                     -> clave_carrera varchar(20),
+                                     -> nivel varchar(20));
+Query OK, 0 rows affected (0.7115 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc carrera;
+ERROR: 1146 (42S02): Table 'hola.carrera' doesn't exist
+ MySQL  localhost:3306 ssl  hola  SQL > desc carreras;
++----------------+-------------+------+-----+---------+----------------+
+| Field          | Type        | Null | Key | Default | Extra          |
++----------------+-------------+------+-----+---------+----------------+
+| clave          | int         | NO   | PRI | NULL    | auto_increment |
+| nombre_carrera | varchar(50) | YES  |     | NULL    |                |
+| clave_carrera  | varchar(20) | YES  |     | NULL    |                |
+| nivel          | varchar(20) | YES  |     | NULL    |                |
++----------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0332 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >
+ MySQL  localhost:3306 ssl  hola  SQL > inser into carreras(nombre_carrera, clave_carrera, nivel)
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'inser into carreras(nombre_carrera, clave_carrera, nivel)' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > insert into carreras(nombre_carrera, clave_carrera, nivel)
+                                     -> values ('Ing. en Sistemas Computacionales', 'ISC-2920-ASDF', 'Licenciatura');
+Query OK, 1 row affected (0.1125 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
++-------+----------------------------------+---------------+--------------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into carreras(nombre_carrera, clave_carrera, nivel) values ('Licenciatura en  Administracion', 'LA-2020-ASDF', 'Lic');
+Query OK, 1 row affected (0.1831 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion  | LA-2020-ASDF  | Lic          |
++-------+----------------------------------+---------------+--------------+
+2 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into carreras(nombre_carrera, clave_carrera, nivel) values ('Ing. Informatica', 'II-2020-ASDF', 'Chafa');
+Query OK, 1 row affected (0.1113 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion  | LA-2020-ASDF  | Lic          |
+|     3 | Ing. Informatica                 | II-2020-ASDF  | Chafa        |
++-------+----------------------------------+---------------+--------------+
+3 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table shirts(name varchar(40),
+                                     -> size ENUM('x-small', 'small', 'medium', 'large', 'x-large'));
+Query OK, 0 rows affected (2.3206 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc shirts;
++-------+----------------------------------------------------+------+-----+---------+-------+
+| Field | Type                                               | Null | Key | Default | Extra |
++-------+----------------------------------------------------+------+-----+---------+-------+
+| name  | varchar(40)                                        | YES  |     | NULL    |       |
+| size  | enum('x-small','small','medium','large','x-large') | YES  |     | NULL    |       |
++-------+----------------------------------------------------+------+-----+---------+-------+
+2 rows in set (0.0385 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into shirts values('Playera', 'x-small');
+Query OK, 1 row affected (0.1064 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from shirts;
++---------+---------+
+| name    | size    |
++---------+---------+
+| Playera | x-small |
++---------+---------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into shirts values('Playera', 'x-smol');
+ERROR: 1265 (01000): Data truncated for column 'size' at row 1
+ MySQL  localhost:3306 ssl  hola  SQL >insert into shirts values('Playera', 'x-smol');
+ERROR: 1265 (01000): Data truncated for column 'size' at row 1
+ MySQL  localhost:3306 ssl  hola  SQL > desc carreras;
++----------------+-------------+------+-----+---------+----------------+
+| Field          | Type        | Null | Key | Default | Extra          |
++----------------+-------------+------+-----+---------+----------------+
+| clave          | int         | NO   | PRI | NULL    | auto_increment |
+| nombre_carrera | varchar(50) | YES  |     | NULL    |                |
+| clave_carrera  | varchar(20) | YES  |     | NULL    |                |
+| nivel          | varchar(20) | YES  |     | NULL    |                |
++----------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion  | LA-2020-ASDF  | Lic          |
+|     3 | Ing. Informatica                 | II-2020-ASDF  | Chafa        |
++-------+----------------------------------+---------------+--------------+
+3 rows in set (0.0317 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > update carreras set nivel= 'Licenciatura' where clave=2;
+Query OK, 1 row affected (0.1073 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > update carreras set nivel= 'Licenciatura' where clave=3;
+Query OK, 1 row affected (0.1373 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion  | LA-2020-ASDF  | Licenciatura |
+|     3 | Ing. Informatica                 | II-2020-ASDF  | Licenciatura |
++-------+----------------------------------+---------------+--------------+
+3 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > alter table carreras modify column nivel enum('Licenciatura', 'Maestria', 'Doctorado');
+Query OK, 3 rows affected (3.7914 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+----------------------------------+---------------+--------------+
+| clave | nombre_carrera                   | clave_carrera | nivel        |
++-------+----------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion  | LA-2020-ASDF  | Licenciatura |
+|     3 | Ing. Informatica                 | II-2020-ASDF  | Licenciatura |
++-------+----------------------------------+---------------+--------------+
+3 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc carreras;
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| Field          | Type                                        | Null | Key | Default | Extra          |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| clave          | int                                         | NO   | PRI | NULL    | auto_increment |
+| nombre_carrera | varchar(50)                                 | YES  |     | NULL    |                |
+| clave_carrera  | varchar(20)                                 | YES  |     | NULL    |                |
+| nivel          | enum('Licenciatura','Maestria','Doctorado') | YES  |     | NULL    |                |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.0284 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into carreras(nombre_carrera, clave_carrera, nivel) values ('Arquitectura', 'ARQ-2022-31', 'Chafota');
+ERROR: 1265 (01000): Data truncated for column 'nivel' at row 1
+ insert into carreras(nombre_carrera, clave_carrera, nivel) values ('Maestria en Sistemas computacionales', 'MSC-2022-3531', 'Maestria');
+Query OK, 1 row affected (0.1457 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from carreras;
++-------+--------------------------------------+---------------+--------------+
+| clave | nombre_carrera                       | clave_carrera | nivel        |
++-------+--------------------------------------+---------------+--------------+
+|     1 | Ing. en Sistemas Computacionales     | ISC-2920-ASDF | Licenciatura |
+|     2 | Licenciatura en  Administracion      | LA-2020-ASDF  | Licenciatura |
+|     3 | Ing. Informatica                     | II-2020-ASDF  | Licenciatura |
+|     4 | Maestria en Sistemas computacionales | MSC-2022-3531 | Maestria     |
++-------+--------------------------------------+---------------+--------------+
+4 rows in set (0.0276 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| shirts         |
+| tabla1         |
++----------------+
+7 rows in set (0.0414 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table personas(id int auto_increment key, nombre varchar(50), edad int check(edad > 0));
+Query OK, 0 rows affected (3.0833 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc personas;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0334 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into personas(nombre, edad) values ('Juan', -1);
+ERROR: 3819 (HY000): Check constraint 'personas_chk_1' is violated.
+ MySQL  localhost:3306 ssl  hola  SQL > select * personas;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'personas' at line 1
+ MySQL  localhost:3306 ssl  hola  SQL > select * from personas;
+Empty set (0.0007 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into personas(nombre, edad) values ('Juan', 50);
+Query OK, 1 row affected (0.1204 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from personas;
++----+--------+------+
+| id | nombre | edad |
++----+--------+------+
+|  1 | Juan   |   50 |
++----+--------+------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >
