@@ -1,0 +1,975 @@
+  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 11
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| hola               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  SQL > use hola;
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+8 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create temporary table prueba( id int auto_increment key, nombre varchar(50), otro int);
+Query OK, 0 rows affected (0.0645 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+8 rows in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc prueba;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    | NULL           |
+| otro   | int         | YES  |     | NULL    | NULL           |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0425 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > insert into prueba(nombre, otro) values('Andres', 100);
+Query OK, 1 row affected (0.0323 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select* from prueba;
++----+--------+------+
+| id | nombre | otro |
++----+--------+------+
+|  1 | Andres |  100 |
++----+--------+------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > \disconnect
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+8 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc prueba;
+ERROR: 1146 (42S02): Table 'hola.prueba' doesn't exist
+ MySQL  localhost:3306 ssl  hola  SQL >desc personas;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table copia_per like personas;
+Query OK, 0 rows affected (2.3400 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| copia_per      |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+9 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc copia_per;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0232 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc personas;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select* from personas;
++----+--------+------+
+| id | nombre | edad |
++----+--------+------+
+|  1 | Juan   |   50 |
++----+--------+------+
+1 row in set (0.0387 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select* from copia_per;
+Empty set (0.0198 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table copia_per2 as select * from personas;
+Query OK, 1 row affected (1.9959 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > select* from personas;
++----+--------+------+
+| id | nombre | edad |
++----+--------+------+
+|  1 | Juan   |   50 |
++----+--------+------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from copia_per2;
++----+--------+------+
+| id | nombre | edad |
++----+--------+------+
+|  1 | Juan   |   50 |
++----+--------+------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc copia_per2;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | NO   |     | 0       |       |
+| nombre | varchar(50) | YES  |     | NULL    |       |
+| edad   | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.1104 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc copia_per;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >
+ MySQL  localhost:3306 ssl  hola  SQL > desc personas;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50) | YES  |     | NULL    |                |
+| edad   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >create temporary table copia_temp select* from personas;
+Query OK, 1 row affected (0.0502 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| copia_per      |
+| copia_per2     |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+10 rows in set (0.0767 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc copia_temp;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | NO   |     | 0       | NULL  |
+| nombre | varchar(50) | YES  |     | NULL    | NULL  |
+| edad   | int         | YES  |     | NULL    | NULL  |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.0526 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from copia_temp;
++----+--------+------+
+| id | nombre | edad |
++----+--------+------+
+|  1 | Juan   |   50 |
++----+--------+------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > \disconnect
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 13
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > \use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > desc copia_temp;
+ERROR: 1146 (42S02): Table 'hola.copia_temp' doesn't exist
+ MySQL  localhost:3306 ssl  hola  SQL > \disconnect
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 14
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > \use sakilla
+MySQL Error 1049: Unknown database 'sakilla'
+ MySQL  localhost:3306 ssl  SQL > desc databases;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databases' at line 1
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| hola               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  SQL > \use sakila
+Default schema set to `sakila`.
+Fetching table and column names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > \use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > create table customer like sakila.customer;
+Query OK, 0 rows affected (2.0255 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| asignaturas    |
+| carreras       |
+| copia_per      |
+| copia_per2     |
+| customer       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+11 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0023 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table actor as select * from sakila.actor;
+Query OK, 200 rows affected (1.0231 sec)
+
+Records: 200  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc actor;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| actor_id    | smallint unsigned | NO   |     | 0                 |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   |     | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0902 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select * from actor;
++----------+-------------+--------------+---------------------+
+| actor_id | first_name  | last_name    | last_update         |
++----------+-------------+--------------+---------------------+
+|        1 | PENELOPE    | GUINESS      | 2006-02-15 05:34:33 |
+|        2 | NICK        | WAHLBERG     | 2006-02-15 05:34:33 |
+|        3 | ED          | CHASE        | 2006-02-15 05:34:33 |
+|        4 | JENNIFER    | DAVIS        | 2006-02-15 05:34:33 |
+|        5 | JOHNNY      | LOLLOBRIGIDA | 2006-02-15 05:34:33 |
+|        6 | BETTE       | NICHOLSON    | 2006-02-15 05:34:33 |
+|        7 | GRACE       | MOSTEL       | 2006-02-15 05:34:33 |
+|        8 | MATTHEW     | JOHANSSON    | 2006-02-15 05:34:33 |
+|        9 | JOE         | SWANK        | 2006-02-15 05:34:33 |
+|       10 | CHRISTIAN   | GABLE        | 2006-02-15 05:34:33 |
+|       11 | ZERO        | CAGE         | 2006-02-15 05:34:33 |
+|       12 | KARL        | BERRY        | 2006-02-15 05:34:33 |
+|       13 | UMA         | WOOD         | 2006-02-15 05:34:33 |
+|       14 | VIVIEN      | BERGEN       | 2006-02-15 05:34:33 |
+|       15 | CUBA        | OLIVIER      | 2006-02-15 05:34:33 |
+|       16 | FRED        | COSTNER      | 2006-02-15 05:34:33 |
+|       17 | HELEN       | VOIGHT       | 2006-02-15 05:34:33 |
+|       18 | DAN         | TORN         | 2006-02-15 05:34:33 |
+|       19 | BOB         | FAWCETT      | 2006-02-15 05:34:33 |
+|       20 | LUCILLE     | TRACY        | 2006-02-15 05:34:33 |
+|       21 | KIRSTEN     | PALTROW      | 2006-02-15 05:34:33 |
+|       22 | ELVIS       | MARX         | 2006-02-15 05:34:33 |
+|       23 | SANDRA      | KILMER       | 2006-02-15 05:34:33 |
+|       24 | CAMERON     | STREEP       | 2006-02-15 05:34:33 |
+|       25 | KEVIN       | BLOOM        | 2006-02-15 05:34:33 |
+|       26 | RIP         | CRAWFORD     | 2006-02-15 05:34:33 |
+|       27 | JULIA       | MCQUEEN      | 2006-02-15 05:34:33 |
+|       28 | WOODY       | HOFFMAN      | 2006-02-15 05:34:33 |
+|       29 | ALEC        | WAYNE        | 2006-02-15 05:34:33 |
+|       30 | SANDRA      | PECK         | 2006-02-15 05:34:33 |
+|       31 | SISSY       | SOBIESKI     | 2006-02-15 05:34:33 |
+|       32 | TIM         | HACKMAN      | 2006-02-15 05:34:33 |
+|       33 | MILLA       | PECK         | 2006-02-15 05:34:33 |
+|       34 | AUDREY      | OLIVIER      | 2006-02-15 05:34:33 |
+|       35 | JUDY        | DEAN         | 2006-02-15 05:34:33 |
+|       36 | BURT        | DUKAKIS      | 2006-02-15 05:34:33 |
+|       37 | VAL         | BOLGER       | 2006-02-15 05:34:33 |
+|       38 | TOM         | MCKELLEN     | 2006-02-15 05:34:33 |
+|       39 | GOLDIE      | BRODY        | 2006-02-15 05:34:33 |
+|       40 | JOHNNY      | CAGE         | 2006-02-15 05:34:33 |
+|       41 | JODIE       | DEGENERES    | 2006-02-15 05:34:33 |
+|       42 | TOM         | MIRANDA      | 2006-02-15 05:34:33 |
+|       43 | KIRK        | JOVOVICH     | 2006-02-15 05:34:33 |
+|       44 | NICK        | STALLONE     | 2006-02-15 05:34:33 |
+|       45 | REESE       | KILMER       | 2006-02-15 05:34:33 |
+|       46 | PARKER      | GOLDBERG     | 2006-02-15 05:34:33 |
+|       47 | JULIA       | BARRYMORE    | 2006-02-15 05:34:33 |
+|       48 | FRANCES     | DAY-LEWIS    | 2006-02-15 05:34:33 |
+|       49 | ANNE        | CRONYN       | 2006-02-15 05:34:33 |
+|       50 | NATALIE     | HOPKINS      | 2006-02-15 05:34:33 |
+|       51 | GARY        | PHOENIX      | 2006-02-15 05:34:33 |
+|       52 | CARMEN      | HUNT         | 2006-02-15 05:34:33 |
+|       53 | MENA        | TEMPLE       | 2006-02-15 05:34:33 |
+|       54 | PENELOPE    | PINKETT      | 2006-02-15 05:34:33 |
+|       55 | FAY         | KILMER       | 2006-02-15 05:34:33 |
+|       56 | DAN         | HARRIS       | 2006-02-15 05:34:33 |
+|       57 | JUDE        | CRUISE       | 2006-02-15 05:34:33 |
+|       58 | CHRISTIAN   | AKROYD       | 2006-02-15 05:34:33 |
+|       59 | DUSTIN      | TAUTOU       | 2006-02-15 05:34:33 |
+|       60 | HENRY       | BERRY        | 2006-02-15 05:34:33 |
+|       61 | CHRISTIAN   | NEESON       | 2006-02-15 05:34:33 |
+|       62 | JAYNE       | NEESON       | 2006-02-15 05:34:33 |
+|       63 | CAMERON     | WRAY         | 2006-02-15 05:34:33 |
+|       64 | RAY         | JOHANSSON    | 2006-02-15 05:34:33 |
+|       65 | ANGELA      | HUDSON       | 2006-02-15 05:34:33 |
+|       66 | MARY        | TANDY        | 2006-02-15 05:34:33 |
+|       67 | JESSICA     | BAILEY       | 2006-02-15 05:34:33 |
+|       68 | RIP         | WINSLET      | 2006-02-15 05:34:33 |
+|       69 | KENNETH     | PALTROW      | 2006-02-15 05:34:33 |
+|       70 | MICHELLE    | MCCONAUGHEY  | 2006-02-15 05:34:33 |
+|       71 | ADAM        | GRANT        | 2006-02-15 05:34:33 |
+|       72 | SEAN        | WILLIAMS     | 2006-02-15 05:34:33 |
+|       73 | GARY        | PENN         | 2006-02-15 05:34:33 |
+|       74 | MILLA       | KEITEL       | 2006-02-15 05:34:33 |
+|       75 | BURT        | POSEY        | 2006-02-15 05:34:33 |
+|       76 | ANGELINA    | ASTAIRE      | 2006-02-15 05:34:33 |
+|       77 | CARY        | MCCONAUGHEY  | 2006-02-15 05:34:33 |
+|       78 | GROUCHO     | SINATRA      | 2006-02-15 05:34:33 |
+|       79 | MAE         | HOFFMAN      | 2006-02-15 05:34:33 |
+|       80 | RALPH       | CRUZ         | 2006-02-15 05:34:33 |
+|       81 | SCARLETT    | DAMON        | 2006-02-15 05:34:33 |
+|       82 | WOODY       | JOLIE        | 2006-02-15 05:34:33 |
+|       83 | BEN         | WILLIS       | 2006-02-15 05:34:33 |
+|       84 | JAMES       | PITT         | 2006-02-15 05:34:33 |
+|       85 | MINNIE      | ZELLWEGER    | 2006-02-15 05:34:33 |
+|       86 | GREG        | CHAPLIN      | 2006-02-15 05:34:33 |
+|       87 | SPENCER     | PECK         | 2006-02-15 05:34:33 |
+|       88 | KENNETH     | PESCI        | 2006-02-15 05:34:33 |
+|       89 | CHARLIZE    | DENCH        | 2006-02-15 05:34:33 |
+|       90 | SEAN        | GUINESS      | 2006-02-15 05:34:33 |
+|       91 | CHRISTOPHER | BERRY        | 2006-02-15 05:34:33 |
+|       92 | KIRSTEN     | AKROYD       | 2006-02-15 05:34:33 |
+|       93 | ELLEN       | PRESLEY      | 2006-02-15 05:34:33 |
+|       94 | KENNETH     | TORN         | 2006-02-15 05:34:33 |
+|       95 | DARYL       | WAHLBERG     | 2006-02-15 05:34:33 |
+|       96 | GENE        | WILLIS       | 2006-02-15 05:34:33 |
+|       97 | MEG         | HAWKE        | 2006-02-15 05:34:33 |
+|       98 | CHRIS       | BRIDGES      | 2006-02-15 05:34:33 |
+|       99 | JIM         | MOSTEL       | 2006-02-15 05:34:33 |
+|      100 | SPENCER     | DEPP         | 2006-02-15 05:34:33 |
+|      101 | SUSAN       | DAVIS        | 2006-02-15 05:34:33 |
+|      102 | WALTER      | TORN         | 2006-02-15 05:34:33 |
+|      103 | MATTHEW     | LEIGH        | 2006-02-15 05:34:33 |
+|      104 | PENELOPE    | CRONYN       | 2006-02-15 05:34:33 |
+|      105 | SIDNEY      | CROWE        | 2006-02-15 05:34:33 |
+|      106 | GROUCHO     | DUNST        | 2006-02-15 05:34:33 |
+|      107 | GINA        | DEGENERES    | 2006-02-15 05:34:33 |
+|      108 | WARREN      | NOLTE        | 2006-02-15 05:34:33 |
+|      109 | SYLVESTER   | DERN         | 2006-02-15 05:34:33 |
+|      110 | SUSAN       | DAVIS        | 2006-02-15 05:34:33 |
+|      111 | CAMERON     | ZELLWEGER    | 2006-02-15 05:34:33 |
+|      112 | RUSSELL     | BACALL       | 2006-02-15 05:34:33 |
+|      113 | MORGAN      | HOPKINS      | 2006-02-15 05:34:33 |
+|      114 | MORGAN      | MCDORMAND    | 2006-02-15 05:34:33 |
+|      115 | HARRISON    | BALE         | 2006-02-15 05:34:33 |
+|      116 | DAN         | STREEP       | 2006-02-15 05:34:33 |
+|      117 | RENEE       | TRACY        | 2006-02-15 05:34:33 |
+|      118 | CUBA        | ALLEN        | 2006-02-15 05:34:33 |
+|      119 | WARREN      | JACKMAN      | 2006-02-15 05:34:33 |
+|      120 | PENELOPE    | MONROE       | 2006-02-15 05:34:33 |
+|      121 | LIZA        | BERGMAN      | 2006-02-15 05:34:33 |
+|      122 | SALMA       | NOLTE        | 2006-02-15 05:34:33 |
+|      123 | JULIANNE    | DENCH        | 2006-02-15 05:34:33 |
+|      124 | SCARLETT    | BENING       | 2006-02-15 05:34:33 |
+|      125 | ALBERT      | NOLTE        | 2006-02-15 05:34:33 |
+|      126 | FRANCES     | TOMEI        | 2006-02-15 05:34:33 |
+|      127 | KEVIN       | GARLAND      | 2006-02-15 05:34:33 |
+|      128 | CATE        | MCQUEEN      | 2006-02-15 05:34:33 |
+|      129 | DARYL       | CRAWFORD     | 2006-02-15 05:34:33 |
+|      130 | GRETA       | KEITEL       | 2006-02-15 05:34:33 |
+|      131 | JANE        | JACKMAN      | 2006-02-15 05:34:33 |
+|      132 | ADAM        | HOPPER       | 2006-02-15 05:34:33 |
+|      133 | RICHARD     | PENN         | 2006-02-15 05:34:33 |
+|      134 | GENE        | HOPKINS      | 2006-02-15 05:34:33 |
+|      135 | RITA        | REYNOLDS     | 2006-02-15 05:34:33 |
+|      136 | ED          | MANSFIELD    | 2006-02-15 05:34:33 |
+|      137 | MORGAN      | WILLIAMS     | 2006-02-15 05:34:33 |
+|      138 | LUCILLE     | DEE          | 2006-02-15 05:34:33 |
+|      139 | EWAN        | GOODING      | 2006-02-15 05:34:33 |
+|      140 | WHOOPI      | HURT         | 2006-02-15 05:34:33 |
+|      141 | CATE        | HARRIS       | 2006-02-15 05:34:33 |
+|      142 | JADA        | RYDER        | 2006-02-15 05:34:33 |
+|      143 | RIVER       | DEAN         | 2006-02-15 05:34:33 |
+|      144 | ANGELA      | WITHERSPOON  | 2006-02-15 05:34:33 |
+|      145 | KIM         | ALLEN        | 2006-02-15 05:34:33 |
+|      146 | ALBERT      | JOHANSSON    | 2006-02-15 05:34:33 |
+|      147 | FAY         | WINSLET      | 2006-02-15 05:34:33 |
+|      148 | EMILY       | DEE          | 2006-02-15 05:34:33 |
+|      149 | RUSSELL     | TEMPLE       | 2006-02-15 05:34:33 |
+|      150 | JAYNE       | NOLTE        | 2006-02-15 05:34:33 |
+|      151 | GEOFFREY    | HESTON       | 2006-02-15 05:34:33 |
+|      152 | BEN         | HARRIS       | 2006-02-15 05:34:33 |
+|      153 | MINNIE      | KILMER       | 2006-02-15 05:34:33 |
+|      154 | MERYL       | GIBSON       | 2006-02-15 05:34:33 |
+|      155 | IAN         | TANDY        | 2006-02-15 05:34:33 |
+|      156 | FAY         | WOOD         | 2006-02-15 05:34:33 |
+|      157 | GRETA       | MALDEN       | 2006-02-15 05:34:33 |
+|      158 | VIVIEN      | BASINGER     | 2006-02-15 05:34:33 |
+|      159 | LAURA       | BRODY        | 2006-02-15 05:34:33 |
+|      160 | CHRIS       | DEPP         | 2006-02-15 05:34:33 |
+|      161 | HARVEY      | HOPE         | 2006-02-15 05:34:33 |
+|      162 | OPRAH       | KILMER       | 2006-02-15 05:34:33 |
+|      163 | CHRISTOPHER | WEST         | 2006-02-15 05:34:33 |
+|      164 | HUMPHREY    | WILLIS       | 2006-02-15 05:34:33 |
+|      165 | AL          | GARLAND      | 2006-02-15 05:34:33 |
+|      166 | NICK        | DEGENERES    | 2006-02-15 05:34:33 |
+|      167 | LAURENCE    | BULLOCK      | 2006-02-15 05:34:33 |
+|      168 | WILL        | WILSON       | 2006-02-15 05:34:33 |
+|      169 | KENNETH     | HOFFMAN      | 2006-02-15 05:34:33 |
+|      170 | MENA        | HOPPER       | 2006-02-15 05:34:33 |
+|      171 | OLYMPIA     | PFEIFFER     | 2006-02-15 05:34:33 |
+|      172 | GROUCHO     | WILLIAMS     | 2006-02-15 05:34:33 |
+|      173 | ALAN        | DREYFUSS     | 2006-02-15 05:34:33 |
+|      174 | MICHAEL     | BENING       | 2006-02-15 05:34:33 |
+|      175 | WILLIAM     | HACKMAN      | 2006-02-15 05:34:33 |
+|      176 | JON         | CHASE        | 2006-02-15 05:34:33 |
+|      177 | GENE        | MCKELLEN     | 2006-02-15 05:34:33 |
+|      178 | LISA        | MONROE       | 2006-02-15 05:34:33 |
+|      179 | ED          | GUINESS      | 2006-02-15 05:34:33 |
+|      180 | JEFF        | SILVERSTONE  | 2006-02-15 05:34:33 |
+|      181 | MATTHEW     | CARREY       | 2006-02-15 05:34:33 |
+|      182 | DEBBIE      | AKROYD       | 2006-02-15 05:34:33 |
+|      183 | RUSSELL     | CLOSE        | 2006-02-15 05:34:33 |
+|      184 | HUMPHREY    | GARLAND      | 2006-02-15 05:34:33 |
+|      185 | MICHAEL     | BOLGER       | 2006-02-15 05:34:33 |
+|      186 | JULIA       | ZELLWEGER    | 2006-02-15 05:34:33 |
+|      187 | RENEE       | BALL         | 2006-02-15 05:34:33 |
+|      188 | ROCK        | DUKAKIS      | 2006-02-15 05:34:33 |
+|      189 | CUBA        | BIRCH        | 2006-02-15 05:34:33 |
+|      190 | AUDREY      | BAILEY       | 2006-02-15 05:34:33 |
+|      191 | GREGORY     | GOODING      | 2006-02-15 05:34:33 |
+|      192 | JOHN        | SUVARI       | 2006-02-15 05:34:33 |
+|      193 | BURT        | TEMPLE       | 2006-02-15 05:34:33 |
+|      194 | MERYL       | ALLEN        | 2006-02-15 05:34:33 |
+|      195 | JAYNE       | SILVERSTONE  | 2006-02-15 05:34:33 |
+|      196 | BELA        | WALKEN       | 2006-02-15 05:34:33 |
+|      197 | REESE       | WEST         | 2006-02-15 05:34:33 |
+|      198 | MARY        | KEITEL       | 2006-02-15 05:34:33 |
+|      199 | JULIA       | FAWCETT      | 2006-02-15 05:34:33 |
+|      200 | THORA       | TEMPLE       | 2006-02-15 05:34:33 |
++----------+-------------+--------------+---------------------+
+200 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >create table actor2 select first_name, last_name from sakila.actor;
+Query OK, 200 rows affected (1.5599 sec)
+
+Records: 200  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > select* from actor2;
++-------------+--------------+
+| first_name  | last_name    |
++-------------+--------------+
+| PENELOPE    | GUINESS      |
+| NICK        | WAHLBERG     |
+| ED          | CHASE        |
+| JENNIFER    | DAVIS        |
+| JOHNNY      | LOLLOBRIGIDA |
+| BETTE       | NICHOLSON    |
+| GRACE       | MOSTEL       |
+| MATTHEW     | JOHANSSON    |
+| JOE         | SWANK        |
+| CHRISTIAN   | GABLE        |
+| ZERO        | CAGE         |
+| KARL        | BERRY        |
+| UMA         | WOOD         |
+| VIVIEN      | BERGEN       |
+| CUBA        | OLIVIER      |
+| FRED        | COSTNER      |
+| HELEN       | VOIGHT       |
+| DAN         | TORN         |
+| BOB         | FAWCETT      |
+| LUCILLE     | TRACY        |
+| KIRSTEN     | PALTROW      |
+| ELVIS       | MARX         |
+| SANDRA      | KILMER       |
+| CAMERON     | STREEP       |
+| KEVIN       | BLOOM        |
+| RIP         | CRAWFORD     |
+| JULIA       | MCQUEEN      |
+| WOODY       | HOFFMAN      |
+| ALEC        | WAYNE        |
+| SANDRA      | PECK         |
+| SISSY       | SOBIESKI     |
+| TIM         | HACKMAN      |
+| MILLA       | PECK         |
+| AUDREY      | OLIVIER      |
+| JUDY        | DEAN         |
+| BURT        | DUKAKIS      |
+| VAL         | BOLGER       |
+| TOM         | MCKELLEN     |
+| GOLDIE      | BRODY        |
+| JOHNNY      | CAGE         |
+| JODIE       | DEGENERES    |
+| TOM         | MIRANDA      |
+| KIRK        | JOVOVICH     |
+| NICK        | STALLONE     |
+| REESE       | KILMER       |
+| PARKER      | GOLDBERG     |
+| JULIA       | BARRYMORE    |
+| FRANCES     | DAY-LEWIS    |
+| ANNE        | CRONYN       |
+| NATALIE     | HOPKINS      |
+| GARY        | PHOENIX      |
+| CARMEN      | HUNT         |
+| MENA        | TEMPLE       |
+| PENELOPE    | PINKETT      |
+| FAY         | KILMER       |
+| DAN         | HARRIS       |
+| JUDE        | CRUISE       |
+| CHRISTIAN   | AKROYD       |
+| DUSTIN      | TAUTOU       |
+| HENRY       | BERRY        |
+| CHRISTIAN   | NEESON       |
+| JAYNE       | NEESON       |
+| CAMERON     | WRAY         |
+| RAY         | JOHANSSON    |
+| ANGELA      | HUDSON       |
+| MARY        | TANDY        |
+| JESSICA     | BAILEY       |
+| RIP         | WINSLET      |
+| KENNETH     | PALTROW      |
+| MICHELLE    | MCCONAUGHEY  |
+| ADAM        | GRANT        |
+| SEAN        | WILLIAMS     |
+| GARY        | PENN         |
+| MILLA       | KEITEL       |
+| BURT        | POSEY        |
+| ANGELINA    | ASTAIRE      |
+| CARY        | MCCONAUGHEY  |
+| GROUCHO     | SINATRA      |
+| MAE         | HOFFMAN      |
+| RALPH       | CRUZ         |
+| SCARLETT    | DAMON        |
+| WOODY       | JOLIE        |
+| BEN         | WILLIS       |
+| JAMES       | PITT         |
+| MINNIE      | ZELLWEGER    |
+| GREG        | CHAPLIN      |
+| SPENCER     | PECK         |
+| KENNETH     | PESCI        |
+| CHARLIZE    | DENCH        |
+| SEAN        | GUINESS      |
+| CHRISTOPHER | BERRY        |
+| KIRSTEN     | AKROYD       |
+| ELLEN       | PRESLEY      |
+| KENNETH     | TORN         |
+| DARYL       | WAHLBERG     |
+| GENE        | WILLIS       |
+| MEG         | HAWKE        |
+| CHRIS       | BRIDGES      |
+| JIM         | MOSTEL       |
+| SPENCER     | DEPP         |
+| SUSAN       | DAVIS        |
+| WALTER      | TORN         |
+| MATTHEW     | LEIGH        |
+| PENELOPE    | CRONYN       |
+| SIDNEY      | CROWE        |
+| GROUCHO     | DUNST        |
+| GINA        | DEGENERES    |
+| WARREN      | NOLTE        |
+| SYLVESTER   | DERN         |
+| SUSAN       | DAVIS        |
+| CAMERON     | ZELLWEGER    |
+| RUSSELL     | BACALL       |
+| MORGAN      | HOPKINS      |
+| MORGAN      | MCDORMAND    |
+| HARRISON    | BALE         |
+| DAN         | STREEP       |
+| RENEE       | TRACY        |
+| CUBA        | ALLEN        |
+| WARREN      | JACKMAN      |
+| PENELOPE    | MONROE       |
+| LIZA        | BERGMAN      |
+| SALMA       | NOLTE        |
+| JULIANNE    | DENCH        |
+| SCARLETT    | BENING       |
+| ALBERT      | NOLTE        |
+| FRANCES     | TOMEI        |
+| KEVIN       | GARLAND      |
+| CATE        | MCQUEEN      |
+| DARYL       | CRAWFORD     |
+| GRETA       | KEITEL       |
+| JANE        | JACKMAN      |
+| ADAM        | HOPPER       |
+| RICHARD     | PENN         |
+| GENE        | HOPKINS      |
+| RITA        | REYNOLDS     |
+| ED          | MANSFIELD    |
+| MORGAN      | WILLIAMS     |
+| LUCILLE     | DEE          |
+| EWAN        | GOODING      |
+| WHOOPI      | HURT         |
+| CATE        | HARRIS       |
+| JADA        | RYDER        |
+| RIVER       | DEAN         |
+| ANGELA      | WITHERSPOON  |
+| KIM         | ALLEN        |
+| ALBERT      | JOHANSSON    |
+| FAY         | WINSLET      |
+| EMILY       | DEE          |
+| RUSSELL     | TEMPLE       |
+| JAYNE       | NOLTE        |
+| GEOFFREY    | HESTON       |
+| BEN         | HARRIS       |
+| MINNIE      | KILMER       |
+| MERYL       | GIBSON       |
+| IAN         | TANDY        |
+| FAY         | WOOD         |
+| GRETA       | MALDEN       |
+| VIVIEN      | BASINGER     |
+| LAURA       | BRODY        |
+| CHRIS       | DEPP         |
+| HARVEY      | HOPE         |
+| OPRAH       | KILMER       |
+| CHRISTOPHER | WEST         |
+| HUMPHREY    | WILLIS       |
+| AL          | GARLAND      |
+| NICK        | DEGENERES    |
+| LAURENCE    | BULLOCK      |
+| WILL        | WILSON       |
+| KENNETH     | HOFFMAN      |
+| MENA        | HOPPER       |
+| OLYMPIA     | PFEIFFER     |
+| GROUCHO     | WILLIAMS     |
+| ALAN        | DREYFUSS     |
+| MICHAEL     | BENING       |
+| WILLIAM     | HACKMAN      |
+| JON         | CHASE        |
+| GENE        | MCKELLEN     |
+| LISA        | MONROE       |
+| ED          | GUINESS      |
+| JEFF        | SILVERSTONE  |
+| MATTHEW     | CARREY       |
+| DEBBIE      | AKROYD       |
+| RUSSELL     | CLOSE        |
+| HUMPHREY    | GARLAND      |
+| MICHAEL     | BOLGER       |
+| JULIA       | ZELLWEGER    |
+| RENEE       | BALL         |
+| ROCK        | DUKAKIS      |
+| CUBA        | BIRCH        |
+| AUDREY      | BAILEY       |
+| GREGORY     | GOODING      |
+| JOHN        | SUVARI       |
+| BURT        | TEMPLE       |
+| MERYL       | ALLEN        |
+| JAYNE       | SILVERSTONE  |
+| BELA        | WALKEN       |
+| REESE       | WEST         |
+| MARY        | KEITEL       |
+| JULIA       | FAWCETT      |
+| THORA       | TEMPLE       |
++-------------+--------------+
+200 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > desc actor2;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| first_name | varchar(45) | NO   |     | NULL    |       |
+| last_name  | varchar(45) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.0851 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > create table actor3 (id int auto_increment key) select first_name, last_name from sakila.actor;
+Query OK, 200 rows affected (1.2499 sec)
+
+Records: 200  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  hola  SQL > desc actor3;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| first_name | varchar(45) | NO   |     | NULL    |                |
+| last_name  | varchar(45) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0133 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select* from actor3;
++-----+-------------+--------------+
+| id  | first_name  | last_name    |
++-----+-------------+--------------+
+|   1 | PENELOPE    | GUINESS      |
+|   2 | NICK        | WAHLBERG     |
+|   3 | ED          | CHASE        |
+|   4 | JENNIFER    | DAVIS        |
+|   5 | JOHNNY      | LOLLOBRIGIDA |
+|   6 | BETTE       | NICHOLSON    |
+|   7 | GRACE       | MOSTEL       |
+|   8 | MATTHEW     | JOHANSSON    |
+|   9 | JOE         | SWANK        |
+|  10 | CHRISTIAN   | GABLE        |
+|  11 | ZERO        | CAGE         |
+|  12 | KARL        | BERRY        |
+|  13 | UMA         | WOOD         |
+|  14 | VIVIEN      | BERGEN       |
+|  15 | CUBA        | OLIVIER      |
+|  16 | FRED        | COSTNER      |
+|  17 | HELEN       | VOIGHT       |
+|  18 | DAN         | TORN         |
+|  19 | BOB         | FAWCETT      |
+|  20 | LUCILLE     | TRACY        |
+|  21 | KIRSTEN     | PALTROW      |
+|  22 | ELVIS       | MARX         |
+|  23 | SANDRA      | KILMER       |
+|  24 | CAMERON     | STREEP       |
+|  25 | KEVIN       | BLOOM        |
+|  26 | RIP         | CRAWFORD     |
+|  27 | JULIA       | MCQUEEN      |
+|  28 | WOODY       | HOFFMAN      |
+|  29 | ALEC        | WAYNE        |
+|  30 | SANDRA      | PECK         |
+|  31 | SISSY       | SOBIESKI     |
+|  32 | TIM         | HACKMAN      |
+|  33 | MILLA       | PECK         |
+|  34 | AUDREY      | OLIVIER      |
+|  35 | JUDY        | DEAN         |
+|  36 | BURT        | DUKAKIS      |
+|  37 | VAL         | BOLGER       |
+|  38 | TOM         | MCKELLEN     |
+|  39 | GOLDIE      | BRODY        |
+|  40 | JOHNNY      | CAGE         |
+|  41 | JODIE       | DEGENERES    |
+|  42 | TOM         | MIRANDA      |
+|  43 | KIRK        | JOVOVICH     |
+|  44 | NICK        | STALLONE     |
+|  45 | REESE       | KILMER       |
+|  46 | PARKER      | GOLDBERG     |
+|  47 | JULIA       | BARRYMORE    |
+|  48 | FRANCES     | DAY-LEWIS    |
+|  49 | ANNE        | CRONYN       |
+|  50 | NATALIE     | HOPKINS      |
+|  51 | GARY        | PHOENIX      |
+|  52 | CARMEN      | HUNT         |
+|  53 | MENA        | TEMPLE       |
+|  54 | PENELOPE    | PINKETT      |
+|  55 | FAY         | KILMER       |
+|  56 | DAN         | HARRIS       |
+|  57 | JUDE        | CRUISE       |
+|  58 | CHRISTIAN   | AKROYD       |
+|  59 | DUSTIN      | TAUTOU       |
+|  60 | HENRY       | BERRY        |
+|  61 | CHRISTIAN   | NEESON       |
+|  62 | JAYNE       | NEESON       |
+|  63 | CAMERON     | WRAY         |
+|  64 | RAY         | JOHANSSON    |
+|  65 | ANGELA      | HUDSON       |
+|  66 | MARY        | TANDY        |
+|  67 | JESSICA     | BAILEY       |
+|  68 | RIP         | WINSLET      |
+|  69 | KENNETH     | PALTROW      |
+|  70 | MICHELLE    | MCCONAUGHEY  |
+|  71 | ADAM        | GRANT        |
+|  72 | SEAN        | WILLIAMS     |
+|  73 | GARY        | PENN         |
+|  74 | MILLA       | KEITEL       |
+|  75 | BURT        | POSEY        |
+|  76 | ANGELINA    | ASTAIRE      |
+|  77 | CARY        | MCCONAUGHEY  |
+|  78 | GROUCHO     | SINATRA      |
+|  79 | MAE         | HOFFMAN      |
+|  80 | RALPH       | CRUZ         |
+|  81 | SCARLETT    | DAMON        |
+|  82 | WOODY       | JOLIE        |
+|  83 | BEN         | WILLIS       |
+|  84 | JAMES       | PITT         |
+|  85 | MINNIE      | ZELLWEGER    |
+|  86 | GREG        | CHAPLIN      |
+|  87 | SPENCER     | PECK         |
+|  88 | KENNETH     | PESCI        |
+|  89 | CHARLIZE    | DENCH        |
+|  90 | SEAN        | GUINESS      |
+|  91 | CHRISTOPHER | BERRY        |
+|  92 | KIRSTEN     | AKROYD       |
+|  93 | ELLEN       | PRESLEY      |
+|  94 | KENNETH     | TORN         |
+|  95 | DARYL       | WAHLBERG     |
+|  96 | GENE        | WILLIS       |
+|  97 | MEG         | HAWKE        |
+|  98 | CHRIS       | BRIDGES      |
+|  99 | JIM         | MOSTEL       |
+| 100 | SPENCER     | DEPP         |
+| 101 | SUSAN       | DAVIS        |
+| 102 | WALTER      | TORN         |
+| 103 | MATTHEW     | LEIGH        |
+| 104 | PENELOPE    | CRONYN       |
+| 105 | SIDNEY      | CROWE        |
+| 106 | GROUCHO     | DUNST        |
+| 107 | GINA        | DEGENERES    |
+| 108 | WARREN      | NOLTE        |
+| 109 | SYLVESTER   | DERN         |
+| 110 | SUSAN       | DAVIS        |
+| 111 | CAMERON     | ZELLWEGER    |
+| 112 | RUSSELL     | BACALL       |
+| 113 | MORGAN      | HOPKINS      |
+| 114 | MORGAN      | MCDORMAND    |
+| 115 | HARRISON    | BALE         |
+| 116 | DAN         | STREEP       |
+| 117 | RENEE       | TRACY        |
+| 118 | CUBA        | ALLEN        |
+| 119 | WARREN      | JACKMAN      |
+| 120 | PENELOPE    | MONROE       |
+| 121 | LIZA        | BERGMAN      |
+| 122 | SALMA       | NOLTE        |
+| 123 | JULIANNE    | DENCH        |
+| 124 | SCARLETT    | BENING       |
+| 125 | ALBERT      | NOLTE        |
+| 126 | FRANCES     | TOMEI        |
+| 127 | KEVIN       | GARLAND      |
+| 128 | CATE        | MCQUEEN      |
+| 129 | DARYL       | CRAWFORD     |
+| 130 | GRETA       | KEITEL       |
+| 131 | JANE        | JACKMAN      |
+| 132 | ADAM        | HOPPER       |
+| 133 | RICHARD     | PENN         |
+| 134 | GENE        | HOPKINS      |
+| 135 | RITA        | REYNOLDS     |
+| 136 | ED          | MANSFIELD    |
+| 137 | MORGAN      | WILLIAMS     |
+| 138 | LUCILLE     | DEE          |
+| 139 | EWAN        | GOODING      |
+| 140 | WHOOPI      | HURT         |
+| 141 | CATE        | HARRIS       |
+| 142 | JADA        | RYDER        |
+| 143 | RIVER       | DEAN         |
+| 144 | ANGELA      | WITHERSPOON  |
+| 145 | KIM         | ALLEN        |
+| 146 | ALBERT      | JOHANSSON    |
+| 147 | FAY         | WINSLET      |
+| 148 | EMILY       | DEE          |
+| 149 | RUSSELL     | TEMPLE       |
+| 150 | JAYNE       | NOLTE        |
+| 151 | GEOFFREY    | HESTON       |
+| 152 | BEN         | HARRIS       |
+| 153 | MINNIE      | KILMER       |
+| 154 | MERYL       | GIBSON       |
+| 155 | IAN         | TANDY        |
+| 156 | FAY         | WOOD         |
+| 157 | GRETA       | MALDEN       |
+| 158 | VIVIEN      | BASINGER     |
+| 159 | LAURA       | BRODY        |
+| 160 | CHRIS       | DEPP         |
+| 161 | HARVEY      | HOPE         |
+| 162 | OPRAH       | KILMER       |
+| 163 | CHRISTOPHER | WEST         |
+| 164 | HUMPHREY    | WILLIS       |
+| 165 | AL          | GARLAND      |
+| 166 | NICK        | DEGENERES    |
+| 167 | LAURENCE    | BULLOCK      |
+| 168 | WILL        | WILSON       |
+| 169 | KENNETH     | HOFFMAN      |
+| 170 | MENA        | HOPPER       |
+| 171 | OLYMPIA     | PFEIFFER     |
+| 172 | GROUCHO     | WILLIAMS     |
+| 173 | ALAN        | DREYFUSS     |
+| 174 | MICHAEL     | BENING       |
+| 175 | WILLIAM     | HACKMAN      |
+| 176 | JON         | CHASE        |
+| 177 | GENE        | MCKELLEN     |
+| 178 | LISA        | MONROE       |
+| 179 | ED          | GUINESS      |
+| 180 | JEFF        | SILVERSTONE  |
+| 181 | MATTHEW     | CARREY       |
+| 182 | DEBBIE      | AKROYD       |
+| 183 | RUSSELL     | CLOSE        |
+| 184 | HUMPHREY    | GARLAND      |
+| 185 | MICHAEL     | BOLGER       |
+| 186 | JULIA       | ZELLWEGER    |
+| 187 | RENEE       | BALL         |
+| 188 | ROCK        | DUKAKIS      |
+| 189 | CUBA        | BIRCH        |
+| 190 | AUDREY      | BAILEY       |
+| 191 | GREGORY     | GOODING      |
+| 192 | JOHN        | SUVARI       |
+| 193 | BURT        | TEMPLE       |
+| 194 | MERYL       | ALLEN        |
+| 195 | JAYNE       | SILVERSTONE  |
+| 196 | BELA        | WALKEN       |
+| 197 | REESE       | WEST         |
+| 198 | MARY        | KEITEL       |
+| 199 | JULIA       | FAWCETT      |
+| 200 | THORA       | TEMPLE       |
++-----+-------------+--------------+
+200 rows in set (0.0422 sec)
+ MySQL  localhost:3306 ssl  hola  SQL >
