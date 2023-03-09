@@ -1,0 +1,583 @@
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| eva_2              |
+| hola               |
+| human_resources    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  SQL > \use eva_2
+Default schema set to `eva_2`.
+Fetching table and column names from `eva_2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
++-----------------+
+6 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table detalle;
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                                                                                                                          |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| detalle | CREATE TABLE `detalle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_maestro` int DEFAULT NULL,
+  `dato` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_maestro` (`id_maestro`),
+  CONSTRAINT `detalle_ibfk_1` FOREIGN KEY (`id_maestro`) REFERENCES `maestra` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0400 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle drop constraint detalle_ibfk_1;
+Query OK, 0 rows affected (2.0497 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table detalle;
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                 |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| detalle | CREATE TABLE `detalle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_maestro` int DEFAULT NULL,
+  `dato` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_maestro` (`id_maestro`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select* maestra;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'maestra' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select* from maestra;
++----+-------+
+| id | dato  |
++----+-------+
+|  1 | Algo  |
+|  3 | Algo3 |
+|  4 | Algo4 |
++----+-------+
+3 rows in set (0.0407 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > desc detalle;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| id_maestro | int         | YES  | MUL | NULL    |                |
+| dato       | varchar(20) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0178 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into detalle(id_maestro) values(5);
+Query OK, 1 row affected (0.2411 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from detalle;
++----+------------+-------+
+| id | id_maestro | dato  |
++----+------------+-------+
+|  2 |          1 | Algo  |
+|  3 |          4 | Algo2 |
+|  4 |       NULL | Algo3 |
+|  5 |          3 | Algo4 |
+|  7 |          5 | NULL  |
++----+------------+-------+
+5 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle add foreign key (id_maestro) references maestro(id) on delete cascade on update no action;
+ERROR: 1824 (HY000): Failed to open the referenced table 'maestro'
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle add foreign key (id_maestro) references maestro(id) on delete cascade on update cascade;
+ERROR: 1824 (HY000): Failed to open the referenced table 'maestro'
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle add foreign key (id_maestro) references maestra(id) on delete cascade on update cascade;
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`eva_2`.`#sql-11ac_8`, CONSTRAINT `detalle_ibfk_1` FOREIGN KEY (`id_maestro`) REFERENCES `maestra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete from detalle where id_maestro=5;
+Query OK, 1 row affected (0.2957 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle add foreign key (id_maestro) references maestra(id) on delete cascade on update cascade;
+Query OK, 4 rows affected (3.6050 sec)
+
+Records: 4  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table detalle;
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                                                                                                                                           |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| detalle | CREATE TABLE `detalle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_maestro` int DEFAULT NULL,
+  `dato` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_maestro` (`id_maestro`),
+  CONSTRAINT `detalle_ibfk_1` FOREIGN KEY (`id_maestro`) REFERENCES `maestra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > desc information_schema.table_constraints;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| CONSTRAINT_CATALOG | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_SCHEMA  | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_NAME    | varchar(64) | YES  |     | NULL    |       |
+| TABLE_SCHEMA       | varchar(64) | YES  |     | NULL    |       |
+| TABLE_NAME         | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_TYPE    | varchar(11) | NO   |     |         |       |
+| ENFORCED           | varchar(3)  | NO   |     |         |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.0663 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints;
++---------------------------+-----------------+------------------------------------------------------+
+| CONSTRAINT_NAME           | CONSTRAINT_TYPE | TABLE_NAME                                           |
++---------------------------+-----------------+------------------------------------------------------+
+| PRIMARY                   | PRIMARY KEY     | automovil                                            |
+| automovil_chk_1           | CHECK           | automovil                                            |
+| automovil_chk_2           | CHECK           | automovil                                            |
+| automovil_chk_3           | CHECK           | automovil                                            |
+| PRIMARY                   | PRIMARY KEY     | cliente                                              |
+| PRIMARY                   | PRIMARY KEY     | vendedor                                             |
+| PRIMARY                   | PRIMARY KEY     | contacts                                             |
+| PRIMARY                   | PRIMARY KEY     | detalle                                              |
+| detalle_ibfk_1            | FOREIGN KEY     | detalle                                              |
+| PRIMARY                   | PRIMARY KEY     | detalle_factura                                      |
+| detalle_factura_ibfk_1    | FOREIGN KEY     | detalle_factura                                      |
+| PRIMARY                   | PRIMARY KEY     | factura                                              |
+| PRIMARY                   | PRIMARY KEY     | maestra                                              |
+| PRIMARY                   | PRIMARY KEY     | phones                                               |
+| phones_ibfk_1             | FOREIGN KEY     | phones                                               |
+| PRIMARY                   | PRIMARY KEY     | actor3                                               |
+| PRIMARY                   | PRIMARY KEY     | asignaturas                                          |
+| PRIMARY                   | PRIMARY KEY     | carreras                                             |
+| PRIMARY                   | PRIMARY KEY     | copia_per                                            |
+| copia_per_chk_1           | CHECK           | copia_per                                            |
+| PRIMARY                   | PRIMARY KEY     | customer                                             |
+| PRIMARY                   | PRIMARY KEY     | docentes                                             |
+| PRIMARY                   | PRIMARY KEY     | empleados                                            |
+| no_control                | UNIQUE          | estudiantes                                          |
+| PRIMARY                   | PRIMARY KEY     | personas                                             |
+| personas_chk_1            | CHECK           | personas                                             |
+| PRIMARY                   | PRIMARY KEY     | tabla1                                               |
+| PRIMARY                   | PRIMARY KEY     | datos_comp                                           |
+| datos_comp_ibfk_1         | FOREIGN KEY     | datos_comp                                           |
+| PRIMARY                   | PRIMARY KEY     | empleados                                            |
+| PRIMARY                   | PRIMARY KEY     | employee_data                                        |
+| employee_data_ibfk_1      | FOREIGN KEY     | employee_data                                        |
+| PRIMARY                   | PRIMARY KEY     | familiares                                           |
+| familiares_ibfk_1         | FOREIGN KEY     | familiares                                           |
+| PRIMARY                   | PRIMARY KEY     | info_contato                                         |
+| info_contato_ibfk_1       | FOREIGN KEY     | info_contato                                         |
+| PRIMARY                   | PRIMARY KEY     | info_telefono                                        |
+| info_telefono_ibfk_1      | FOREIGN KEY     | info_telefono                                        |
+| PRIMARY                   | PRIMARY KEY     | ing_emp                                              |
+| ing_emp_ibfk_1            | FOREIGN KEY     | ing_emp                                              |
+| PRIMARY                   | PRIMARY KEY     | lugar                                                |
+| lugar_ibfk_1              | FOREIGN KEY     | lugar                                                |
+| PRIMARY                   | PRIMARY KEY     | usuario                                              |
+| usuario_ibfk_1            | FOREIGN KEY     | usuario                                              |
+| PRIMARY                   | PRIMARY KEY     | columns_priv                                         |
+| PRIMARY                   | PRIMARY KEY     | component                                            |
+| PRIMARY                   | PRIMARY KEY     | db                                                   |
+| PRIMARY                   | PRIMARY KEY     | default_roles                                        |
+| PRIMARY                   | PRIMARY KEY     | engine_cost                                          |
+| PRIMARY                   | PRIMARY KEY     | func                                                 |
+| PRIMARY                   | PRIMARY KEY     | global_grants                                        |
+| PRIMARY                   | PRIMARY KEY     | gtid_executed                                        |
+| name                      | UNIQUE          | help_category                                        |
+| PRIMARY                   | PRIMARY KEY     | help_category                                        |
+| name                      | UNIQUE          | help_keyword                                         |
+| PRIMARY                   | PRIMARY KEY     | help_keyword                                         |
+| PRIMARY                   | PRIMARY KEY     | help_relation                                        |
+| name                      | UNIQUE          | help_topic                                           |
+| PRIMARY                   | PRIMARY KEY     | help_topic                                           |
+| PRIMARY                   | PRIMARY KEY     | innodb_index_stats                                   |
+| PRIMARY                   | PRIMARY KEY     | innodb_table_stats                                   |
+| PRIMARY                   | PRIMARY KEY     | password_history                                     |
+| PRIMARY                   | PRIMARY KEY     | plugin                                               |
+| PRIMARY                   | PRIMARY KEY     | procs_priv                                           |
+| PRIMARY                   | PRIMARY KEY     | proxies_priv                                         |
+| PRIMARY                   | PRIMARY KEY     | replication_asynchronous_connection_failover         |
+| PRIMARY                   | PRIMARY KEY     | role_edges                                           |
+| PRIMARY                   | PRIMARY KEY     | server_cost                                          |
+| PRIMARY                   | PRIMARY KEY     | servers                                              |
+| PRIMARY                   | PRIMARY KEY     | slave_master_info                                    |
+| PRIMARY                   | PRIMARY KEY     | slave_relay_log_info                                 |
+| PRIMARY                   | PRIMARY KEY     | slave_worker_info                                    |
+| PRIMARY                   | PRIMARY KEY     | tables_priv                                          |
+| PRIMARY                   | PRIMARY KEY     | time_zone                                            |
+| PRIMARY                   | PRIMARY KEY     | time_zone_leap_second                                |
+| PRIMARY                   | PRIMARY KEY     | time_zone_name                                       |
+| PRIMARY                   | PRIMARY KEY     | time_zone_transition                                 |
+| PRIMARY                   | PRIMARY KEY     | time_zone_transition_type                            |
+| PRIMARY                   | PRIMARY KEY     | user                                                 |
+| ACCOUNT                   | UNIQUE          | accounts                                             |
+| PRIMARY                   | PRIMARY KEY     | cond_instances                                       |
+| PRIMARY                   | PRIMARY KEY     | data_locks                                           |
+| PRIMARY                   | PRIMARY KEY     | error_log                                            |
+| ACCOUNT                   | UNIQUE          | events_errors_summary_by_account_by_error            |
+| HOST                      | UNIQUE          | events_errors_summary_by_host_by_error               |
+| THREAD_ID                 | UNIQUE          | events_errors_summary_by_thread_by_error             |
+| USER                      | UNIQUE          | events_errors_summary_by_user_by_error               |
+| ERROR_NUMBER              | UNIQUE          | events_errors_summary_global_by_error                |
+| PRIMARY                   | PRIMARY KEY     | events_stages_current                                |
+| PRIMARY                   | PRIMARY KEY     | events_stages_history                                |
+| ACCOUNT                   | UNIQUE          | events_stages_summary_by_account_by_event_name       |
+| HOST                      | UNIQUE          | events_stages_summary_by_host_by_event_name          |
+| PRIMARY                   | PRIMARY KEY     | events_stages_summary_by_thread_by_event_name        |
+| USER                      | UNIQUE          | events_stages_summary_by_user_by_event_name          |
+| PRIMARY                   | PRIMARY KEY     | events_stages_summary_global_by_event_name           |
+| PRIMARY                   | PRIMARY KEY     | events_statements_current                            |
+| SCHEMA_NAME               | UNIQUE          | events_statements_histogram_by_digest                |
+| PRIMARY                   | PRIMARY KEY     | events_statements_histogram_global                   |
+| PRIMARY                   | PRIMARY KEY     | events_statements_history                            |
+| ACCOUNT                   | UNIQUE          | events_statements_summary_by_account_by_event_name   |
+| SCHEMA_NAME               | UNIQUE          | events_statements_summary_by_digest                  |
+| HOST                      | UNIQUE          | events_statements_summary_by_host_by_event_name      |
+| PRIMARY                   | PRIMARY KEY     | events_statements_summary_by_program                 |
+| PRIMARY                   | PRIMARY KEY     | events_statements_summary_by_thread_by_event_name    |
+| USER                      | UNIQUE          | events_statements_summary_by_user_by_event_name      |
+| PRIMARY                   | PRIMARY KEY     | events_statements_summary_global_by_event_name       |
+| PRIMARY                   | PRIMARY KEY     | events_transactions_current                          |
+| PRIMARY                   | PRIMARY KEY     | events_transactions_history                          |
+| ACCOUNT                   | UNIQUE          | events_transactions_summary_by_account_by_event_name |
+| HOST                      | UNIQUE          | events_transactions_summary_by_host_by_event_name    |
+| PRIMARY                   | PRIMARY KEY     | events_transactions_summary_by_thread_by_event_name  |
+| USER                      | UNIQUE          | events_transactions_summary_by_user_by_event_name    |
+| PRIMARY                   | PRIMARY KEY     | events_transactions_summary_global_by_event_name     |
+| PRIMARY                   | PRIMARY KEY     | events_waits_current                                 |
+| PRIMARY                   | PRIMARY KEY     | events_waits_history                                 |
+| ACCOUNT                   | UNIQUE          | events_waits_summary_by_account_by_event_name        |
+| HOST                      | UNIQUE          | events_waits_summary_by_host_by_event_name           |
+| PRIMARY                   | PRIMARY KEY     | events_waits_summary_by_instance                     |
+| PRIMARY                   | PRIMARY KEY     | events_waits_summary_by_thread_by_event_name         |
+| USER                      | UNIQUE          | events_waits_summary_by_user_by_event_name           |
+| PRIMARY                   | PRIMARY KEY     | events_waits_summary_global_by_event_name            |
+| PRIMARY                   | PRIMARY KEY     | file_instances                                       |
+| PRIMARY                   | PRIMARY KEY     | file_summary_by_event_name                           |
+| PRIMARY                   | PRIMARY KEY     | file_summary_by_instance                             |
+| PRIMARY                   | PRIMARY KEY     | global_status                                        |
+| PRIMARY                   | PRIMARY KEY     | global_variables                                     |
+| PRIMARY                   | PRIMARY KEY     | host_cache                                           |
+| HOST                      | UNIQUE          | hosts                                                |
+| ACCOUNT                   | UNIQUE          | memory_summary_by_account_by_event_name              |
+| HOST                      | UNIQUE          | memory_summary_by_host_by_event_name                 |
+| PRIMARY                   | PRIMARY KEY     | memory_summary_by_thread_by_event_name               |
+| USER                      | UNIQUE          | memory_summary_by_user_by_event_name                 |
+| PRIMARY                   | PRIMARY KEY     | memory_summary_global_by_event_name                  |
+| PRIMARY                   | PRIMARY KEY     | metadata_locks                                       |
+| PRIMARY                   | PRIMARY KEY     | mutex_instances                                      |
+| OBJECT                    | UNIQUE          | objects_summary_global_by_type                       |
+| PRIMARY                   | PRIMARY KEY     | persisted_variables                                  |
+| OWNER_THREAD_ID           | UNIQUE          | prepared_statements_instances                        |
+| PRIMARY                   | PRIMARY KEY     | prepared_statements_instances                        |
+| PRIMARY                   | PRIMARY KEY     | processlist                                          |
+| PRIMARY                   | PRIMARY KEY     | replication_applier_configuration                    |
+| PRIMARY                   | PRIMARY KEY     | replication_applier_status                           |
+| PRIMARY                   | PRIMARY KEY     | replication_applier_status_by_coordinator            |
+| PRIMARY                   | PRIMARY KEY     | replication_applier_status_by_worker                 |
+| PRIMARY                   | PRIMARY KEY     | replication_asynchronous_connection_failover         |
+| PRIMARY                   | PRIMARY KEY     | replication_connection_configuration                 |
+| PRIMARY                   | PRIMARY KEY     | replication_connection_status                        |
+| PRIMARY                   | PRIMARY KEY     | rwlock_instances                                     |
+| PRIMARY                   | PRIMARY KEY     | session_account_connect_attrs                        |
+| PRIMARY                   | PRIMARY KEY     | session_connect_attrs                                |
+| PRIMARY                   | PRIMARY KEY     | session_status                                       |
+| PRIMARY                   | PRIMARY KEY     | session_variables                                    |
+| PRIMARY                   | PRIMARY KEY     | setup_actors                                         |
+| PRIMARY                   | PRIMARY KEY     | setup_consumers                                      |
+| PRIMARY                   | PRIMARY KEY     | setup_instruments                                    |
+| OBJECT                    | UNIQUE          | setup_objects                                        |
+| PRIMARY                   | PRIMARY KEY     | setup_threads                                        |
+| PRIMARY                   | PRIMARY KEY     | socket_instances                                     |
+| PRIMARY                   | PRIMARY KEY     | socket_summary_by_event_name                         |
+| PRIMARY                   | PRIMARY KEY     | socket_summary_by_instance                           |
+| ACCOUNT                   | UNIQUE          | status_by_account                                    |
+| HOST                      | UNIQUE          | status_by_host                                       |
+| PRIMARY                   | PRIMARY KEY     | status_by_thread                                     |
+| USER                      | UNIQUE          | status_by_user                                       |
+| PRIMARY                   | PRIMARY KEY     | table_handles                                        |
+| OBJECT                    | UNIQUE          | table_io_waits_summary_by_index_usage                |
+| OBJECT                    | UNIQUE          | table_io_waits_summary_by_table                      |
+| OBJECT                    | UNIQUE          | table_lock_waits_summary_by_table                    |
+| PRIMARY                   | PRIMARY KEY     | threads                                              |
+| PRIMARY                   | PRIMARY KEY     | user_defined_functions                               |
+| PRIMARY                   | PRIMARY KEY     | user_variables_by_thread                             |
+| USER                      | UNIQUE          | users                                                |
+| PRIMARY                   | PRIMARY KEY     | variables_by_thread                                  |
+| PRIMARY                   | PRIMARY KEY     | actor                                                |
+| PRIMARY                   | PRIMARY KEY     | address                                              |
+| fk_address_city           | FOREIGN KEY     | address                                              |
+| PRIMARY                   | PRIMARY KEY     | category                                             |
+| PRIMARY                   | PRIMARY KEY     | city                                                 |
+| fk_city_country           | FOREIGN KEY     | city                                                 |
+| PRIMARY                   | PRIMARY KEY     | country                                              |
+| PRIMARY                   | PRIMARY KEY     | customer                                             |
+| fk_customer_address       | FOREIGN KEY     | customer                                             |
+| fk_customer_store         | FOREIGN KEY     | customer                                             |
+| PRIMARY                   | PRIMARY KEY     | film                                                 |
+| fk_film_language          | FOREIGN KEY     | film                                                 |
+| fk_film_language_original | FOREIGN KEY     | film                                                 |
+| PRIMARY                   | PRIMARY KEY     | film_actor                                           |
+| fk_film_actor_actor       | FOREIGN KEY     | film_actor                                           |
+| fk_film_actor_film        | FOREIGN KEY     | film_actor                                           |
+| PRIMARY                   | PRIMARY KEY     | film_category                                        |
+| fk_film_category_category | FOREIGN KEY     | film_category                                        |
+| fk_film_category_film     | FOREIGN KEY     | film_category                                        |
+| PRIMARY                   | PRIMARY KEY     | film_text                                            |
+| PRIMARY                   | PRIMARY KEY     | inventory                                            |
+| fk_inventory_film         | FOREIGN KEY     | inventory                                            |
+| fk_inventory_store        | FOREIGN KEY     | inventory                                            |
+| PRIMARY                   | PRIMARY KEY     | language                                             |
+| PRIMARY                   | PRIMARY KEY     | payment                                              |
+| fk_payment_customer       | FOREIGN KEY     | payment                                              |
+| fk_payment_rental         | FOREIGN KEY     | payment                                              |
+| fk_payment_staff          | FOREIGN KEY     | payment                                              |
+| PRIMARY                   | PRIMARY KEY     | rental                                               |
+| rental_date               | UNIQUE          | rental                                               |
+| fk_rental_customer        | FOREIGN KEY     | rental                                               |
+| fk_rental_inventory       | FOREIGN KEY     | rental                                               |
+| fk_rental_staff           | FOREIGN KEY     | rental                                               |
+| PRIMARY                   | PRIMARY KEY     | staff                                                |
+| fk_staff_address          | FOREIGN KEY     | staff                                                |
+| fk_staff_store            | FOREIGN KEY     | staff                                                |
+| idx_unique_manager        | UNIQUE          | store                                                |
+| PRIMARY                   | PRIMARY KEY     | store                                                |
+| fk_store_address          | FOREIGN KEY     | store                                                |
+| fk_store_staff            | FOREIGN KEY     | store                                                |
+| PRIMARY                   | PRIMARY KEY     | sys_config                                           |
+| PRIMARY                   | PRIMARY KEY     | city                                                 |
+| city_ibfk_1               | FOREIGN KEY     | city                                                 |
+| PRIMARY                   | PRIMARY KEY     | country                                              |
+| PRIMARY                   | PRIMARY KEY     | countrylanguage                                      |
+| countryLanguage_ibfk_1    | FOREIGN KEY     | countrylanguage                                      |
++---------------------------+-----------------+------------------------------------------------------+
+219 rows in set (0.1393 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints where table_name=detalle;
+ERROR: 1054 (42S22): Unknown column 'detalle' in 'where clause'
+ MySQL  localhost:3306 ssl  eva_2  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints where table_name='detalle';
++-----------------+-----------------+------------+
+| CONSTRAINT_NAME | CONSTRAINT_TYPE | TABLE_NAME |
++-----------------+-----------------+------------+
+| PRIMARY         | PRIMARY KEY     | detalle    |
+| detalle_ibfk_1  | FOREIGN KEY     | detalle    |
++-----------------+-----------------+------------+
+2 rows in set (0.0029 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > \use hola
+Default schema set to `hola`.
+Fetching table and column names from `hola` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  hola  SQL > show tables;
++----------------+
+| Tables_in_hola |
++----------------+
+| actor          |
+| actor2         |
+| actor3         |
+| asignaturas    |
+| carreras       |
+| copia_per      |
+| copia_per2     |
+| customer       |
+| docentes       |
+| empleados      |
+| estudiantes    |
+| personas       |
+| shirts         |
+| tabla1         |
++----------------+
+14 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints where constraint_type='check';
+Empty set (0.0387 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints where constraint_type='CHECK';
++-----------------+-----------------+------------+
+| CONSTRAINT_NAME | CONSTRAINT_TYPE | TABLE_NAME |
++-----------------+-----------------+------------+
+| automovil_chk_1 | CHECK           | automovil  |
+| automovil_chk_2 | CHECK           | automovil  |
+| automovil_chk_3 | CHECK           | automovil  |
+| copia_per_chk_1 | CHECK           | copia_per  |
+| personas_chk_1  | CHECK           | personas   |
++-----------------+-----------------+------------+
+5 rows in set (0.0087 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > select constraint_name, constraint_type, table_name from information_schema.table_constraints where constraint_type='FOREIGN KEY';
++---------------------------+-----------------+-----------------+
+| CONSTRAINT_NAME           | CONSTRAINT_TYPE | TABLE_NAME      |
++---------------------------+-----------------+-----------------+
+| detalle_ibfk_1            | FOREIGN KEY     | detalle         |
+| detalle_factura_ibfk_1    | FOREIGN KEY     | detalle_factura |
+| phones_ibfk_1             | FOREIGN KEY     | phones          |
+| datos_comp_ibfk_1         | FOREIGN KEY     | datos_comp      |
+| employee_data_ibfk_1      | FOREIGN KEY     | employee_data   |
+| familiares_ibfk_1         | FOREIGN KEY     | familiares      |
+| info_contato_ibfk_1       | FOREIGN KEY     | info_contato    |
+| info_telefono_ibfk_1      | FOREIGN KEY     | info_telefono   |
+| ing_emp_ibfk_1            | FOREIGN KEY     | ing_emp         |
+| lugar_ibfk_1              | FOREIGN KEY     | lugar           |
+| usuario_ibfk_1            | FOREIGN KEY     | usuario         |
+| fk_address_city           | FOREIGN KEY     | address         |
+| fk_city_country           | FOREIGN KEY     | city            |
+| fk_customer_address       | FOREIGN KEY     | customer        |
+| fk_customer_store         | FOREIGN KEY     | customer        |
+| fk_film_language          | FOREIGN KEY     | film            |
+| fk_film_language_original | FOREIGN KEY     | film            |
+| fk_film_actor_actor       | FOREIGN KEY     | film_actor      |
+| fk_film_actor_film        | FOREIGN KEY     | film_actor      |
+| fk_film_category_category | FOREIGN KEY     | film_category   |
+| fk_film_category_film     | FOREIGN KEY     | film_category   |
+| fk_inventory_film         | FOREIGN KEY     | inventory       |
+| fk_inventory_store        | FOREIGN KEY     | inventory       |
+| fk_payment_customer       | FOREIGN KEY     | payment         |
+| fk_payment_rental         | FOREIGN KEY     | payment         |
+| fk_payment_staff          | FOREIGN KEY     | payment         |
+| fk_rental_customer        | FOREIGN KEY     | rental          |
+| fk_rental_inventory       | FOREIGN KEY     | rental          |
+| fk_rental_staff           | FOREIGN KEY     | rental          |
+| fk_staff_address          | FOREIGN KEY     | staff           |
+| fk_staff_store            | FOREIGN KEY     | staff           |
+| fk_store_address          | FOREIGN KEY     | store           |
+| fk_store_staff            | FOREIGN KEY     | store           |
+| city_ibfk_1               | FOREIGN KEY     | city            |
+| countryLanguage_ibfk_1    | FOREIGN KEY     | countrylanguage |
++---------------------------+-----------------+-----------------+
+35 rows in set (0.0085 sec)
+ MySQL  localhost:3306 ssl  hola  SQL > \USE EVA_2
+Unknown command: '\USE EVA_2'
+ MySQL  localhost:3306 ssl  hola  SQL > \use eva_2
+Default schema set to `eva_2`.
+Fetching table and column names from `eva_2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table phones;
++--------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                       |
++--------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| phones | CREATE TABLE `phones` (
+  `phone_id` int NOT NULL AUTO_INCREMENT,
+  `contact_id` int DEFAULT NULL,
+  `phone` int DEFAULT NULL,
+  PRIMARY KEY (`phone_id`),
+  KEY `contact_id` (`contact_id`),
+  CONSTRAINT `phones_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0023 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table phones drop constraint phones_ibfk_1;
+Query OK, 0 rows affected (1.8105 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle add foreign key (id_maestro) references maestra(id) on delete restrict on update set null;
+Query OK, 4 rows affected (3.4153 sec)
+
+Records: 4  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table phones;
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                     |
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| phones | CREATE TABLE `phones` (
+  `phone_id` int NOT NULL AUTO_INCREMENT,
+  `contact_id` int DEFAULT NULL,
+  `phone` int DEFAULT NULL,
+  PRIMARY KEY (`phone_id`),
+  KEY `contact_id` (`contact_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
++-----------------+
+6 rows in set (0.0483 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table phones add foreign key (contact_id) references contacts(contact_id) on delete restrict on update set null;
+Query OK, 2 rows affected (4.2123 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table phones;
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                         |
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| phones | CREATE TABLE `phones` (
+  `phone_id` int NOT NULL AUTO_INCREMENT,
+  `contact_id` int DEFAULT NULL,
+  `phone` int DEFAULT NULL,
+  PRIMARY KEY (`phone_id`),
+  KEY `contact_id` (`contact_id`),
+  CONSTRAINT `phones_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE RESTRICT ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > show create table detalle;
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| detalle | CREATE TABLE `detalle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_maestro` int DEFAULT NULL,
+  `dato` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_maestro` (`id_maestro`),
+  CONSTRAINT `detalle_ibfk_1` FOREIGN KEY (`id_maestro`) REFERENCES `maestra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `detalle_ibfk_2` FOREIGN KEY (`id_maestro`) REFERENCES `maestra` (`id`) ON DELETE RESTRICT ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > alter table detalle drop constraint detalle_ibfk_2;
+Query OK, 0 rows affected (0.2846 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from phones;
++----------+------------+-------+
+| phone_id | contact_id | phone |
++----------+------------+-------+
+|        1 |          1 | 54534 |
+|        2 |          1 | 34924 |
++----------+------------+-------+
+2 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from contacts;
++------------+-------+---------+---------+---------+
+| contact_id | name  | company | address | zipcode |
++------------+-------+---------+---------+---------+
+|          1 | Joe   | ABC     |     123 |   12345 |
+|          2 | Jane  | XYZ     |     456 |   14454 |
+|          3 | Chris | PDQ     |     789 |   14423 |
++------------+-------+---------+---------+---------+
+3 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into phones(contact_id) values (6);
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`eva_2`.`phones`, CONSTRAINT `phones_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE RESTRICT ON UPDATE SET NULL)
+ MySQL  localhost:3306 ssl  eva_2  SQL > desc contacts;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| contact_id | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(30) | YES  |     | NULL    |                |
+| company    | varchar(50) | YES  |     | NULL    |                |
+| address    | int         | YES  |     | NULL    |                |
+| zipcode    | int         | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.0733 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete from contacts where contact_id=1;
+ERROR: 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`eva_2`.`phones`, CONSTRAINT `phones_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE RESTRICT ON UPDATE SET NULL)
+ MySQL  localhost:3306 ssl  eva_2  SQL >
