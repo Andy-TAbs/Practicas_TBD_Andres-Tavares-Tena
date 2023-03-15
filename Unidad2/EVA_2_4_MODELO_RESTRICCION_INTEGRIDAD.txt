@@ -1,0 +1,384 @@
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| eva_2              |
+| hola               |
+| human_resources    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.0273 sec)
+ MySQL  localhost:3306 ssl  SQL > create database Orders;
+Query OK, 1 row affected (0.4450 sec)
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| eva_2              |
+| hola               |
+| human_resources    |
+| information_schema |
+| mysql              |
+| orders             |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.0384 sec)
+ MySQL  localhost:3306 ssl  SQL > use Orders;
+Default schema set to `Orders`.
+Fetching table and column names from `orders` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  orders  SQL > create table Salesreps(Id int not null auto_increment key, lastname varchar(50) not null, firstname varchar(30) not null, commission int not null);
+Query OK, 0 rows affected (2.5508 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > desc Salesreps;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| Id         | int         | NO   | PRI | NULL    | auto_increment |
+| lastname   | varchar(50) | NO   |     | NULL    |                |
+| firstname  | varchar(30) | NO   |     | NULL    |                |
+| commission | int         | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0314 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > Create table customers(Id int not null auto_increment key, lastname varchar(50) not null, firstname varchar(30) not null, Companyname Varchar(50), Street1 Varchar(60), Street2 varchar(60), City Varchar(40), State Varchar(40), Zipcode int, Phone Varchar(16), Fax varchar(30), Email varchar(100), S_ID int, constraints foreign key(S_ID) references Salesreps(Id) on delete restrict on update cascade;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key(S_ID) references Salesreps(Id) on delete restrict on update cascade' at line 1
+ MySQL  localhost:3306 ssl  orders  SQL > Create table customers(Id int not null auto_increment key, lastname varchar(50) not null, firstname varchar(30) not null, Companyname Varchar(50), Street1 Varchar(60), Street2 varchar(60), City Varchar(40), State Varchar(40), Zipcode int, Phone Varchar(16), Fax varchar(30), Email varchar(100), S_ID int, foreign key(S_ID) references Salesreps(Id) on delete restrict on update cascade;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  orders  SQL > Create table customers(Id int not null auto_increment key, lastname varchar(50) not null, firstname varchar(30) not null, Companyname Varchar(50), Street1 Varchar(60), Street2 varchar(60), City Varchar(40), State Varchar(40), Zipcode int, Phone Varchar(16), Fax varchar(30), Email varchar(100), S_ID int, foreign key(S_ID) references Salesreps(Id) on delete restrict on update cascade);
+Query OK, 0 rows affected (2.5067 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > desc customers;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| Id          | int          | NO   | PRI | NULL    | auto_increment |
+| lastname    | varchar(50)  | NO   |     | NULL    |                |
+| firstname   | varchar(30)  | NO   |     | NULL    |                |
+| Companyname | varchar(50)  | YES  |     | NULL    |                |
+| Street1     | varchar(60)  | YES  |     | NULL    |                |
+| Street2     | varchar(60)  | YES  |     | NULL    |                |
+| City        | varchar(40)  | YES  |     | NULL    |                |
+| State       | varchar(40)  | YES  |     | NULL    |                |
+| Zipcode     | int          | YES  |     | NULL    |                |
+| Phone       | varchar(16)  | YES  |     | NULL    |                |
+| Fax         | varchar(30)  | YES  |     | NULL    |                |
+| Email       | varchar(100) | YES  |     | NULL    |                |
+| S_ID        | int          | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+13 rows in set (0.0254 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table customers;
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table     | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customers | CREATE TABLE `customers` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(30) NOT NULL,
+  `Companyname` varchar(50) DEFAULT NULL,
+  `Street1` varchar(60) DEFAULT NULL,
+  `Street2` varchar(60) DEFAULT NULL,
+  `City` varchar(40) DEFAULT NULL,
+  `State` varchar(40) DEFAULT NULL,
+  `Zipcode` int DEFAULT NULL,
+  `Phone` varchar(16) DEFAULT NULL,
+  `Fax` varchar(30) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `S_ID` int DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `S_ID` (`S_ID`),
+  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`S_ID`) REFERENCES `salesreps` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0391 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > create table Orders(Id int not null auto_increment key, C_ID int, Orderdate date not null, Shipdate date, Paiddate date, Status varchar(20), foreign key(C_ID) references customers(Id) on delete restruct on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'restruct on update cascade)' at line 1
+ MySQL  localhost:3306 ssl  orders  SQL > create table Orders(Id int not null auto_increment key, C_ID int, Orderdate date not null, Shipdate date, Paiddate date, Status varchar(20), foreign key(C_ID) references customers(Id) on delete restrict on update cascade);
+Query OK, 0 rows affected (2.5867 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Orders;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Orders | CREATE TABLE `orders` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `C_ID` int DEFAULT NULL,
+  `Orderdate` date NOT NULL,
+  `Shipdate` date DEFAULT NULL,
+  `Paiddate` date DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `C_ID` (`C_ID`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`C_ID`) REFERENCES `customers` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0038 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > create table Parts(Id int not null auto_increment key, Description varchar(60)not null, Unitprice int not null, Onhand varchar(50) not null, Reorder varchar(50));
+Query OK, 0 rows affected (2.0702 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > desc Parts,
+                                       -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',' at line 1
+ MySQL  localhost:3306 ssl  orders  SQL > desc Parts ;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| Id          | int         | NO   | PRI | NULL    | auto_increment |
+| Description | varchar(60) | NO   |     | NULL    |                |
+| Unitprice   | int         | NO   |     | NULL    |                |
+| Onhand      | varchar(50) | NO   |     | NULL    |                |
+| Reorder     | varchar(50) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.0737 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Parts modify column Reorder varchar(50) not null;
+Query OK, 0 rows affected (3.5644 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  orders  SQL > desc Parts ;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| Id          | int         | NO   | PRI | NULL    | auto_increment |
+| Description | varchar(60) | NO   |     | NULL    |                |
+| Unitprice   | int         | NO   |     | NULL    |                |
+| Onhand      | varchar(50) | NO   |     | NULL    |                |
+| Reorder     | varchar(50) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.2269 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > create table Items(Id int not null auto_increment key, O_ID int, P_ID int, Quantity int not null, constraints foreign key(O_ID) references Orders(Id) on delete restrict on update cascade, constraints foreign key(P_ID) references Parts(Id) on delete restrict on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key(O_ID) references Orders(Id) on delete restrict on update cascade, co' at line 1
+ MySQL  localhost:3306 ssl  orders  SQL > create table Items(Id int not null auto_increment key, O_ID int, P_ID int, Quantity int not null, foreign key(O_ID) references Orders(Id) on delete restrict on update cascade, foreign key(P_ID) references Parts(Id) on delete restrict on update cascade);
+Query OK, 0 rows affected (2.2484 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > desc Items;
++----------+------+------+-----+---------+----------------+
+| Field    | Type | Null | Key | Default | Extra          |
++----------+------+------+-----+---------+----------------+
+| Id       | int  | NO   | PRI | NULL    | auto_increment |
+| O_ID     | int  | YES  | MUL | NULL    |                |
+| P_ID     | int  | YES  | MUL | NULL    |                |
+| Quantity | int  | NO   |     | NULL    |                |
++----------+------+------+-----+---------+----------------+
+4 rows in set (0.0796 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Items modify column O_ID int not null;
+Query OK, 0 rows affected (3.9765 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  orders  SQL > desc Items;
++----------+------+------+-----+---------+----------------+
+| Field    | Type | Null | Key | Default | Extra          |
++----------+------+------+-----+---------+----------------+
+| Id       | int  | NO   | PRI | NULL    | auto_increment |
+| O_ID     | int  | NO   | MUL | NULL    |                |
+| P_ID     | int  | YES  | MUL | NULL    |                |
+| Quantity | int  | NO   |     | NULL    |                |
++----------+------+------+-----+---------+----------------+
+4 rows in set (0.7265 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Items modify column P_ID int not null;
+Query OK, 0 rows affected (2.6823 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  orders  SQL > desc Items;
++----------+------+------+-----+---------+----------------+
+| Field    | Type | Null | Key | Default | Extra          |
++----------+------+------+-----+---------+----------------+
+| Id       | int  | NO   | PRI | NULL    | auto_increment |
+| O_ID     | int  | NO   | MUL | NULL    |                |
+| P_ID     | int  | NO   | MUL | NULL    |                |
+| Quantity | int  | NO   |     | NULL    |                |
++----------+------+------+-----+---------+----------------+
+4 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show tables;
++------------------+
+| Tables_in_orders |
++------------------+
+| customers        |
+| items            |
+| orders           |
+| parts            |
+| salesreps        |
++------------------+
+5 rows in set (0.0296 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table customers;
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table     | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customers | CREATE TABLE `customers` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(30) NOT NULL,
+  `Companyname` varchar(50) DEFAULT NULL,
+  `Street1` varchar(60) DEFAULT NULL,
+  `Street2` varchar(60) DEFAULT NULL,
+  `City` varchar(40) DEFAULT NULL,
+  `State` varchar(40) DEFAULT NULL,
+  `Zipcode` int DEFAULT NULL,
+  `Phone` varchar(16) DEFAULT NULL,
+  `Fax` varchar(30) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `S_ID` int DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `S_ID` (`S_ID`),
+  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`S_ID`) REFERENCES `salesreps` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0422 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Orders
+                                       -> ;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Orders | CREATE TABLE `orders` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `C_ID` int DEFAULT NULL,
+  `Orderdate` date NOT NULL,
+  `Shipdate` date DEFAULT NULL,
+  `Paiddate` date DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `C_ID` (`C_ID`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`C_ID`) REFERENCES `customers` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0032 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Orders modify column Id int not null;
+ERROR: 1833 (HY000): Cannot change column 'Id': used in a foreign key constraint 'items_ibfk_1' of table 'orders.items'
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Orders modify column C_ID int not null;
+Query OK, 0 rows affected (4.1973 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Orders ;
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                              |
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Orders | CREATE TABLE `orders` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `C_ID` int NOT NULL,
+  `Orderdate` date NOT NULL,
+  `Shipdate` date DEFAULT NULL,
+  `Paiddate` date DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `C_ID` (`C_ID`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`C_ID`) REFERENCES `customers` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > alter table Customers modify column S_ID int not null;
+Query OK, 0 rows affected (2.7173 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  orders  SQL > desc Items;
++----------+------+------+-----+---------+----------------+
+| Field    | Type | Null | Key | Default | Extra          |
++----------+------+------+-----+---------+----------------+
+| Id       | int  | NO   | PRI | NULL    | auto_increment |
+| O_ID     | int  | NO   | MUL | NULL    |                |
+| P_ID     | int  | NO   | MUL | NULL    |                |
+| Quantity | int  | NO   |     | NULL    |                |
++----------+------+------+-----+---------+----------------+
+4 rows in set (0.0424 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Salesreps;
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table     | Create Table                                                                                                                                                                                                                                               |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Salesreps | CREATE TABLE `salesreps` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(30) NOT NULL,
+  `commission` int NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0873 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Customers;
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table     | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Customers | CREATE TABLE `customers` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(30) NOT NULL,
+  `Companyname` varchar(50) DEFAULT NULL,
+  `Street1` varchar(60) DEFAULT NULL,
+  `Street2` varchar(60) DEFAULT NULL,
+  `City` varchar(40) DEFAULT NULL,
+  `State` varchar(40) DEFAULT NULL,
+  `Zipcode` int DEFAULT NULL,
+  `Phone` varchar(16) DEFAULT NULL,
+  `Fax` varchar(30) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `S_ID` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `S_ID` (`S_ID`),
+  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`S_ID`) REFERENCES `salesreps` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Orders;
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                              |
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Orders | CREATE TABLE `orders` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `C_ID` int NOT NULL,
+  `Orderdate` date NOT NULL,
+  `Shipdate` date DEFAULT NULL,
+  `Paiddate` date DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `C_ID` (`C_ID`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`C_ID`) REFERENCES `customers` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Items;
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Items | CREATE TABLE `items` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `O_ID` int NOT NULL,
+  `P_ID` int NOT NULL,
+  `Quantity` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `O_ID` (`O_ID`),
+  KEY `P_ID` (`P_ID`),
+  CONSTRAINT `items_ibfk_1` FOREIGN KEY (`O_ID`) REFERENCES `orders` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `items_ibfk_2` FOREIGN KEY (`P_ID`) REFERENCES `parts` (`Id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  orders  SQL > show create table Parts;
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                            |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Parts | CREATE TABLE `parts` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Description` varchar(60) NOT NULL,
+  `Unitprice` int NOT NULL,
+  `Onhand` varchar(50) NOT NULL,
+  `Reorder` varchar(50) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  orders  SQL >
