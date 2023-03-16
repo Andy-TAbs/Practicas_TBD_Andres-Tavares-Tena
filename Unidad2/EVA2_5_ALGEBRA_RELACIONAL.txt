@@ -1,0 +1,2215 @@
+
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
++-----------------+
+6 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > create table TablaA(Id int auto_increment key, Nombre varchar(10));
+Query OK, 0 rows affected (3.4689 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete TablaA;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete all TablaA;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'all TablaA' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete from TablaA;
+Query OK, 0 rows affected (0.0193 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
+| tablaa          |
++-----------------+
+7 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > create table TablaAA(Id int, Nombre varchar(10));
+Query OK, 0 rows affected (1.4060 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > create table TablaBB(Id int, Nombre varchar(10));
+Query OK, 0 rows affected (2.3127 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
+| tablaa          |
+| tablaaa         |
+| tablabb         |
++-----------------+
+9 rows in set (0.0050 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > desc TablaAA;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Id     | int         | YES  |     | NULL    |       |
+| Nombre | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0343 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > desc TablaBB;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Id     | int         | YES  |     | NULL    |       |
+| Nombre | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaAA values(1,"A");
+Query OK, 1 row affected (0.1605 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaAA values(2,"B");
+Query OK, 1 row affected (0.2077 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaAA values(3,"C");
+Query OK, 1 row affected (0.1253 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaAA values(4,"D");
+Query OK, 1 row affected (0.1760 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from talbaaa;
+ERROR: 1146 (42S02): Table 'eva_2.talbaaa' doesn't exist
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaBB values(1,"X");
+Query OK, 1 row affected (0.1347 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaBB values(2,"Y");
+Query OK, 1 row affected (0.2614 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaBB values(3,"Z");
+Query OK, 1 row affected (0.1132 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaBB values(1,"A");
+Query OK, 1 row affected (0.1305 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > insert into tablaBB values(5,"B");
+Query OK, 1 row affected (0.1259 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA, TablaBB;
++----+--------+----+--------+
+| Id | Nombre | Id | Nombre |
++----+--------+----+--------+
+|  1 | A      |  1 | X      |
+|  2 | B      |  1 | X      |
+|  3 | C      |  1 | X      |
+|  4 | D      |  1 | X      |
+|  1 | A      |  2 | Y      |
+|  2 | B      |  2 | Y      |
+|  3 | C      |  2 | Y      |
+|  4 | D      |  2 | Y      |
+|  1 | A      |  3 | Z      |
+|  2 | B      |  3 | Z      |
+|  3 | C      |  3 | Z      |
+|  4 | D      |  3 | Z      |
+|  1 | A      |  1 | A      |
+|  2 | B      |  1 | A      |
+|  3 | C      |  1 | A      |
+|  4 | D      |  1 | A      |
+|  1 | A      |  5 | B      |
+|  2 | B      |  5 | B      |
+|  3 | C      |  5 | B      |
+|  4 | D      |  5 | B      |
++----+--------+----+--------+
+20 rows in set (0.0997 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA, TablaBB order by nombre;
+ERROR: 1052 (23000): Column 'nombre' in order clause is ambiguous
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA, TablaBB order by TablaAA.nombre;
++----+--------+----+--------+
+| Id | Nombre | Id | Nombre |
++----+--------+----+--------+
+|  1 | A      |  1 | X      |
+|  1 | A      |  2 | Y      |
+|  1 | A      |  3 | Z      |
+|  1 | A      |  1 | A      |
+|  1 | A      |  5 | B      |
+|  2 | B      |  1 | X      |
+|  2 | B      |  2 | Y      |
+|  2 | B      |  3 | Z      |
+|  2 | B      |  1 | A      |
+|  2 | B      |  5 | B      |
+|  3 | C      |  1 | X      |
+|  3 | C      |  2 | Y      |
+|  3 | C      |  3 | Z      |
+|  3 | C      |  1 | A      |
+|  3 | C      |  5 | B      |
+|  4 | D      |  1 | X      |
+|  4 | D      |  2 | Y      |
+|  4 | D      |  3 | Z      |
+|  4 | D      |  1 | A      |
+|  4 | D      |  5 | B      |
++----+--------+----+--------+
+20 rows in set (0.0175 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > delete TablaA;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select TablaAA.nombre, TablaBB.nombre from TablaAA, TablaBB order by TablaAA.nombre;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | X      |
+| A      | Y      |
+| A      | Z      |
+| A      | A      |
+| A      | B      |
+| B      | X      |
+| B      | Y      |
+| B      | Z      |
+| B      | A      |
+| B      | B      |
+| C      | X      |
+| C      | Y      |
+| C      | Z      |
+| C      | A      |
+| C      | B      |
+| D      | X      |
+| D      | Y      |
+| D      | Z      |
+| D      | A      |
+| D      | B      |
++--------+--------+
+20 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select a.nombre, b.nombre from TablaAA a, TablaBB b order by a.nombre;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | X      |
+| A      | Y      |
+| A      | Z      |
+| A      | A      |
+| A      | B      |
+| B      | X      |
+| B      | Y      |
+| B      | Z      |
+| B      | A      |
+| B      | B      |
+| C      | X      |
+| C      | Y      |
+| C      | Z      |
+| C      | A      |
+| C      | B      |
+| D      | X      |
+| D      | Y      |
+| D      | Z      |
+| D      | A      |
+| D      | B      |
++--------+--------+
+20 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaAA;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaBB;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  1 | A      |
+|  5 | B      |
++----+--------+
+5 rows in set (0.0004 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaAA union select * from TablaBB;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  5 | B      |
++----+--------+
+8 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > \sakila
+Unknown command: '\sakila'
+ MySQL  localhost:3306 ssl  eva_2  SQL > \use sakila
+Default schema set to `sakila`.
+Fetching table and column names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > show tables;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customers;
+ERROR: 1146 (42S02): Table 'sakila.customers' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc actor;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| actor_id    | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(last_name) from customers;
+ERROR: 1146 (42S02): Table 'sakila.customers' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(last_name) from customer;
++--------------+
+| last_name    |
++--------------+
+| ABNEY        |
+| ADAM         |
+| ADAMS        |
+| ALEXANDER    |
+| ALLARD       |
+| ALLEN        |
+| ALVAREZ      |
+| ANDERSON     |
+| ANDREW       |
+| ANDREWS      |
+| AQUINO       |
+| ARCE         |
+| ARCHULETA    |
+| ARMSTRONG    |
+| ARNOLD       |
+| ARSENAULT    |
+| ARTIS        |
+| ASHCRAFT     |
+| ASHER        |
+| AUSTIN       |
+| BAILEY       |
+| BAKER        |
+| BALES        |
+| BANDA        |
+| BANKS        |
+| BARBEE       |
+| BARCLAY      |
+| BARFIELD     |
+| BARKLEY      |
+| BARNES       |
+| BARNETT      |
+| BARRETT      |
+| BATES        |
+| BAUGH        |
+| BAUGHMAN     |
+| BELL         |
+| BENNER       |
+| BENNETT      |
+| BERRY        |
+| BESS         |
+| BETANCOURT   |
+| BILLINGSLEY  |
+| BISHOP       |
+| BLACK        |
+| BLAKELY      |
+| BOLIN        |
+| BONE         |
+| BOSTIC       |
+| BOUDREAU     |
+| BOURQUE      |
+| BOWENS       |
+| BOWMAN       |
+| BOX          |
+| BOYD         |
+| BRADLEY      |
+| BREAUX       |
+| BREWER       |
+| BRINSON      |
+| BROOKS       |
+| BROTHERS     |
+| BROWN        |
+| BROWNLEE     |
+| BRYANT       |
+| BUFORD       |
+| BULL         |
+| BUNN         |
+| BURK         |
+| BURKE        |
+| BURLESON     |
+| BURNS        |
+| BURTON       |
+| BUSTAMANTE   |
+| BUTLER       |
+| BUTTERFIELD  |
+| BYRD         |
+| CABRAL       |
+| CALDWELL     |
+| CAMPBELL     |
+| CARBONE      |
+| CARLSON      |
+| CARPENTER    |
+| CARR         |
+| CARRANZA     |
+| CARROLL      |
+| CARTER       |
+| CARY         |
+| CASILLAS     |
+| CASTILLO     |
+| CASTRO       |
+| CAUSEY       |
+| CHAMBERS     |
+| CHAPA        |
+| CHAPMAN      |
+| CHAVEZ       |
+| CHEATHAM     |
+| CHESTNUT     |
+| CHISHOLM     |
+| CHOATE       |
+| CHRISTENSON  |
+| CHURCHILL    |
+| CINTRON      |
+| CLARK        |
+| CLARY        |
+| COLBY        |
+| COLE         |
+| COLEMAN      |
+| COLLAZO      |
+| COLLINS      |
+| COOK         |
+| COOPER       |
+| CORNISH      |
+| CORNWELL     |
+| COUGHLIN     |
+| COX          |
+| COY          |
+| CRAIG        |
+| CRAWFORD     |
+| CRAWLEY      |
+| CROMWELL     |
+| CROUSE       |
+| CRUZ         |
+| CULP         |
+| CULPEPPER    |
+| CUNNINGHAM   |
+| CURLEY       |
+| CURRIER      |
+| CURTIS       |
+| DANIELS      |
+| DAVIDSON     |
+| DAVIS        |
+| DAY          |
+| DEAN         |
+| DELOACH      |
+| DELUCA       |
+| DELVALLE     |
+| DEVORE       |
+| DIAZ         |
+| DIXON        |
+| DOUGLAS      |
+| DOUGLASS     |
+| DOWD         |
+| DUGGAN       |
+| DUNCAN       |
+| DUNN         |
+| EAST         |
+| EASTER       |
+| EBERT        |
+| EDWARDS      |
+| EGGLESTON    |
+| ELLINGTON    |
+| ELLIOTT      |
+| ELLIS        |
+| ELROD        |
+| ELY          |
+| EMMONS       |
+| ESTEP        |
+| EVANS        |
+| FARNSWORTH   |
+| FENNELL      |
+| FERGUSON     |
+| FERNANDEZ    |
+| FIELDS       |
+| FISHER       |
+| FLEMING      |
+| FLETCHER     |
+| FLORES       |
+| FORD         |
+| FORMAN       |
+| FORSYTHE     |
+| FORTIER      |
+| FORTNER      |
+| FOSTER       |
+| FOUST        |
+| FOWLER       |
+| FOX          |
+| FRALEY       |
+| FRANCISCO    |
+| FRANKLIN     |
+| FRAZIER      |
+| FREEMAN      |
+| FULLER       |
+| FULTZ        |
+| GAFFNEY      |
+| GAITHER      |
+| GAMEZ        |
+| GANDY        |
+| GANNON       |
+| GARCIA       |
+| GARDINER     |
+| GARDNER      |
+| GARRETT      |
+| GARZA        |
+| GAVIN        |
+| GEARY        |
+| GEORGE       |
+| GIBSON       |
+| GILBERT      |
+| GILLETTE     |
+| GILLILAND    |
+| GILMAN       |
+| GOMEZ        |
+| GONZALES     |
+| GONZALEZ     |
+| GOOCH        |
+| GOODEN       |
+| GORDON       |
+| GRAF         |
+| GRAHAM       |
+| GRANT        |
+| GRAVES       |
+| GRAY         |
+| GRECO        |
+| GREEN        |
+| GREENE       |
+| GREGORY      |
+| GRESHAM      |
+| GREY         |
+| GRIFFIN      |
+| GRIGSBY      |
+| GRISSOM      |
+| GRUBER       |
+| GUAJARDO     |
+| GUILLEN      |
+| GUNDERSON    |
+| GUTIERREZ    |
+| HALE         |
+| HALL         |
+| HAMILTON     |
+| HANNON       |
+| HANSEN       |
+| HANSON       |
+| HARDER       |
+| HARDISON     |
+| HARKINS      |
+| HARPER       |
+| HARRIS       |
+| HARRISON     |
+| HART         |
+| HARVEY       |
+| HAUSER       |
+| HAVENS       |
+| HAWKINS      |
+| HAWKS        |
+| HAYES        |
+| HEATON       |
+| HENDERSON    |
+| HENNING      |
+| HENRY        |
+| HERNANDEZ    |
+| HERRERA      |
+| HERRMANN     |
+| HERZOG       |
+| HIATT        |
+| HICKS        |
+| HIDALGO      |
+| HILL         |
+| HITE         |
+| HOFFMAN      |
+| HOLLAND      |
+| HOLM         |
+| HOLMES       |
+| HOLT         |
+| HOPKINS      |
+| HORTON       |
+| HOULE        |
+| HOWARD       |
+| HOWELL       |
+| HOWLAND      |
+| HUDSON       |
+| HUEY         |
+| HUGHES       |
+| HUNT         |
+| HUNTER       |
+| HURTADO      |
+| IRBY         |
+| ISBELL       |
+| ISOM         |
+| JACKSON      |
+| JACOBS       |
+| JAMES        |
+| JENKINS      |
+| JENNINGS     |
+| JENSEN       |
+| JIMENEZ      |
+| JOHNSON      |
+| JOHNSTON     |
+| JONES        |
+| JORDAN       |
+| JORDON       |
+| JOY          |
+| JUNG         |
+| KAHN         |
+| KELLEY       |
+| KELLY        |
+| KENNEDY      |
+| KENYON       |
+| KIM          |
+| KINDER       |
+| KING         |
+| KNIGHT       |
+| KNOTT        |
+| KOWALSKI     |
+| KRAUS        |
+| KRUGER       |
+| LAMBERT      |
+| LANCE        |
+| LANE         |
+| LARSON       |
+| LARUE        |
+| LAWRENCE     |
+| LAWSON       |
+| LAWTON       |
+| LEE          |
+| LEONE        |
+| LEWIS        |
+| LINTON       |
+| LITTLE       |
+| LOMBARDI     |
+| LONG         |
+| LOPEZ        |
+| LOVELACE     |
+| LOWE         |
+| LUCAS        |
+| LUMPKIN      |
+| LYMAN        |
+| LYNCH        |
+| MACKENZIE    |
+| MADRIGAL     |
+| MAHAN        |
+| MAHON        |
+| MALCOLM      |
+| MARK         |
+| MARKHAM      |
+| MARLOW       |
+| MARSHALL     |
+| MARTEL       |
+| MARTIN       |
+| MARTINEZ     |
+| MARTINO      |
+| MASON        |
+| MATTHEWS     |
+| MATTOX       |
+| MAULDIN      |
+| MAY          |
+| MCADAMS      |
+| MCALISTER    |
+| MCCARTER     |
+| MCCARTNEY    |
+| MCCOY        |
+| MCCRARY      |
+| MCCURDY      |
+| MCDONALD     |
+| MCDUFFIE     |
+| MCKINNEY     |
+| MCWHORTER    |
+| MEADOR       |
+| MEDINA       |
+| MEEHAN       |
+| MEEK         |
+| MENA         |
+| MENARD       |
+| MENDOZA      |
+| MEYER        |
+| MILAM        |
+| MILES        |
+| MILLARD      |
+| MILLER       |
+| MILLS        |
+| MILNER       |
+| MITCHELL     |
+| MOELLER      |
+| MONTGOMERY   |
+| MOORE        |
+| MORALES      |
+| MORENO       |
+| MORGAN       |
+| MORRELL      |
+| MORRIS       |
+| MORRISON     |
+| MORRISSEY    |
+| MOTLEY       |
+| MURPHY       |
+| MURRAY       |
+| MURRELL      |
+| MYERS        |
+| NEAL         |
+| NELSON       |
+| NETTLES      |
+| NEUMANN      |
+| NEWSOM       |
+| NGO          |
+| NGUYEN       |
+| NICHOLS      |
+| NOE          |
+| NOLAND       |
+| NOLEN        |
+| OBRIEN       |
+| OCAMPO       |
+| OGLESBY      |
+| OLIVARES     |
+| OLIVER       |
+| OLSON        |
+| OLVERA       |
+| ORTIZ        |
+| OUTLAW       |
+| OWENS        |
+| PAINE        |
+| PALMER       |
+| PARKER       |
+| PATTERSON    |
+| PAYNE        |
+| PEARSON      |
+| PEMBERTON    |
+| PENA         |
+| PEREZ        |
+| PERKINS      |
+| PERRY        |
+| PERRYMAN     |
+| PETERS       |
+| PETERSON     |
+| PFEIFFER     |
+| PHILLIPS     |
+| PIERCE       |
+| PINSON       |
+| PITT         |
+| POINDEXTER   |
+| PORTER       |
+| POULIN       |
+| POWELL       |
+| POWER        |
+| PREWITT      |
+| PRICE        |
+| PULLEN       |
+| PURDY        |
+| QUALLS       |
+| QUIGLEY      |
+| QUINTANILLA  |
+| RALSTON      |
+| RAMIREZ      |
+| RAMOS        |
+| RAPP         |
+| RATCLIFF     |
+| RAY          |
+| REA          |
+| REED         |
+| REID         |
+| RENNER       |
+| REYES        |
+| REYNOLDS     |
+| RHOADS       |
+| RHODES       |
+| RICE         |
+| RICHARDS     |
+| RICHARDSON   |
+| RICKETTS     |
+| RICO         |
+| RILEY        |
+| RINEHART     |
+| RIVERA       |
+| ROBB         |
+| ROBERT       |
+| ROBERTS      |
+| ROBERTSON    |
+| ROBINS       |
+| ROBINSON     |
+| RODRIGUEZ    |
+| RODRIQUEZ    |
+| ROGERS       |
+| ROMERO       |
+| ROSE         |
+| ROSS         |
+| ROUSH        |
+| ROYAL        |
+| RUIZ         |
+| RUNYON       |
+| RUSSELL      |
+| RYAN         |
+| SALISBURY    |
+| SANBORN      |
+| SANCHEZ      |
+| SANDERS      |
+| SATTERFIELD  |
+| SAUER        |
+| SCARBOROUGH  |
+| SCHILLING    |
+| SCHMIDT      |
+| SCHOFIELD    |
+| SCHRADER     |
+| SCHULER      |
+| SCHWAB       |
+| SCHWARZ      |
+| SCOTT        |
+| SCROGGINS    |
+| SEAL         |
+| SELBY        |
+| SEWARD       |
+| SHANKS       |
+| SHAW         |
+| SHELBY       |
+| SHELLEY      |
+| SHELTON      |
+| SHERROD      |
+| SIKES        |
+| SILVA        |
+| SILVERMAN    |
+| SIMMONS      |
+| SIMPKINS     |
+| SIMPSON      |
+| SIMS         |
+| SKIDMORE     |
+| SLEDGE       |
+| SLONE        |
+| SMITH        |
+| SNYDER       |
+| SOTO         |
+| SOUTH        |
+| SPEAR        |
+| SPENCER      |
+| SPURLOCK     |
+| STANFIELD    |
+| STANLEY      |
+| STCLAIR      |
+| STEPHENS     |
+| STEPP        |
+| STEVENS      |
+| STEWART      |
+| STILL        |
+| STONE        |
+| SULLIVAN     |
+| SUTTON       |
+| SWAFFORD     |
+| TALBERT      |
+| TAN          |
+| TAYLOR       |
+| TEEL         |
+| TERRY        |
+| THOMAS       |
+| THOMPSON     |
+| THORN        |
+| THRASHER     |
+| TIRADO       |
+| TOBIAS       |
+| TOMLIN       |
+| TORRES       |
+| TROUT        |
+| TROUTMAN     |
+| TRUONG       |
+| TUBBS        |
+| TUCKER       |
+| TURNER       |
+| TURPIN       |
+| VANHORN      |
+| VARGAS       |
+| VARNEY       |
+| VASQUEZ      |
+| VEST         |
+| VINES        |
+| VU           |
+| WADE         |
+| WAGGONER     |
+| WAGNER       |
+| WALDROP      |
+| WALKER       |
+| WALLACE      |
+| WALTERS      |
+| WARD         |
+| WARREN       |
+| WASHINGTON   |
+| WATKINS      |
+| WATSON       |
+| WATTS        |
+| WAUGH        |
+| WAY          |
+| WEAVER       |
+| WEBB         |
+| WEINER       |
+| WELCH        |
+| WELLS        |
+| WEST         |
+| WESTMORELAND |
+| WHEAT        |
+| WHEELER      |
+| WHITE        |
+| WHITING      |
+| WILES        |
+| WILLIAMS     |
+| WILLIAMSON   |
+| WILLIS       |
+| WILSON       |
+| WINDHAM      |
+| WOFFORD      |
+| WOOD         |
+| WOODS        |
+| WREN         |
+| WRIGHT       |
+| WYMAN        |
+| YANEZ        |
+| YEE          |
+| YOUNG        |
++--------------+
+599 rows in set (0.0424 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(first_name) from customer;
++-------------+
+| first_name  |
++-------------+
+| MARY        |
+| PATRICIA    |
+| LINDA       |
+| BARBARA     |
+| ELIZABETH   |
+| JENNIFER    |
+| MARIA       |
+| SUSAN       |
+| MARGARET    |
+| DOROTHY     |
+| LISA        |
+| NANCY       |
+| KAREN       |
+| BETTY       |
+| HELEN       |
+| SANDRA      |
+| DONNA       |
+| CAROL       |
+| RUTH        |
+| SHARON      |
+| MICHELLE    |
+| LAURA       |
+| SARAH       |
+| KIMBERLY    |
+| DEBORAH     |
+| JESSICA     |
+| SHIRLEY     |
+| CYNTHIA     |
+| ANGELA      |
+| MELISSA     |
+| BRENDA      |
+| AMY         |
+| ANNA        |
+| REBECCA     |
+| VIRGINIA    |
+| KATHLEEN    |
+| PAMELA      |
+| MARTHA      |
+| DEBRA       |
+| AMANDA      |
+| STEPHANIE   |
+| CAROLYN     |
+| CHRISTINE   |
+| MARIE       |
+| JANET       |
+| CATHERINE   |
+| FRANCES     |
+| ANN         |
+| JOYCE       |
+| DIANE       |
+| ALICE       |
+| JULIE       |
+| HEATHER     |
+| TERESA      |
+| DORIS       |
+| GLORIA      |
+| EVELYN      |
+| JEAN        |
+| CHERYL      |
+| MILDRED     |
+| KATHERINE   |
+| JOAN        |
+| ASHLEY      |
+| JUDITH      |
+| ROSE        |
+| JANICE      |
+| KELLY       |
+| NICOLE      |
+| JUDY        |
+| CHRISTINA   |
+| KATHY       |
+| THERESA     |
+| BEVERLY     |
+| DENISE      |
+| TAMMY       |
+| IRENE       |
+| JANE        |
+| LORI        |
+| RACHEL      |
+| MARILYN     |
+| ANDREA      |
+| KATHRYN     |
+| LOUISE      |
+| SARA        |
+| ANNE        |
+| JACQUELINE  |
+| WANDA       |
+| BONNIE      |
+| JULIA       |
+| RUBY        |
+| LOIS        |
+| TINA        |
+| PHYLLIS     |
+| NORMA       |
+| PAULA       |
+| DIANA       |
+| ANNIE       |
+| LILLIAN     |
+| EMILY       |
+| ROBIN       |
+| PEGGY       |
+| CRYSTAL     |
+| GLADYS      |
+| RITA        |
+| DAWN        |
+| CONNIE      |
+| FLORENCE    |
+| TRACY       |
+| EDNA        |
+| TIFFANY     |
+| CARMEN      |
+| ROSA        |
+| CINDY       |
+| GRACE       |
+| WENDY       |
+| VICTORIA    |
+| EDITH       |
+| KIM         |
+| SHERRY      |
+| SYLVIA      |
+| JOSEPHINE   |
+| THELMA      |
+| SHANNON     |
+| SHEILA      |
+| ETHEL       |
+| ELLEN       |
+| ELAINE      |
+| MARJORIE    |
+| CARRIE      |
+| CHARLOTTE   |
+| MONICA      |
+| ESTHER      |
+| PAULINE     |
+| EMMA        |
+| JUANITA     |
+| ANITA       |
+| RHONDA      |
+| HAZEL       |
+| AMBER       |
+| EVA         |
+| DEBBIE      |
+| APRIL       |
+| LESLIE      |
+| CLARA       |
+| LUCILLE     |
+| JAMIE       |
+| JOANNE      |
+| ELEANOR     |
+| VALERIE     |
+| DANIELLE    |
+| MEGAN       |
+| ALICIA      |
+| SUZANNE     |
+| MICHELE     |
+| GAIL        |
+| BERTHA      |
+| DARLENE     |
+| VERONICA    |
+| JILL        |
+| ERIN        |
+| GERALDINE   |
+| LAUREN      |
+| CATHY       |
+| JOANN       |
+| LORRAINE    |
+| LYNN        |
+| SALLY       |
+| REGINA      |
+| ERICA       |
+| BEATRICE    |
+| DOLORES     |
+| BERNICE     |
+| AUDREY      |
+| YVONNE      |
+| ANNETTE     |
+| JUNE        |
+| SAMANTHA    |
+| MARION      |
+| DANA        |
+| STACY       |
+| ANA         |
+| RENEE       |
+| IDA         |
+| VIVIAN      |
+| ROBERTA     |
+| HOLLY       |
+| BRITTANY    |
+| MELANIE     |
+| LORETTA     |
+| YOLANDA     |
+| JEANETTE    |
+| LAURIE      |
+| KATIE       |
+| KRISTEN     |
+| VANESSA     |
+| ALMA        |
+| SUE         |
+| ELSIE       |
+| BETH        |
+| JEANNE      |
+| VICKI       |
+| CARLA       |
+| TARA        |
+| ROSEMARY    |
+| EILEEN      |
+| TERRI       |
+| GERTRUDE    |
+| LUCY        |
+| TONYA       |
+| ELLA        |
+| STACEY      |
+| WILMA       |
+| GINA        |
+| KRISTIN     |
+| JESSIE      |
+| NATALIE     |
+| AGNES       |
+| VERA        |
+| WILLIE      |
+| CHARLENE    |
+| BESSIE      |
+| DELORES     |
+| MELINDA     |
+| PEARL       |
+| ARLENE      |
+| MAUREEN     |
+| COLLEEN     |
+| ALLISON     |
+| TAMARA      |
+| JOY         |
+| GEORGIA     |
+| CONSTANCE   |
+| LILLIE      |
+| CLAUDIA     |
+| JACKIE      |
+| MARCIA      |
+| TANYA       |
+| NELLIE      |
+| MINNIE      |
+| MARLENE     |
+| HEIDI       |
+| GLENDA      |
+| LYDIA       |
+| VIOLA       |
+| COURTNEY    |
+| MARIAN      |
+| STELLA      |
+| CAROLINE    |
+| DORA        |
+| JO          |
+| VICKIE      |
+| MATTIE      |
+| TERRY       |
+| MAXINE      |
+| IRMA        |
+| MABEL       |
+| MARSHA      |
+| MYRTLE      |
+| LENA        |
+| CHRISTY     |
+| DEANNA      |
+| PATSY       |
+| HILDA       |
+| GWENDOLYN   |
+| JENNIE      |
+| NORA        |
+| MARGIE      |
+| NINA        |
+| CASSANDRA   |
+| LEAH        |
+| PENNY       |
+| KAY         |
+| PRISCILLA   |
+| NAOMI       |
+| CAROLE      |
+| BRANDY      |
+| OLGA        |
+| BILLIE      |
+| DIANNE      |
+| TRACEY      |
+| LEONA       |
+| JENNY       |
+| FELICIA     |
+| SONIA       |
+| MIRIAM      |
+| VELMA       |
+| BECKY       |
+| BOBBIE      |
+| VIOLET      |
+| KRISTINA    |
+| TONI        |
+| MISTY       |
+| MAE         |
+| SHELLY      |
+| DAISY       |
+| RAMONA      |
+| SHERRI      |
+| ERIKA       |
+| JAMES       |
+| JOHN        |
+| ROBERT      |
+| MICHAEL     |
+| WILLIAM     |
+| DAVID       |
+| RICHARD     |
+| CHARLES     |
+| JOSEPH      |
+| THOMAS      |
+| CHRISTOPHER |
+| DANIEL      |
+| PAUL        |
+| MARK        |
+| DONALD      |
+| GEORGE      |
+| KENNETH     |
+| STEVEN      |
+| EDWARD      |
+| BRIAN       |
+| RONALD      |
+| ANTHONY     |
+| KEVIN       |
+| JASON       |
+| MATTHEW     |
+| GARY        |
+| TIMOTHY     |
+| JOSE        |
+| LARRY       |
+| JEFFREY     |
+| FRANK       |
+| SCOTT       |
+| ERIC        |
+| STEPHEN     |
+| ANDREW      |
+| RAYMOND     |
+| GREGORY     |
+| JOSHUA      |
+| JERRY       |
+| DENNIS      |
+| WALTER      |
+| PATRICK     |
+| PETER       |
+| HAROLD      |
+| DOUGLAS     |
+| HENRY       |
+| CARL        |
+| ARTHUR      |
+| RYAN        |
+| ROGER       |
+| JOE         |
+| JUAN        |
+| JACK        |
+| ALBERT      |
+| JONATHAN    |
+| JUSTIN      |
+| GERALD      |
+| KEITH       |
+| SAMUEL      |
+| RALPH       |
+| LAWRENCE    |
+| NICHOLAS    |
+| ROY         |
+| BENJAMIN    |
+| BRUCE       |
+| BRANDON     |
+| ADAM        |
+| HARRY       |
+| FRED        |
+| WAYNE       |
+| BILLY       |
+| STEVE       |
+| LOUIS       |
+| JEREMY      |
+| AARON       |
+| RANDY       |
+| HOWARD      |
+| EUGENE      |
+| CARLOS      |
+| RUSSELL     |
+| BOBBY       |
+| VICTOR      |
+| MARTIN      |
+| ERNEST      |
+| PHILLIP     |
+| TODD        |
+| JESSE       |
+| CRAIG       |
+| ALAN        |
+| SHAWN       |
+| CLARENCE    |
+| SEAN        |
+| PHILIP      |
+| CHRIS       |
+| JOHNNY      |
+| EARL        |
+| JIMMY       |
+| ANTONIO     |
+| DANNY       |
+| BRYAN       |
+| TONY        |
+| LUIS        |
+| MIKE        |
+| STANLEY     |
+| LEONARD     |
+| NATHAN      |
+| DALE        |
+| MANUEL      |
+| RODNEY      |
+| CURTIS      |
+| NORMAN      |
+| ALLEN       |
+| MARVIN      |
+| VINCENT     |
+| GLENN       |
+| JEFFERY     |
+| TRAVIS      |
+| JEFF        |
+| CHAD        |
+| JACOB       |
+| LEE         |
+| MELVIN      |
+| ALFRED      |
+| KYLE        |
+| FRANCIS     |
+| BRADLEY     |
+| JESUS       |
+| HERBERT     |
+| FREDERICK   |
+| RAY         |
+| JOEL        |
+| EDWIN       |
+| DON         |
+| EDDIE       |
+| RICKY       |
+| TROY        |
+| RANDALL     |
+| BARRY       |
+| ALEXANDER   |
+| BERNARD     |
+| MARIO       |
+| LEROY       |
+| FRANCISCO   |
+| MARCUS      |
+| MICHEAL     |
+| THEODORE    |
+| CLIFFORD    |
+| MIGUEL      |
+| OSCAR       |
+| JAY         |
+| JIM         |
+| TOM         |
+| CALVIN      |
+| ALEX        |
+| JON         |
+| RONNIE      |
+| BILL        |
+| LLOYD       |
+| TOMMY       |
+| LEON        |
+| DEREK       |
+| WARREN      |
+| DARRELL     |
+| JEROME      |
+| FLOYD       |
+| LEO         |
+| ALVIN       |
+| TIM         |
+| WESLEY      |
+| GORDON      |
+| DEAN        |
+| GREG        |
+| JORGE       |
+| DUSTIN      |
+| PEDRO       |
+| DERRICK     |
+| DAN         |
+| LEWIS       |
+| ZACHARY     |
+| COREY       |
+| HERMAN      |
+| MAURICE     |
+| VERNON      |
+| ROBERTO     |
+| CLYDE       |
+| GLEN        |
+| HECTOR      |
+| SHANE       |
+| RICARDO     |
+| SAM         |
+| RICK        |
+| LESTER      |
+| BRENT       |
+| RAMON       |
+| CHARLIE     |
+| TYLER       |
+| GILBERT     |
+| GENE        |
+| MARC        |
+| REGINALD    |
+| RUBEN       |
+| BRETT       |
+| ANGEL       |
+| NATHANIEL   |
+| RAFAEL      |
+| EDGAR       |
+| MILTON      |
+| RAUL        |
+| BEN         |
+| CHESTER     |
+| CECIL       |
+| DUANE       |
+| FRANKLIN    |
+| ANDRE       |
+| ELMER       |
+| BRAD        |
+| GABRIEL     |
+| RON         |
+| MITCHELL    |
+| ROLAND      |
+| ARNOLD      |
+| HARVEY      |
+| JARED       |
+| ADRIAN      |
+| KARL        |
+| CORY        |
+| CLAUDE      |
+| ERIK        |
+| DARRYL      |
+| NEIL        |
+| CHRISTIAN   |
+| JAVIER      |
+| FERNANDO    |
+| CLINTON     |
+| TED         |
+| MATHEW      |
+| TYRONE      |
+| DARREN      |
+| LONNIE      |
+| LANCE       |
+| CODY        |
+| JULIO       |
+| KURT        |
+| ALLAN       |
+| NELSON      |
+| GUY         |
+| CLAYTON     |
+| HUGH        |
+| MAX         |
+| DWAYNE      |
+| DWIGHT      |
+| ARMANDO     |
+| FELIX       |
+| JIMMIE      |
+| EVERETT     |
+| JORDAN      |
+| IAN         |
+| WALLACE     |
+| KEN         |
+| BOB         |
+| JAIME       |
+| CASEY       |
+| ALFREDO     |
+| ALBERTO     |
+| DAVE        |
+| IVAN        |
+| JOHNNIE     |
+| SIDNEY      |
+| BYRON       |
+| JULIAN      |
+| ISAAC       |
+| MORRIS      |
+| CLIFTON     |
+| WILLARD     |
+| DARYL       |
+| ROSS        |
+| VIRGIL      |
+| ANDY        |
+| MARSHALL    |
+| SALVADOR    |
+| PERRY       |
+| KIRK        |
+| SERGIO      |
+| SETH        |
+| KENT        |
+| TERRANCE    |
+| RENE        |
+| EDUARDO     |
+| TERRENCE    |
+| ENRIQUE     |
+| FREDDIE     |
+| WADE        |
+| AUSTIN      |
++-------------+
+591 rows in set (0.0044 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from actor;
++----------+
+| count(*) |
++----------+
+|      200 |
++----------+
+1 row in set (0.1043 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(first_name) from customer union select distinct(first_name) from actor;
++-------------+
+| first_name  |
++-------------+
+| MARY        |
+| PATRICIA    |
+| LINDA       |
+| BARBARA     |
+| ELIZABETH   |
+| JENNIFER    |
+| MARIA       |
+| SUSAN       |
+| MARGARET    |
+| DOROTHY     |
+| LISA        |
+| NANCY       |
+| KAREN       |
+| BETTY       |
+| HELEN       |
+| SANDRA      |
+| DONNA       |
+| CAROL       |
+| RUTH        |
+| SHARON      |
+| MICHELLE    |
+| LAURA       |
+| SARAH       |
+| KIMBERLY    |
+| DEBORAH     |
+| JESSICA     |
+| SHIRLEY     |
+| CYNTHIA     |
+| ANGELA      |
+| MELISSA     |
+| BRENDA      |
+| AMY         |
+| ANNA        |
+| REBECCA     |
+| VIRGINIA    |
+| KATHLEEN    |
+| PAMELA      |
+| MARTHA      |
+| DEBRA       |
+| AMANDA      |
+| STEPHANIE   |
+| CAROLYN     |
+| CHRISTINE   |
+| MARIE       |
+| JANET       |
+| CATHERINE   |
+| FRANCES     |
+| ANN         |
+| JOYCE       |
+| DIANE       |
+| ALICE       |
+| JULIE       |
+| HEATHER     |
+| TERESA      |
+| DORIS       |
+| GLORIA      |
+| EVELYN      |
+| JEAN        |
+| CHERYL      |
+| MILDRED     |
+| KATHERINE   |
+| JOAN        |
+| ASHLEY      |
+| JUDITH      |
+| ROSE        |
+| JANICE      |
+| KELLY       |
+| NICOLE      |
+| JUDY        |
+| CHRISTINA   |
+| KATHY       |
+| THERESA     |
+| BEVERLY     |
+| DENISE      |
+| TAMMY       |
+| IRENE       |
+| JANE        |
+| LORI        |
+| RACHEL      |
+| MARILYN     |
+| ANDREA      |
+| KATHRYN     |
+| LOUISE      |
+| SARA        |
+| ANNE        |
+| JACQUELINE  |
+| WANDA       |
+| BONNIE      |
+| JULIA       |
+| RUBY        |
+| LOIS        |
+| TINA        |
+| PHYLLIS     |
+| NORMA       |
+| PAULA       |
+| DIANA       |
+| ANNIE       |
+| LILLIAN     |
+| EMILY       |
+| ROBIN       |
+| PEGGY       |
+| CRYSTAL     |
+| GLADYS      |
+| RITA        |
+| DAWN        |
+| CONNIE      |
+| FLORENCE    |
+| TRACY       |
+| EDNA        |
+| TIFFANY     |
+| CARMEN      |
+| ROSA        |
+| CINDY       |
+| GRACE       |
+| WENDY       |
+| VICTORIA    |
+| EDITH       |
+| KIM         |
+| SHERRY      |
+| SYLVIA      |
+| JOSEPHINE   |
+| THELMA      |
+| SHANNON     |
+| SHEILA      |
+| ETHEL       |
+| ELLEN       |
+| ELAINE      |
+| MARJORIE    |
+| CARRIE      |
+| CHARLOTTE   |
+| MONICA      |
+| ESTHER      |
+| PAULINE     |
+| EMMA        |
+| JUANITA     |
+| ANITA       |
+| RHONDA      |
+| HAZEL       |
+| AMBER       |
+| EVA         |
+| DEBBIE      |
+| APRIL       |
+| LESLIE      |
+| CLARA       |
+| LUCILLE     |
+| JAMIE       |
+| JOANNE      |
+| ELEANOR     |
+| VALERIE     |
+| DANIELLE    |
+| MEGAN       |
+| ALICIA      |
+| SUZANNE     |
+| MICHELE     |
+| GAIL        |
+| BERTHA      |
+| DARLENE     |
+| VERONICA    |
+| JILL        |
+| ERIN        |
+| GERALDINE   |
+| LAUREN      |
+| CATHY       |
+| JOANN       |
+| LORRAINE    |
+| LYNN        |
+| SALLY       |
+| REGINA      |
+| ERICA       |
+| BEATRICE    |
+| DOLORES     |
+| BERNICE     |
+| AUDREY      |
+| YVONNE      |
+| ANNETTE     |
+| JUNE        |
+| SAMANTHA    |
+| MARION      |
+| DANA        |
+| STACY       |
+| ANA         |
+| RENEE       |
+| IDA         |
+| VIVIAN      |
+| ROBERTA     |
+| HOLLY       |
+| BRITTANY    |
+| MELANIE     |
+| LORETTA     |
+| YOLANDA     |
+| JEANETTE    |
+| LAURIE      |
+| KATIE       |
+| KRISTEN     |
+| VANESSA     |
+| ALMA        |
+| SUE         |
+| ELSIE       |
+| BETH        |
+| JEANNE      |
+| VICKI       |
+| CARLA       |
+| TARA        |
+| ROSEMARY    |
+| EILEEN      |
+| TERRI       |
+| GERTRUDE    |
+| LUCY        |
+| TONYA       |
+| ELLA        |
+| STACEY      |
+| WILMA       |
+| GINA        |
+| KRISTIN     |
+| JESSIE      |
+| NATALIE     |
+| AGNES       |
+| VERA        |
+| WILLIE      |
+| CHARLENE    |
+| BESSIE      |
+| DELORES     |
+| MELINDA     |
+| PEARL       |
+| ARLENE      |
+| MAUREEN     |
+| COLLEEN     |
+| ALLISON     |
+| TAMARA      |
+| JOY         |
+| GEORGIA     |
+| CONSTANCE   |
+| LILLIE      |
+| CLAUDIA     |
+| JACKIE      |
+| MARCIA      |
+| TANYA       |
+| NELLIE      |
+| MINNIE      |
+| MARLENE     |
+| HEIDI       |
+| GLENDA      |
+| LYDIA       |
+| VIOLA       |
+| COURTNEY    |
+| MARIAN      |
+| STELLA      |
+| CAROLINE    |
+| DORA        |
+| JO          |
+| VICKIE      |
+| MATTIE      |
+| TERRY       |
+| MAXINE      |
+| IRMA        |
+| MABEL       |
+| MARSHA      |
+| MYRTLE      |
+| LENA        |
+| CHRISTY     |
+| DEANNA      |
+| PATSY       |
+| HILDA       |
+| GWENDOLYN   |
+| JENNIE      |
+| NORA        |
+| MARGIE      |
+| NINA        |
+| CASSANDRA   |
+| LEAH        |
+| PENNY       |
+| KAY         |
+| PRISCILLA   |
+| NAOMI       |
+| CAROLE      |
+| BRANDY      |
+| OLGA        |
+| BILLIE      |
+| DIANNE      |
+| TRACEY      |
+| LEONA       |
+| JENNY       |
+| FELICIA     |
+| SONIA       |
+| MIRIAM      |
+| VELMA       |
+| BECKY       |
+| BOBBIE      |
+| VIOLET      |
+| KRISTINA    |
+| TONI        |
+| MISTY       |
+| MAE         |
+| SHELLY      |
+| DAISY       |
+| RAMONA      |
+| SHERRI      |
+| ERIKA       |
+| JAMES       |
+| JOHN        |
+| ROBERT      |
+| MICHAEL     |
+| WILLIAM     |
+| DAVID       |
+| RICHARD     |
+| CHARLES     |
+| JOSEPH      |
+| THOMAS      |
+| CHRISTOPHER |
+| DANIEL      |
+| PAUL        |
+| MARK        |
+| DONALD      |
+| GEORGE      |
+| KENNETH     |
+| STEVEN      |
+| EDWARD      |
+| BRIAN       |
+| RONALD      |
+| ANTHONY     |
+| KEVIN       |
+| JASON       |
+| MATTHEW     |
+| GARY        |
+| TIMOTHY     |
+| JOSE        |
+| LARRY       |
+| JEFFREY     |
+| FRANK       |
+| SCOTT       |
+| ERIC        |
+| STEPHEN     |
+| ANDREW      |
+| RAYMOND     |
+| GREGORY     |
+| JOSHUA      |
+| JERRY       |
+| DENNIS      |
+| WALTER      |
+| PATRICK     |
+| PETER       |
+| HAROLD      |
+| DOUGLAS     |
+| HENRY       |
+| CARL        |
+| ARTHUR      |
+| RYAN        |
+| ROGER       |
+| JOE         |
+| JUAN        |
+| JACK        |
+| ALBERT      |
+| JONATHAN    |
+| JUSTIN      |
+| GERALD      |
+| KEITH       |
+| SAMUEL      |
+| RALPH       |
+| LAWRENCE    |
+| NICHOLAS    |
+| ROY         |
+| BENJAMIN    |
+| BRUCE       |
+| BRANDON     |
+| ADAM        |
+| HARRY       |
+| FRED        |
+| WAYNE       |
+| BILLY       |
+| STEVE       |
+| LOUIS       |
+| JEREMY      |
+| AARON       |
+| RANDY       |
+| HOWARD      |
+| EUGENE      |
+| CARLOS      |
+| RUSSELL     |
+| BOBBY       |
+| VICTOR      |
+| MARTIN      |
+| ERNEST      |
+| PHILLIP     |
+| TODD        |
+| JESSE       |
+| CRAIG       |
+| ALAN        |
+| SHAWN       |
+| CLARENCE    |
+| SEAN        |
+| PHILIP      |
+| CHRIS       |
+| JOHNNY      |
+| EARL        |
+| JIMMY       |
+| ANTONIO     |
+| DANNY       |
+| BRYAN       |
+| TONY        |
+| LUIS        |
+| MIKE        |
+| STANLEY     |
+| LEONARD     |
+| NATHAN      |
+| DALE        |
+| MANUEL      |
+| RODNEY      |
+| CURTIS      |
+| NORMAN      |
+| ALLEN       |
+| MARVIN      |
+| VINCENT     |
+| GLENN       |
+| JEFFERY     |
+| TRAVIS      |
+| JEFF        |
+| CHAD        |
+| JACOB       |
+| LEE         |
+| MELVIN      |
+| ALFRED      |
+| KYLE        |
+| FRANCIS     |
+| BRADLEY     |
+| JESUS       |
+| HERBERT     |
+| FREDERICK   |
+| RAY         |
+| JOEL        |
+| EDWIN       |
+| DON         |
+| EDDIE       |
+| RICKY       |
+| TROY        |
+| RANDALL     |
+| BARRY       |
+| ALEXANDER   |
+| BERNARD     |
+| MARIO       |
+| LEROY       |
+| FRANCISCO   |
+| MARCUS      |
+| MICHEAL     |
+| THEODORE    |
+| CLIFFORD    |
+| MIGUEL      |
+| OSCAR       |
+| JAY         |
+| JIM         |
+| TOM         |
+| CALVIN      |
+| ALEX        |
+| JON         |
+| RONNIE      |
+| BILL        |
+| LLOYD       |
+| TOMMY       |
+| LEON        |
+| DEREK       |
+| WARREN      |
+| DARRELL     |
+| JEROME      |
+| FLOYD       |
+| LEO         |
+| ALVIN       |
+| TIM         |
+| WESLEY      |
+| GORDON      |
+| DEAN        |
+| GREG        |
+| JORGE       |
+| DUSTIN      |
+| PEDRO       |
+| DERRICK     |
+| DAN         |
+| LEWIS       |
+| ZACHARY     |
+| COREY       |
+| HERMAN      |
+| MAURICE     |
+| VERNON      |
+| ROBERTO     |
+| CLYDE       |
+| GLEN        |
+| HECTOR      |
+| SHANE       |
+| RICARDO     |
+| SAM         |
+| RICK        |
+| LESTER      |
+| BRENT       |
+| RAMON       |
+| CHARLIE     |
+| TYLER       |
+| GILBERT     |
+| GENE        |
+| MARC        |
+| REGINALD    |
+| RUBEN       |
+| BRETT       |
+| ANGEL       |
+| NATHANIEL   |
+| RAFAEL      |
+| EDGAR       |
+| MILTON      |
+| RAUL        |
+| BEN         |
+| CHESTER     |
+| CECIL       |
+| DUANE       |
+| FRANKLIN    |
+| ANDRE       |
+| ELMER       |
+| BRAD        |
+| GABRIEL     |
+| RON         |
+| MITCHELL    |
+| ROLAND      |
+| ARNOLD      |
+| HARVEY      |
+| JARED       |
+| ADRIAN      |
+| KARL        |
+| CORY        |
+| CLAUDE      |
+| ERIK        |
+| DARRYL      |
+| NEIL        |
+| CHRISTIAN   |
+| JAVIER      |
+| FERNANDO    |
+| CLINTON     |
+| TED         |
+| MATHEW      |
+| TYRONE      |
+| DARREN      |
+| LONNIE      |
+| LANCE       |
+| CODY        |
+| JULIO       |
+| KURT        |
+| ALLAN       |
+| NELSON      |
+| GUY         |
+| CLAYTON     |
+| HUGH        |
+| MAX         |
+| DWAYNE      |
+| DWIGHT      |
+| ARMANDO     |
+| FELIX       |
+| JIMMIE      |
+| EVERETT     |
+| JORDAN      |
+| IAN         |
+| WALLACE     |
+| KEN         |
+| BOB         |
+| JAIME       |
+| CASEY       |
+| ALFREDO     |
+| ALBERTO     |
+| DAVE        |
+| IVAN        |
+| JOHNNIE     |
+| SIDNEY      |
+| BYRON       |
+| JULIAN      |
+| ISAAC       |
+| MORRIS      |
+| CLIFTON     |
+| WILLARD     |
+| DARYL       |
+| ROSS        |
+| VIRGIL      |
+| ANDY        |
+| MARSHALL    |
+| SALVADOR    |
+| PERRY       |
+| KIRK        |
+| SERGIO      |
+| SETH        |
+| KENT        |
+| TERRANCE    |
+| RENE        |
+| EDUARDO     |
+| TERRENCE    |
+| ENRIQUE     |
+| FREDDIE     |
+| WADE        |
+| AUSTIN      |
+| PENELOPE    |
+| NICK        |
+| ED          |
+| BETTE       |
+| ZERO        |
+| UMA         |
+| VIVIEN      |
+| CUBA        |
+| KIRSTEN     |
+| ELVIS       |
+| CAMERON     |
+| RIP         |
+| WOODY       |
+| ALEC        |
+| SISSY       |
+| MILLA       |
+| BURT        |
+| VAL         |
+| GOLDIE      |
+| JODIE       |
+| REESE       |
+| PARKER      |
+| MENA        |
+| FAY         |
+| JUDE        |
+| JAYNE       |
+| ANGELINA    |
+| CARY        |
+| GROUCHO     |
+| SCARLETT    |
+| SPENCER     |
+| CHARLIZE    |
+| MEG         |
+| SYLVESTER   |
+| MORGAN      |
+| HARRISON    |
+| LIZA        |
+| SALMA       |
+| JULIANNE    |
+| CATE        |
+| GRETA       |
+| EWAN        |
+| WHOOPI      |
+| JADA        |
+| RIVER       |
+| GEOFFREY    |
+| MERYL       |
+| OPRAH       |
+| HUMPHREY    |
+| AL          |
+| LAURENCE    |
+| WILL        |
+| OLYMPIA     |
+| ROCK        |
+| BELA        |
+| THORA       |
++-------------+
+647 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > \use eva_2
+Default schema set to `eva_2`.
+Fetching table and column names from `eva_2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaAA intesect select * from TablaBB;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from TablaBB' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaAA intersect select * from TablaBB;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from TablaBB' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select nombre from TablaAA intersect select nombre from TablaBB;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select nombre from TablaBB' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select nombre from TablaAA intersect select nombre from TablaBB
+                                      -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select nombre from TablaBB' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaBB;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  1 | A      |
+|  5 | B      |
++----+--------+
+5 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA where nombre in (select nombre from TablaBB);
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
++----+--------+
+2 rows in set (0.0755 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA where nombre in (select distinct(nombre) from TablaBB);
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
++----+--------+
+2 rows in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from TablaAA where nombre not in (select distinct(nombre) from TablaBB);
++----+--------+
+| Id | Nombre |
++----+--------+
+|  3 | C      |
+|  4 | D      |
++----+--------+
+2 rows in set (0.0421 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL >
