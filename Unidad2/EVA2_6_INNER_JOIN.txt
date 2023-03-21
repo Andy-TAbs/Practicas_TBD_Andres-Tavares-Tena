@@ -1,0 +1,1529 @@
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| agencia            |
+| eva_2              |
+| hola               |
+| human_resources    |
+| information_schema |
+| mysql              |
+| orders             |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  SQL > use eva_2;
+Default schema set to `eva_2`.
+Fetching table and column names from `eva_2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_2  SQL > show tables;
++-----------------+
+| Tables_in_eva_2 |
++-----------------+
+| contacts        |
+| detalle         |
+| detalle_factura |
+| factura         |
+| maestra         |
+| phones          |
+| tablaa          |
+| tablaaa         |
+| tablabb         |
++-----------------+
+9 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablabb;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  1 | A      |
+|  5 | B      |
++----+--------+
+5 rows in set (0.3900 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaaa;
++----+--------+
+| Id | Nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0950 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaaa a inner join tablabb b on a.key = b.key;
+ERROR: 1054 (42S22): Unknown column 'a.key' in 'on clause'
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaaa a inner join tablabb b on a.Nombre = b.Nombre;
++----+--------+----+--------+
+| Id | Nombre | Id | Nombre |
++----+--------+----+--------+
+|  1 | A      |  1 | A      |
+|  2 | B      |  5 | B      |
++----+--------+----+--------+
+2 rows in set (0.0166 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select * from tablaaa a inner join tablabb b on a.Id = b.Id;
++----+--------+----+--------+
+| Id | Nombre | Id | Nombre |
++----+--------+----+--------+
+|  1 | A      |  1 | X      |
+|  2 | B      |  2 | Y      |
+|  3 | C      |  3 | Z      |
+|  1 | A      |  1 | A      |
++----+--------+----+--------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > select a.nombre b.nombre from tablaaa a inner join tablabb b on a.nombre = b.nombre;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.nombre from tablaaa a inner join tablabb b on a.nombre = b.nombre' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select a.nombre b.nombre from tablaaa a inner join tablabb b on a.Nombre = b.Nombre;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.nombre from tablaaa a inner join tablabb b on a.Nombre = b.Nombre' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select a.Nombre b.Nombre from tablaaa a inner join tablabb b on a.Nombre = b.Nombre;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.Nombre from tablaaa a inner join tablabb b on a.Nombre = b.Nombre' at line 1
+ MySQL  localhost:3306 ssl  eva_2  SQL > select a.Nombre, b.Nombre from tablaaa a inner join tablabb b on a.Nombre = b.Nombre;
++--------+--------+
+| Nombre | Nombre |
++--------+--------+
+| A      | A      |
+| B      | B      |
++--------+--------+
+2 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  eva_2  SQL > use sakila;
+Default schema set to `sakila`.
+Fetching table and column names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc rental;
++--------------+--------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type               | Null | Key | Default           | Extra                                         |
++--------------+--------------------+------+-----+-------------------+-----------------------------------------------+
+| rental_id    | int                | NO   | PRI | NULL              | auto_increment                                |
+| rental_date  | datetime           | NO   | MUL | NULL              |                                               |
+| inventory_id | mediumint unsigned | NO   | MUL | NULL              |                                               |
+| customer_id  | smallint unsigned  | NO   | MUL | NULL              |                                               |
+| return_date  | datetime           | YES  |     | NULL              |                                               |
+| staff_id     | tinyint unsigned   | NO   | MUL | NULL              |                                               |
+| last_update  | timestamp          | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+--------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.rental_date, a.return_date, b.first_name, b.last_name from rental a inner join customer b a.customer_id = b.customer_id limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'a.customer_id = b.customer_id limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.rental_date, a.return_date, b.first_name, b.last_name from rental a inner join customer b a.customer_id = b.customer_id;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'a.customer_id = b.customer_id' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.rental_date, a.return_date, b.first_name, b.last_name from rental a inner join customer b on a.customer_id = b.customer_id limit 50;
++---------------------+---------------------+------------+-----------+
+| rental_date         | return_date         | first_name | last_name |
++---------------------+---------------------+------------+-----------+
+| 2005-05-25 11:30:37 | 2005-06-03 12:00:37 | MARY       | SMITH     |
+| 2005-05-28 10:35:23 | 2005-06-03 06:32:23 | MARY       | SMITH     |
+| 2005-06-15 00:54:12 | 2005-06-23 02:42:12 | MARY       | SMITH     |
+| 2005-06-15 18:02:53 | 2005-06-19 15:54:53 | MARY       | SMITH     |
+| 2005-06-15 21:08:46 | 2005-06-25 02:26:46 | MARY       | SMITH     |
+| 2005-06-16 15:18:57 | 2005-06-17 21:05:57 | MARY       | SMITH     |
+| 2005-06-18 08:41:48 | 2005-06-22 03:36:48 | MARY       | SMITH     |
+| 2005-06-18 13:33:59 | 2005-06-19 17:40:59 | MARY       | SMITH     |
+| 2005-06-21 06:24:45 | 2005-06-28 03:28:45 | MARY       | SMITH     |
+| 2005-07-08 03:17:05 | 2005-07-14 01:19:05 | MARY       | SMITH     |
+| 2005-07-08 07:33:56 | 2005-07-12 13:25:56 | MARY       | SMITH     |
+| 2005-07-09 13:24:07 | 2005-07-14 14:01:07 | MARY       | SMITH     |
+| 2005-07-09 16:38:01 | 2005-07-13 18:02:01 | MARY       | SMITH     |
+| 2005-07-11 10:13:46 | 2005-07-19 13:15:46 | MARY       | SMITH     |
+| 2005-07-27 11:31:22 | 2005-07-31 06:50:22 | MARY       | SMITH     |
+| 2005-07-28 09:04:45 | 2005-07-30 12:37:45 | MARY       | SMITH     |
+| 2005-07-28 16:18:23 | 2005-07-30 17:56:23 | MARY       | SMITH     |
+| 2005-07-28 17:33:39 | 2005-07-29 20:17:39 | MARY       | SMITH     |
+| 2005-07-28 19:20:07 | 2005-07-29 22:54:07 | MARY       | SMITH     |
+| 2005-07-29 03:58:49 | 2005-08-01 05:16:49 | MARY       | SMITH     |
+| 2005-07-31 02:42:18 | 2005-08-02 23:26:18 | MARY       | SMITH     |
+| 2005-08-01 08:51:04 | 2005-08-10 12:12:04 | MARY       | SMITH     |
+| 2005-08-02 15:36:52 | 2005-08-10 16:40:52 | MARY       | SMITH     |
+| 2005-08-02 18:01:38 | 2005-08-04 13:19:38 | MARY       | SMITH     |
+| 2005-08-17 12:37:54 | 2005-08-19 10:11:54 | MARY       | SMITH     |
+| 2005-08-18 03:57:29 | 2005-08-22 23:05:29 | MARY       | SMITH     |
+| 2005-08-19 09:55:16 | 2005-08-20 14:44:16 | MARY       | SMITH     |
+| 2005-08-19 13:56:54 | 2005-08-23 08:50:54 | MARY       | SMITH     |
+| 2005-08-21 23:33:57 | 2005-08-23 01:30:57 | MARY       | SMITH     |
+| 2005-08-22 01:27:57 | 2005-08-27 07:01:57 | MARY       | SMITH     |
+| 2005-08-22 19:41:37 | 2005-08-28 22:49:37 | MARY       | SMITH     |
+| 2005-08-22 20:03:46 | 2005-08-30 01:51:46 | MARY       | SMITH     |
+| 2005-05-27 00:09:24 | 2005-05-28 04:30:24 | PATRICIA   | JOHNSON   |
+| 2005-06-17 20:54:58 | 2005-06-24 00:41:58 | PATRICIA   | JOHNSON   |
+| 2005-07-10 06:31:24 | 2005-07-13 02:36:24 | PATRICIA   | JOHNSON   |
+| 2005-07-10 12:38:56 | 2005-07-19 17:02:56 | PATRICIA   | JOHNSON   |
+| 2005-07-27 14:30:42 | 2005-08-02 16:48:42 | PATRICIA   | JOHNSON   |
+| 2005-07-27 15:23:02 | 2005-08-04 10:35:02 | PATRICIA   | JOHNSON   |
+| 2005-07-27 18:40:20 | 2005-08-02 21:07:20 | PATRICIA   | JOHNSON   |
+| 2005-07-29 00:12:59 | 2005-08-06 19:52:59 | PATRICIA   | JOHNSON   |
+| 2005-07-29 12:56:59 | 2005-08-01 08:39:59 | PATRICIA   | JOHNSON   |
+| 2005-07-29 17:14:29 | 2005-08-02 16:01:29 | PATRICIA   | JOHNSON   |
+| 2005-07-30 06:06:10 | 2005-08-04 10:45:10 | PATRICIA   | JOHNSON   |
+| 2005-07-30 13:47:43 | 2005-08-08 18:52:43 | PATRICIA   | JOHNSON   |
+| 2005-07-30 14:14:11 | 2005-08-05 11:19:11 | PATRICIA   | JOHNSON   |
+| 2005-07-30 16:21:13 | 2005-08-08 11:57:13 | PATRICIA   | JOHNSON   |
+| 2005-07-30 22:39:53 | 2005-08-06 16:43:53 | PATRICIA   | JOHNSON   |
+| 2005-07-31 21:58:56 | 2005-08-03 19:44:56 | PATRICIA   | JOHNSON   |
+| 2005-08-01 09:45:26 | 2005-08-06 06:28:26 | PATRICIA   | JOHNSON   |
+| 2005-08-02 02:10:56 | 2005-08-02 21:23:56 | PATRICIA   | JOHNSON   |
++---------------------+---------------------+------------+-----------+
+50 rows in set (0.2354 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.rental_date, a.return_date, b.first_name, b.last_name from rental a inner join customer b on a.customer_id = b.customer_id order by b.last_name limit 50;
++---------------------+---------------------+------------+-----------+
+| rental_date         | return_date         | first_name | last_name |
++---------------------+---------------------+------------+-----------+
+| 2005-05-26 01:34:28 | 2005-05-29 04:00:28 | RAFAEL     | ABNEY     |
+| 2005-05-28 19:14:09 | 2005-06-05 14:01:09 | RAFAEL     | ABNEY     |
+| 2005-06-16 20:17:20 | 2005-06-20 23:55:20 | RAFAEL     | ABNEY     |
+| 2005-06-17 03:36:02 | 2005-06-19 08:12:02 | RAFAEL     | ABNEY     |
+| 2005-06-19 18:04:18 | 2005-06-28 23:52:18 | RAFAEL     | ABNEY     |
+| 2005-06-20 19:41:28 | 2005-06-28 00:32:28 | RAFAEL     | ABNEY     |
+| 2005-07-07 00:26:43 | 2005-07-16 03:58:43 | RAFAEL     | ABNEY     |
+| 2005-07-08 02:22:45 | 2005-07-14 20:53:45 | RAFAEL     | ABNEY     |
+| 2005-07-11 00:16:35 | 2005-07-20 01:30:35 | RAFAEL     | ABNEY     |
+| 2005-07-11 17:23:33 | 2005-07-12 16:27:33 | RAFAEL     | ABNEY     |
+| 2005-07-12 00:27:08 | 2005-07-14 03:12:08 | RAFAEL     | ABNEY     |
+| 2005-07-28 07:15:32 | 2005-08-06 05:00:32 | RAFAEL     | ABNEY     |
+| 2005-08-01 01:10:33 | 2005-08-10 02:45:33 | RAFAEL     | ABNEY     |
+| 2005-08-02 01:19:33 | 2005-08-08 06:54:33 | RAFAEL     | ABNEY     |
+| 2005-08-02 10:08:40 | 2005-08-05 14:59:40 | RAFAEL     | ABNEY     |
+| 2005-08-17 15:40:47 | 2005-08-20 19:55:47 | RAFAEL     | ABNEY     |
+| 2005-08-20 06:22:08 | 2005-08-28 02:22:08 | RAFAEL     | ABNEY     |
+| 2005-08-21 10:27:21 | 2005-08-23 10:46:21 | RAFAEL     | ABNEY     |
+| 2005-08-22 00:48:23 | 2005-08-28 01:02:23 | RAFAEL     | ABNEY     |
+| 2005-08-23 00:30:26 | 2005-08-28 06:29:26 | RAFAEL     | ABNEY     |
+| 2006-02-14 15:16:03 | NULL                | RAFAEL     | ABNEY     |
+| 2005-05-25 22:02:30 | 2005-05-31 18:06:30 | NATHANIEL  | ADAM      |
+| 2005-05-27 21:17:08 | 2005-06-04 17:47:08 | NATHANIEL  | ADAM      |
+| 2005-05-30 00:27:57 | 2005-06-06 22:19:57 | NATHANIEL  | ADAM      |
+| 2005-06-19 14:51:55 | 2005-06-27 13:06:55 | NATHANIEL  | ADAM      |
+| 2005-06-20 05:17:22 | 2005-06-26 09:38:22 | NATHANIEL  | ADAM      |
+| 2005-07-06 10:47:35 | 2005-07-15 09:39:35 | NATHANIEL  | ADAM      |
+| 2005-07-06 10:49:30 | 2005-07-13 10:44:30 | NATHANIEL  | ADAM      |
+| 2005-07-07 18:04:16 | 2005-07-15 17:58:16 | NATHANIEL  | ADAM      |
+| 2005-07-08 14:36:51 | 2005-07-12 15:28:51 | NATHANIEL  | ADAM      |
+| 2005-07-09 08:35:05 | 2005-07-18 14:21:05 | NATHANIEL  | ADAM      |
+| 2005-07-27 14:25:17 | 2005-08-04 10:02:17 | NATHANIEL  | ADAM      |
+| 2005-07-27 22:38:05 | 2005-07-30 17:20:05 | NATHANIEL  | ADAM      |
+| 2005-07-28 07:58:27 | 2005-08-01 02:48:27 | NATHANIEL  | ADAM      |
+| 2005-07-28 10:23:48 | 2005-08-02 12:09:48 | NATHANIEL  | ADAM      |
+| 2005-07-28 12:51:22 | 2005-07-30 12:19:22 | NATHANIEL  | ADAM      |
+| 2005-07-29 06:02:11 | 2005-08-07 03:23:11 | NATHANIEL  | ADAM      |
+| 2005-08-01 07:11:27 | 2005-08-03 07:51:27 | NATHANIEL  | ADAM      |
+| 2005-08-01 11:25:28 | 2005-08-10 09:19:28 | NATHANIEL  | ADAM      |
+| 2005-08-17 01:31:04 | 2005-08-24 03:36:04 | NATHANIEL  | ADAM      |
+| 2005-08-18 23:26:40 | 2005-08-25 03:03:40 | NATHANIEL  | ADAM      |
+| 2005-08-19 13:36:28 | 2005-08-22 07:57:28 | NATHANIEL  | ADAM      |
+| 2005-08-19 15:05:34 | 2005-08-21 20:37:34 | NATHANIEL  | ADAM      |
+| 2005-08-19 21:46:10 | 2005-08-24 01:16:10 | NATHANIEL  | ADAM      |
+| 2005-08-20 14:53:43 | 2005-08-28 09:50:43 | NATHANIEL  | ADAM      |
+| 2005-08-22 08:52:38 | 2005-08-25 08:08:38 | NATHANIEL  | ADAM      |
+| 2005-08-22 15:05:37 | 2005-08-30 12:22:37 | NATHANIEL  | ADAM      |
+| 2005-08-23 11:17:26 | 2005-08-31 13:58:26 | NATHANIEL  | ADAM      |
+| 2005-08-23 21:44:27 | 2005-08-28 01:52:27 | NATHANIEL  | ADAM      |
+| 2005-05-27 04:53:11 | 2005-05-28 06:33:11 | KATHLEEN   | ADAMS     |
++---------------------+---------------------+------------+-----------+
+50 rows in set (0.0063 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > show tables;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc film;
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+| Field                | Type                                                                | Null | Key | Default           | Extra                                         |
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+| film_id              | smallint unsigned                                                   | NO   | PRI | NULL              | auto_increment                                |
+| title                | varchar(255)                                                        | NO   | MUL | NULL              |                                               |
+| description          | text                                                                | YES  |     | NULL              |                                               |
+| release_year         | year                                                                | YES  |     | NULL              |                                               |
+| language_id          | tinyint unsigned                                                    | NO   | MUL | NULL              |                                               |
+| original_language_id | tinyint unsigned                                                    | YES  | MUL | NULL              |                                               |
+| rental_duration      | tinyint unsigned                                                    | NO   |     | 3                 |                                               |
+| rental_rate          | decimal(4,2)                                                        | NO   |     | 4.99              |                                               |
+| length               | smallint unsigned                                                   | YES  |     | NULL              |                                               |
+| replacement_cost     | decimal(5,2)                                                        | NO   |     | 19.99             |                                               |
+| rating               | enum('G','PG','PG-13','R','NC-17')                                  | YES  |     | G                 |                                               |
+| special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') | YES  |     | NULL              |                                               |
+| last_update          | timestamp                                                           | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+13 rows in set (0.0023 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc film_actor;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| actor_id    | smallint unsigned | NO   | PRI | NULL              |                                               |
+| film_id     | smallint unsigned | NO   | PRI | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc actor;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| actor_id    | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select couny(*) from film;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) from film' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from film;
++----------+
+| count(*) |
++----------+
+|     1000 |
++----------+
+1 row in set (0.3033 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select film_id, title from film limit 100;
++---------+-----------------------------+
+| film_id | title                       |
++---------+-----------------------------+
+|       1 | ACADEMY DINOSAUR            |
+|       2 | ACE GOLDFINGER              |
+|       3 | ADAPTATION HOLES            |
+|       4 | AFFAIR PREJUDICE            |
+|       5 | AFRICAN EGG                 |
+|       6 | AGENT TRUMAN                |
+|       7 | AIRPLANE SIERRA             |
+|       8 | AIRPORT POLLOCK             |
+|       9 | ALABAMA DEVIL               |
+|      10 | ALADDIN CALENDAR            |
+|      11 | ALAMO VIDEOTAPE             |
+|      12 | ALASKA PHANTOM              |
+|      13 | ALI FOREVER                 |
+|      14 | ALICE FANTASIA              |
+|      15 | ALIEN CENTER                |
+|      16 | ALLEY EVOLUTION             |
+|      17 | ALONE TRIP                  |
+|      18 | ALTER VICTORY               |
+|      19 | AMADEUS HOLY                |
+|      20 | AMELIE HELLFIGHTERS         |
+|      21 | AMERICAN CIRCUS             |
+|      22 | AMISTAD MIDSUMMER           |
+|      23 | ANACONDA CONFESSIONS        |
+|      24 | ANALYZE HOOSIERS            |
+|      25 | ANGELS LIFE                 |
+|      26 | ANNIE IDENTITY              |
+|      27 | ANONYMOUS HUMAN             |
+|      28 | ANTHEM LUKE                 |
+|      29 | ANTITRUST TOMATOES          |
+|      30 | ANYTHING SAVANNAH           |
+|      31 | APACHE DIVINE               |
+|      32 | APOCALYPSE FLAMINGOS        |
+|      33 | APOLLO TEEN                 |
+|      34 | ARABIA DOGMA                |
+|      35 | ARACHNOPHOBIA ROLLERCOASTER |
+|      36 | ARGONAUTS TOWN              |
+|      37 | ARIZONA BANG                |
+|      38 | ARK RIDGEMONT               |
+|      39 | ARMAGEDDON LOST             |
+|      40 | ARMY FLINTSTONES            |
+|      41 | ARSENIC INDEPENDENCE        |
+|      42 | ARTIST COLDBLOODED          |
+|      43 | ATLANTIS CAUSE              |
+|      44 | ATTACKS HATE                |
+|      45 | ATTRACTION NEWTON           |
+|      46 | AUTUMN CROW                 |
+|      47 | BABY HALL                   |
+|      48 | BACKLASH UNDEFEATED         |
+|      49 | BADMAN DAWN                 |
+|      50 | BAKED CLEOPATRA             |
+|      51 | BALLOON HOMEWARD            |
+|      52 | BALLROOM MOCKINGBIRD        |
+|      53 | BANG KWAI                   |
+|      54 | BANGER PINOCCHIO            |
+|      55 | BARBARELLA STREETCAR        |
+|      56 | BAREFOOT MANCHURIAN         |
+|      57 | BASIC EASY                  |
+|      58 | BEACH HEARTBREAKERS         |
+|      59 | BEAR GRACELAND              |
+|      60 | BEAST HUNCHBACK             |
+|      61 | BEAUTY GREASE               |
+|      62 | BED HIGHBALL                |
+|      63 | BEDAZZLED MARRIED           |
+|      64 | BEETHOVEN EXORCIST          |
+|      65 | BEHAVIOR RUNAWAY            |
+|      66 | BENEATH RUSH                |
+|      67 | BERETS AGENT                |
+|      68 | BETRAYED REAR               |
+|      69 | BEVERLY OUTLAW              |
+|      70 | BIKINI BORROWERS            |
+|      71 | BILKO ANONYMOUS             |
+|      72 | BILL OTHERS                 |
+|      73 | BINGO TALENTED              |
+|      74 | BIRCH ANTITRUST             |
+|      75 | BIRD INDEPENDENCE           |
+|      76 | BIRDCAGE CASPER             |
+|      77 | BIRDS PERDITION             |
+|      78 | BLACKOUT PRIVATE            |
+|      79 | BLADE POLISH                |
+|      80 | BLANKET BEVERLY             |
+|      81 | BLINDNESS GUN               |
+|      82 | BLOOD ARGONAUTS             |
+|      83 | BLUES INSTINCT              |
+|      84 | BOILED DARES                |
+|      85 | BONNIE HOLOCAUST            |
+|      86 | BOOGIE AMELIE               |
+|      87 | BOONDOCK BALLROOM           |
+|      88 | BORN SPINAL                 |
+|      89 | BORROWERS BEDAZZLED         |
+|      90 | BOULEVARD MOB               |
+|      91 | BOUND CHEAPER               |
+|      92 | BOWFINGER GABLES            |
+|      93 | BRANNIGAN SUNRISE           |
+|      94 | BRAVEHEART HUMAN            |
+|      95 | BREAKFAST GOLDFINGER        |
+|      96 | BREAKING HOME               |
+|      97 | BRIDE INTRIGUE              |
+|      98 | BRIGHT ENCOUNTERS           |
+|      99 | BRINGING HYSTERICAL         |
+|     100 | BROOKLYN DESERT             |
++---------+-----------------------------+
+100 rows in set (0.0283 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select * from film_actor where film_id =1;
++----------+---------+---------------------+
+| actor_id | film_id | last_update         |
++----------+---------+---------------------+
+|        1 |       1 | 2006-02-15 06:05:03 |
+|       10 |       1 | 2006-02-15 06:05:03 |
+|       20 |       1 | 2006-02-15 06:05:03 |
+|       30 |       1 | 2006-02-15 06:05:03 |
+|       40 |       1 | 2006-02-15 06:05:03 |
+|       53 |       1 | 2006-02-15 06:05:03 |
+|      108 |       1 | 2006-02-15 06:05:03 |
+|      162 |       1 | 2006-02-15 06:05:03 |
+|      188 |       1 | 2006-02-15 06:05:03 |
+|      198 |       1 | 2006-02-15 06:05:03 |
++----------+---------+---------------------+
+10 rows in set (0.0835 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select first_name, last_name from actor where actor_id in (select actor_id from fil_actor where film_id = 1);
+ERROR: 1146 (42S02): Table 'sakila.fil_actor' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select first_name, last_name from actor where actor_id in (select actor_id from film_actor where film_id = 1);
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| PENELOPE   | GUINESS   |
+| CHRISTIAN  | GABLE     |
+| LUCILLE    | TRACY     |
+| SANDRA     | PECK      |
+| JOHNNY     | CAGE      |
+| MENA       | TEMPLE    |
+| WARREN     | NOLTE     |
+| OPRAH      | KILMER    |
+| ROCK       | DUKAKIS   |
+| MARY       | KEITEL    |
++------------+-----------+
+10 rows in set (0.0483 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.title, c.first_name, c.last_name from film a inner join film_actor b on a.film_id = b.film_id inner join actor c on b.actor_id = c.actor_id where a.film_id =1;
++------------------+------------+-----------+
+| title            | first_name | last_name |
++------------------+------------+-----------+
+| ACADEMY DINOSAUR | PENELOPE   | GUINESS   |
+| ACADEMY DINOSAUR | CHRISTIAN  | GABLE     |
+| ACADEMY DINOSAUR | LUCILLE    | TRACY     |
+| ACADEMY DINOSAUR | SANDRA     | PECK      |
+| ACADEMY DINOSAUR | JOHNNY     | CAGE      |
+| ACADEMY DINOSAUR | MENA       | TEMPLE    |
+| ACADEMY DINOSAUR | WARREN     | NOLTE     |
+| ACADEMY DINOSAUR | OPRAH      | KILMER    |
+| ACADEMY DINOSAUR | ROCK       | DUKAKIS   |
+| ACADEMY DINOSAUR | MARY       | KEITEL    |
++------------------+------------+-----------+
+10 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.title, c.first_name, c.last_name from film a inner join film_actor b on a.film_id = b.film_id inner join actor c on b.actor_id = c.actor_id where a.film_id =35;
++-----------------------------+------------+-----------+
+| title                       | first_name | last_name |
++-----------------------------+------------+-----------+
+| ARACHNOPHOBIA ROLLERCOASTER | GRACE      | MOSTEL    |
+| ARACHNOPHOBIA ROLLERCOASTER | JUDY       | DEAN      |
+| ARACHNOPHOBIA ROLLERCOASTER | DARYL      | WAHLBERG  |
+| ARACHNOPHOBIA ROLLERCOASTER | MORGAN     | HOPKINS   |
+| ARACHNOPHOBIA ROLLERCOASTER | CUBA       | ALLEN     |
+| ARACHNOPHOBIA ROLLERCOASTER | RITA       | REYNOLDS  |
+| ARACHNOPHOBIA ROLLERCOASTER | EWAN       | GOODING   |
+| ARACHNOPHOBIA ROLLERCOASTER | HUMPHREY   | GARLAND   |
++-----------------------------+------------+-----------+
+8 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc language;
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type             | Null | Key | Default           | Extra                                         |
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| language_id | tinyint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| name        | char(20)         | NO   |     | NULL              |                                               |
+| last_update | timestamp        | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.title, b.language from film a inner join language b limit 500;
+ERROR: 1054 (42S22): Unknown column 'b.language' in 'field list'
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.title, b.name from film a inner join language b limit 500;
++-----------------------------+----------+
+| title                       | name     |
++-----------------------------+----------+
+| ACADEMY DINOSAUR            | English  |
+| ACADEMY DINOSAUR            | Italian  |
+| ACADEMY DINOSAUR            | Japanese |
+| ACADEMY DINOSAUR            | Mandarin |
+| ACADEMY DINOSAUR            | French   |
+| ACADEMY DINOSAUR            | German   |
+| ACE GOLDFINGER              | English  |
+| ACE GOLDFINGER              | Italian  |
+| ACE GOLDFINGER              | Japanese |
+| ACE GOLDFINGER              | Mandarin |
+| ACE GOLDFINGER              | French   |
+| ACE GOLDFINGER              | German   |
+| ADAPTATION HOLES            | English  |
+| ADAPTATION HOLES            | Italian  |
+| ADAPTATION HOLES            | Japanese |
+| ADAPTATION HOLES            | Mandarin |
+| ADAPTATION HOLES            | French   |
+| ADAPTATION HOLES            | German   |
+| AFFAIR PREJUDICE            | English  |
+| AFFAIR PREJUDICE            | Italian  |
+| AFFAIR PREJUDICE            | Japanese |
+| AFFAIR PREJUDICE            | Mandarin |
+| AFFAIR PREJUDICE            | French   |
+| AFFAIR PREJUDICE            | German   |
+| AFRICAN EGG                 | English  |
+| AFRICAN EGG                 | Italian  |
+| AFRICAN EGG                 | Japanese |
+| AFRICAN EGG                 | Mandarin |
+| AFRICAN EGG                 | French   |
+| AFRICAN EGG                 | German   |
+| AGENT TRUMAN                | English  |
+| AGENT TRUMAN                | Italian  |
+| AGENT TRUMAN                | Japanese |
+| AGENT TRUMAN                | Mandarin |
+| AGENT TRUMAN                | French   |
+| AGENT TRUMAN                | German   |
+| AIRPLANE SIERRA             | English  |
+| AIRPLANE SIERRA             | Italian  |
+| AIRPLANE SIERRA             | Japanese |
+| AIRPLANE SIERRA             | Mandarin |
+| AIRPLANE SIERRA             | French   |
+| AIRPLANE SIERRA             | German   |
+| AIRPORT POLLOCK             | English  |
+| AIRPORT POLLOCK             | Italian  |
+| AIRPORT POLLOCK             | Japanese |
+| AIRPORT POLLOCK             | Mandarin |
+| AIRPORT POLLOCK             | French   |
+| AIRPORT POLLOCK             | German   |
+| ALABAMA DEVIL               | English  |
+| ALABAMA DEVIL               | Italian  |
+| ALABAMA DEVIL               | Japanese |
+| ALABAMA DEVIL               | Mandarin |
+| ALABAMA DEVIL               | French   |
+| ALABAMA DEVIL               | German   |
+| ALADDIN CALENDAR            | English  |
+| ALADDIN CALENDAR            | Italian  |
+| ALADDIN CALENDAR            | Japanese |
+| ALADDIN CALENDAR            | Mandarin |
+| ALADDIN CALENDAR            | French   |
+| ALADDIN CALENDAR            | German   |
+| ALAMO VIDEOTAPE             | English  |
+| ALAMO VIDEOTAPE             | Italian  |
+| ALAMO VIDEOTAPE             | Japanese |
+| ALAMO VIDEOTAPE             | Mandarin |
+| ALAMO VIDEOTAPE             | French   |
+| ALAMO VIDEOTAPE             | German   |
+| ALASKA PHANTOM              | English  |
+| ALASKA PHANTOM              | Italian  |
+| ALASKA PHANTOM              | Japanese |
+| ALASKA PHANTOM              | Mandarin |
+| ALASKA PHANTOM              | French   |
+| ALASKA PHANTOM              | German   |
+| ALI FOREVER                 | English  |
+| ALI FOREVER                 | Italian  |
+| ALI FOREVER                 | Japanese |
+| ALI FOREVER                 | Mandarin |
+| ALI FOREVER                 | French   |
+| ALI FOREVER                 | German   |
+| ALICE FANTASIA              | English  |
+| ALICE FANTASIA              | Italian  |
+| ALICE FANTASIA              | Japanese |
+| ALICE FANTASIA              | Mandarin |
+| ALICE FANTASIA              | French   |
+| ALICE FANTASIA              | German   |
+| ALIEN CENTER                | English  |
+| ALIEN CENTER                | Italian  |
+| ALIEN CENTER                | Japanese |
+| ALIEN CENTER                | Mandarin |
+| ALIEN CENTER                | French   |
+| ALIEN CENTER                | German   |
+| ALLEY EVOLUTION             | English  |
+| ALLEY EVOLUTION             | Italian  |
+| ALLEY EVOLUTION             | Japanese |
+| ALLEY EVOLUTION             | Mandarin |
+| ALLEY EVOLUTION             | French   |
+| ALLEY EVOLUTION             | German   |
+| ALONE TRIP                  | English  |
+| ALONE TRIP                  | Italian  |
+| ALONE TRIP                  | Japanese |
+| ALONE TRIP                  | Mandarin |
+| ALONE TRIP                  | French   |
+| ALONE TRIP                  | German   |
+| ALTER VICTORY               | English  |
+| ALTER VICTORY               | Italian  |
+| ALTER VICTORY               | Japanese |
+| ALTER VICTORY               | Mandarin |
+| ALTER VICTORY               | French   |
+| ALTER VICTORY               | German   |
+| AMADEUS HOLY                | English  |
+| AMADEUS HOLY                | Italian  |
+| AMADEUS HOLY                | Japanese |
+| AMADEUS HOLY                | Mandarin |
+| AMADEUS HOLY                | French   |
+| AMADEUS HOLY                | German   |
+| AMELIE HELLFIGHTERS         | English  |
+| AMELIE HELLFIGHTERS         | Italian  |
+| AMELIE HELLFIGHTERS         | Japanese |
+| AMELIE HELLFIGHTERS         | Mandarin |
+| AMELIE HELLFIGHTERS         | French   |
+| AMELIE HELLFIGHTERS         | German   |
+| AMERICAN CIRCUS             | English  |
+| AMERICAN CIRCUS             | Italian  |
+| AMERICAN CIRCUS             | Japanese |
+| AMERICAN CIRCUS             | Mandarin |
+| AMERICAN CIRCUS             | French   |
+| AMERICAN CIRCUS             | German   |
+| AMISTAD MIDSUMMER           | English  |
+| AMISTAD MIDSUMMER           | Italian  |
+| AMISTAD MIDSUMMER           | Japanese |
+| AMISTAD MIDSUMMER           | Mandarin |
+| AMISTAD MIDSUMMER           | French   |
+| AMISTAD MIDSUMMER           | German   |
+| ANACONDA CONFESSIONS        | English  |
+| ANACONDA CONFESSIONS        | Italian  |
+| ANACONDA CONFESSIONS        | Japanese |
+| ANACONDA CONFESSIONS        | Mandarin |
+| ANACONDA CONFESSIONS        | French   |
+| ANACONDA CONFESSIONS        | German   |
+| ANALYZE HOOSIERS            | English  |
+| ANALYZE HOOSIERS            | Italian  |
+| ANALYZE HOOSIERS            | Japanese |
+| ANALYZE HOOSIERS            | Mandarin |
+| ANALYZE HOOSIERS            | French   |
+| ANALYZE HOOSIERS            | German   |
+| ANGELS LIFE                 | English  |
+| ANGELS LIFE                 | Italian  |
+| ANGELS LIFE                 | Japanese |
+| ANGELS LIFE                 | Mandarin |
+| ANGELS LIFE                 | French   |
+| ANGELS LIFE                 | German   |
+| ANNIE IDENTITY              | English  |
+| ANNIE IDENTITY              | Italian  |
+| ANNIE IDENTITY              | Japanese |
+| ANNIE IDENTITY              | Mandarin |
+| ANNIE IDENTITY              | French   |
+| ANNIE IDENTITY              | German   |
+| ANONYMOUS HUMAN             | English  |
+| ANONYMOUS HUMAN             | Italian  |
+| ANONYMOUS HUMAN             | Japanese |
+| ANONYMOUS HUMAN             | Mandarin |
+| ANONYMOUS HUMAN             | French   |
+| ANONYMOUS HUMAN             | German   |
+| ANTHEM LUKE                 | English  |
+| ANTHEM LUKE                 | Italian  |
+| ANTHEM LUKE                 | Japanese |
+| ANTHEM LUKE                 | Mandarin |
+| ANTHEM LUKE                 | French   |
+| ANTHEM LUKE                 | German   |
+| ANTITRUST TOMATOES          | English  |
+| ANTITRUST TOMATOES          | Italian  |
+| ANTITRUST TOMATOES          | Japanese |
+| ANTITRUST TOMATOES          | Mandarin |
+| ANTITRUST TOMATOES          | French   |
+| ANTITRUST TOMATOES          | German   |
+| ANYTHING SAVANNAH           | English  |
+| ANYTHING SAVANNAH           | Italian  |
+| ANYTHING SAVANNAH           | Japanese |
+| ANYTHING SAVANNAH           | Mandarin |
+| ANYTHING SAVANNAH           | French   |
+| ANYTHING SAVANNAH           | German   |
+| APACHE DIVINE               | English  |
+| APACHE DIVINE               | Italian  |
+| APACHE DIVINE               | Japanese |
+| APACHE DIVINE               | Mandarin |
+| APACHE DIVINE               | French   |
+| APACHE DIVINE               | German   |
+| APOCALYPSE FLAMINGOS        | English  |
+| APOCALYPSE FLAMINGOS        | Italian  |
+| APOCALYPSE FLAMINGOS        | Japanese |
+| APOCALYPSE FLAMINGOS        | Mandarin |
+| APOCALYPSE FLAMINGOS        | French   |
+| APOCALYPSE FLAMINGOS        | German   |
+| APOLLO TEEN                 | English  |
+| APOLLO TEEN                 | Italian  |
+| APOLLO TEEN                 | Japanese |
+| APOLLO TEEN                 | Mandarin |
+| APOLLO TEEN                 | French   |
+| APOLLO TEEN                 | German   |
+| ARABIA DOGMA                | English  |
+| ARABIA DOGMA                | Italian  |
+| ARABIA DOGMA                | Japanese |
+| ARABIA DOGMA                | Mandarin |
+| ARABIA DOGMA                | French   |
+| ARABIA DOGMA                | German   |
+| ARACHNOPHOBIA ROLLERCOASTER | English  |
+| ARACHNOPHOBIA ROLLERCOASTER | Italian  |
+| ARACHNOPHOBIA ROLLERCOASTER | Japanese |
+| ARACHNOPHOBIA ROLLERCOASTER | Mandarin |
+| ARACHNOPHOBIA ROLLERCOASTER | French   |
+| ARACHNOPHOBIA ROLLERCOASTER | German   |
+| ARGONAUTS TOWN              | English  |
+| ARGONAUTS TOWN              | Italian  |
+| ARGONAUTS TOWN              | Japanese |
+| ARGONAUTS TOWN              | Mandarin |
+| ARGONAUTS TOWN              | French   |
+| ARGONAUTS TOWN              | German   |
+| ARIZONA BANG                | English  |
+| ARIZONA BANG                | Italian  |
+| ARIZONA BANG                | Japanese |
+| ARIZONA BANG                | Mandarin |
+| ARIZONA BANG                | French   |
+| ARIZONA BANG                | German   |
+| ARK RIDGEMONT               | English  |
+| ARK RIDGEMONT               | Italian  |
+| ARK RIDGEMONT               | Japanese |
+| ARK RIDGEMONT               | Mandarin |
+| ARK RIDGEMONT               | French   |
+| ARK RIDGEMONT               | German   |
+| ARMAGEDDON LOST             | English  |
+| ARMAGEDDON LOST             | Italian  |
+| ARMAGEDDON LOST             | Japanese |
+| ARMAGEDDON LOST             | Mandarin |
+| ARMAGEDDON LOST             | French   |
+| ARMAGEDDON LOST             | German   |
+| ARMY FLINTSTONES            | English  |
+| ARMY FLINTSTONES            | Italian  |
+| ARMY FLINTSTONES            | Japanese |
+| ARMY FLINTSTONES            | Mandarin |
+| ARMY FLINTSTONES            | French   |
+| ARMY FLINTSTONES            | German   |
+| ARSENIC INDEPENDENCE        | English  |
+| ARSENIC INDEPENDENCE        | Italian  |
+| ARSENIC INDEPENDENCE        | Japanese |
+| ARSENIC INDEPENDENCE        | Mandarin |
+| ARSENIC INDEPENDENCE        | French   |
+| ARSENIC INDEPENDENCE        | German   |
+| ARTIST COLDBLOODED          | English  |
+| ARTIST COLDBLOODED          | Italian  |
+| ARTIST COLDBLOODED          | Japanese |
+| ARTIST COLDBLOODED          | Mandarin |
+| ARTIST COLDBLOODED          | French   |
+| ARTIST COLDBLOODED          | German   |
+| ATLANTIS CAUSE              | English  |
+| ATLANTIS CAUSE              | Italian  |
+| ATLANTIS CAUSE              | Japanese |
+| ATLANTIS CAUSE              | Mandarin |
+| ATLANTIS CAUSE              | French   |
+| ATLANTIS CAUSE              | German   |
+| ATTACKS HATE                | English  |
+| ATTACKS HATE                | Italian  |
+| ATTACKS HATE                | Japanese |
+| ATTACKS HATE                | Mandarin |
+| ATTACKS HATE                | French   |
+| ATTACKS HATE                | German   |
+| ATTRACTION NEWTON           | English  |
+| ATTRACTION NEWTON           | Italian  |
+| ATTRACTION NEWTON           | Japanese |
+| ATTRACTION NEWTON           | Mandarin |
+| ATTRACTION NEWTON           | French   |
+| ATTRACTION NEWTON           | German   |
+| AUTUMN CROW                 | English  |
+| AUTUMN CROW                 | Italian  |
+| AUTUMN CROW                 | Japanese |
+| AUTUMN CROW                 | Mandarin |
+| AUTUMN CROW                 | French   |
+| AUTUMN CROW                 | German   |
+| BABY HALL                   | English  |
+| BABY HALL                   | Italian  |
+| BABY HALL                   | Japanese |
+| BABY HALL                   | Mandarin |
+| BABY HALL                   | French   |
+| BABY HALL                   | German   |
+| BACKLASH UNDEFEATED         | English  |
+| BACKLASH UNDEFEATED         | Italian  |
+| BACKLASH UNDEFEATED         | Japanese |
+| BACKLASH UNDEFEATED         | Mandarin |
+| BACKLASH UNDEFEATED         | French   |
+| BACKLASH UNDEFEATED         | German   |
+| BADMAN DAWN                 | English  |
+| BADMAN DAWN                 | Italian  |
+| BADMAN DAWN                 | Japanese |
+| BADMAN DAWN                 | Mandarin |
+| BADMAN DAWN                 | French   |
+| BADMAN DAWN                 | German   |
+| BAKED CLEOPATRA             | English  |
+| BAKED CLEOPATRA             | Italian  |
+| BAKED CLEOPATRA             | Japanese |
+| BAKED CLEOPATRA             | Mandarin |
+| BAKED CLEOPATRA             | French   |
+| BAKED CLEOPATRA             | German   |
+| BALLOON HOMEWARD            | English  |
+| BALLOON HOMEWARD            | Italian  |
+| BALLOON HOMEWARD            | Japanese |
+| BALLOON HOMEWARD            | Mandarin |
+| BALLOON HOMEWARD            | French   |
+| BALLOON HOMEWARD            | German   |
+| BALLROOM MOCKINGBIRD        | English  |
+| BALLROOM MOCKINGBIRD        | Italian  |
+| BALLROOM MOCKINGBIRD        | Japanese |
+| BALLROOM MOCKINGBIRD        | Mandarin |
+| BALLROOM MOCKINGBIRD        | French   |
+| BALLROOM MOCKINGBIRD        | German   |
+| BANG KWAI                   | English  |
+| BANG KWAI                   | Italian  |
+| BANG KWAI                   | Japanese |
+| BANG KWAI                   | Mandarin |
+| BANG KWAI                   | French   |
+| BANG KWAI                   | German   |
+| BANGER PINOCCHIO            | English  |
+| BANGER PINOCCHIO            | Italian  |
+| BANGER PINOCCHIO            | Japanese |
+| BANGER PINOCCHIO            | Mandarin |
+| BANGER PINOCCHIO            | French   |
+| BANGER PINOCCHIO            | German   |
+| BARBARELLA STREETCAR        | English  |
+| BARBARELLA STREETCAR        | Italian  |
+| BARBARELLA STREETCAR        | Japanese |
+| BARBARELLA STREETCAR        | Mandarin |
+| BARBARELLA STREETCAR        | French   |
+| BARBARELLA STREETCAR        | German   |
+| BAREFOOT MANCHURIAN         | English  |
+| BAREFOOT MANCHURIAN         | Italian  |
+| BAREFOOT MANCHURIAN         | Japanese |
+| BAREFOOT MANCHURIAN         | Mandarin |
+| BAREFOOT MANCHURIAN         | French   |
+| BAREFOOT MANCHURIAN         | German   |
+| BASIC EASY                  | English  |
+| BASIC EASY                  | Italian  |
+| BASIC EASY                  | Japanese |
+| BASIC EASY                  | Mandarin |
+| BASIC EASY                  | French   |
+| BASIC EASY                  | German   |
+| BEACH HEARTBREAKERS         | English  |
+| BEACH HEARTBREAKERS         | Italian  |
+| BEACH HEARTBREAKERS         | Japanese |
+| BEACH HEARTBREAKERS         | Mandarin |
+| BEACH HEARTBREAKERS         | French   |
+| BEACH HEARTBREAKERS         | German   |
+| BEAR GRACELAND              | English  |
+| BEAR GRACELAND              | Italian  |
+| BEAR GRACELAND              | Japanese |
+| BEAR GRACELAND              | Mandarin |
+| BEAR GRACELAND              | French   |
+| BEAR GRACELAND              | German   |
+| BEAST HUNCHBACK             | English  |
+| BEAST HUNCHBACK             | Italian  |
+| BEAST HUNCHBACK             | Japanese |
+| BEAST HUNCHBACK             | Mandarin |
+| BEAST HUNCHBACK             | French   |
+| BEAST HUNCHBACK             | German   |
+| BEAUTY GREASE               | English  |
+| BEAUTY GREASE               | Italian  |
+| BEAUTY GREASE               | Japanese |
+| BEAUTY GREASE               | Mandarin |
+| BEAUTY GREASE               | French   |
+| BEAUTY GREASE               | German   |
+| BED HIGHBALL                | English  |
+| BED HIGHBALL                | Italian  |
+| BED HIGHBALL                | Japanese |
+| BED HIGHBALL                | Mandarin |
+| BED HIGHBALL                | French   |
+| BED HIGHBALL                | German   |
+| BEDAZZLED MARRIED           | English  |
+| BEDAZZLED MARRIED           | Italian  |
+| BEDAZZLED MARRIED           | Japanese |
+| BEDAZZLED MARRIED           | Mandarin |
+| BEDAZZLED MARRIED           | French   |
+| BEDAZZLED MARRIED           | German   |
+| BEETHOVEN EXORCIST          | English  |
+| BEETHOVEN EXORCIST          | Italian  |
+| BEETHOVEN EXORCIST          | Japanese |
+| BEETHOVEN EXORCIST          | Mandarin |
+| BEETHOVEN EXORCIST          | French   |
+| BEETHOVEN EXORCIST          | German   |
+| BEHAVIOR RUNAWAY            | English  |
+| BEHAVIOR RUNAWAY            | Italian  |
+| BEHAVIOR RUNAWAY            | Japanese |
+| BEHAVIOR RUNAWAY            | Mandarin |
+| BEHAVIOR RUNAWAY            | French   |
+| BEHAVIOR RUNAWAY            | German   |
+| BENEATH RUSH                | English  |
+| BENEATH RUSH                | Italian  |
+| BENEATH RUSH                | Japanese |
+| BENEATH RUSH                | Mandarin |
+| BENEATH RUSH                | French   |
+| BENEATH RUSH                | German   |
+| BERETS AGENT                | English  |
+| BERETS AGENT                | Italian  |
+| BERETS AGENT                | Japanese |
+| BERETS AGENT                | Mandarin |
+| BERETS AGENT                | French   |
+| BERETS AGENT                | German   |
+| BETRAYED REAR               | English  |
+| BETRAYED REAR               | Italian  |
+| BETRAYED REAR               | Japanese |
+| BETRAYED REAR               | Mandarin |
+| BETRAYED REAR               | French   |
+| BETRAYED REAR               | German   |
+| BEVERLY OUTLAW              | English  |
+| BEVERLY OUTLAW              | Italian  |
+| BEVERLY OUTLAW              | Japanese |
+| BEVERLY OUTLAW              | Mandarin |
+| BEVERLY OUTLAW              | French   |
+| BEVERLY OUTLAW              | German   |
+| BIKINI BORROWERS            | English  |
+| BIKINI BORROWERS            | Italian  |
+| BIKINI BORROWERS            | Japanese |
+| BIKINI BORROWERS            | Mandarin |
+| BIKINI BORROWERS            | French   |
+| BIKINI BORROWERS            | German   |
+| BILKO ANONYMOUS             | English  |
+| BILKO ANONYMOUS             | Italian  |
+| BILKO ANONYMOUS             | Japanese |
+| BILKO ANONYMOUS             | Mandarin |
+| BILKO ANONYMOUS             | French   |
+| BILKO ANONYMOUS             | German   |
+| BILL OTHERS                 | English  |
+| BILL OTHERS                 | Italian  |
+| BILL OTHERS                 | Japanese |
+| BILL OTHERS                 | Mandarin |
+| BILL OTHERS                 | French   |
+| BILL OTHERS                 | German   |
+| BINGO TALENTED              | English  |
+| BINGO TALENTED              | Italian  |
+| BINGO TALENTED              | Japanese |
+| BINGO TALENTED              | Mandarin |
+| BINGO TALENTED              | French   |
+| BINGO TALENTED              | German   |
+| BIRCH ANTITRUST             | English  |
+| BIRCH ANTITRUST             | Italian  |
+| BIRCH ANTITRUST             | Japanese |
+| BIRCH ANTITRUST             | Mandarin |
+| BIRCH ANTITRUST             | French   |
+| BIRCH ANTITRUST             | German   |
+| BIRD INDEPENDENCE           | English  |
+| BIRD INDEPENDENCE           | Italian  |
+| BIRD INDEPENDENCE           | Japanese |
+| BIRD INDEPENDENCE           | Mandarin |
+| BIRD INDEPENDENCE           | French   |
+| BIRD INDEPENDENCE           | German   |
+| BIRDCAGE CASPER             | English  |
+| BIRDCAGE CASPER             | Italian  |
+| BIRDCAGE CASPER             | Japanese |
+| BIRDCAGE CASPER             | Mandarin |
+| BIRDCAGE CASPER             | French   |
+| BIRDCAGE CASPER             | German   |
+| BIRDS PERDITION             | English  |
+| BIRDS PERDITION             | Italian  |
+| BIRDS PERDITION             | Japanese |
+| BIRDS PERDITION             | Mandarin |
+| BIRDS PERDITION             | French   |
+| BIRDS PERDITION             | German   |
+| BLACKOUT PRIVATE            | English  |
+| BLACKOUT PRIVATE            | Italian  |
+| BLACKOUT PRIVATE            | Japanese |
+| BLACKOUT PRIVATE            | Mandarin |
+| BLACKOUT PRIVATE            | French   |
+| BLACKOUT PRIVATE            | German   |
+| BLADE POLISH                | English  |
+| BLADE POLISH                | Italian  |
+| BLADE POLISH                | Japanese |
+| BLADE POLISH                | Mandarin |
+| BLADE POLISH                | French   |
+| BLADE POLISH                | German   |
+| BLANKET BEVERLY             | English  |
+| BLANKET BEVERLY             | Italian  |
+| BLANKET BEVERLY             | Japanese |
+| BLANKET BEVERLY             | Mandarin |
+| BLANKET BEVERLY             | French   |
+| BLANKET BEVERLY             | German   |
+| BLINDNESS GUN               | English  |
+| BLINDNESS GUN               | Italian  |
+| BLINDNESS GUN               | Japanese |
+| BLINDNESS GUN               | Mandarin |
+| BLINDNESS GUN               | French   |
+| BLINDNESS GUN               | German   |
+| BLOOD ARGONAUTS             | English  |
+| BLOOD ARGONAUTS             | Italian  |
+| BLOOD ARGONAUTS             | Japanese |
+| BLOOD ARGONAUTS             | Mandarin |
+| BLOOD ARGONAUTS             | French   |
+| BLOOD ARGONAUTS             | German   |
+| BLUES INSTINCT              | English  |
+| BLUES INSTINCT              | Italian  |
+| BLUES INSTINCT              | Japanese |
+| BLUES INSTINCT              | Mandarin |
+| BLUES INSTINCT              | French   |
+| BLUES INSTINCT              | German   |
+| BOILED DARES                | English  |
+| BOILED DARES                | Italian  |
++-----------------------------+----------+
+500 rows in set (0.0402 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from languague;
+ERROR: 1146 (42S02): Table 'sakila.languague' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from language;
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.title, b.name from film a inner join language b where b.language_id = 1 limit 500;
++-----------------------------+---------+
+| title                       | name    |
++-----------------------------+---------+
+| ACADEMY DINOSAUR            | English |
+| ACE GOLDFINGER              | English |
+| ADAPTATION HOLES            | English |
+| AFFAIR PREJUDICE            | English |
+| AFRICAN EGG                 | English |
+| AGENT TRUMAN                | English |
+| AIRPLANE SIERRA             | English |
+| AIRPORT POLLOCK             | English |
+| ALABAMA DEVIL               | English |
+| ALADDIN CALENDAR            | English |
+| ALAMO VIDEOTAPE             | English |
+| ALASKA PHANTOM              | English |
+| ALI FOREVER                 | English |
+| ALICE FANTASIA              | English |
+| ALIEN CENTER                | English |
+| ALLEY EVOLUTION             | English |
+| ALONE TRIP                  | English |
+| ALTER VICTORY               | English |
+| AMADEUS HOLY                | English |
+| AMELIE HELLFIGHTERS         | English |
+| AMERICAN CIRCUS             | English |
+| AMISTAD MIDSUMMER           | English |
+| ANACONDA CONFESSIONS        | English |
+| ANALYZE HOOSIERS            | English |
+| ANGELS LIFE                 | English |
+| ANNIE IDENTITY              | English |
+| ANONYMOUS HUMAN             | English |
+| ANTHEM LUKE                 | English |
+| ANTITRUST TOMATOES          | English |
+| ANYTHING SAVANNAH           | English |
+| APACHE DIVINE               | English |
+| APOCALYPSE FLAMINGOS        | English |
+| APOLLO TEEN                 | English |
+| ARABIA DOGMA                | English |
+| ARACHNOPHOBIA ROLLERCOASTER | English |
+| ARGONAUTS TOWN              | English |
+| ARIZONA BANG                | English |
+| ARK RIDGEMONT               | English |
+| ARMAGEDDON LOST             | English |
+| ARMY FLINTSTONES            | English |
+| ARSENIC INDEPENDENCE        | English |
+| ARTIST COLDBLOODED          | English |
+| ATLANTIS CAUSE              | English |
+| ATTACKS HATE                | English |
+| ATTRACTION NEWTON           | English |
+| AUTUMN CROW                 | English |
+| BABY HALL                   | English |
+| BACKLASH UNDEFEATED         | English |
+| BADMAN DAWN                 | English |
+| BAKED CLEOPATRA             | English |
+| BALLOON HOMEWARD            | English |
+| BALLROOM MOCKINGBIRD        | English |
+| BANG KWAI                   | English |
+| BANGER PINOCCHIO            | English |
+| BARBARELLA STREETCAR        | English |
+| BAREFOOT MANCHURIAN         | English |
+| BASIC EASY                  | English |
+| BEACH HEARTBREAKERS         | English |
+| BEAR GRACELAND              | English |
+| BEAST HUNCHBACK             | English |
+| BEAUTY GREASE               | English |
+| BED HIGHBALL                | English |
+| BEDAZZLED MARRIED           | English |
+| BEETHOVEN EXORCIST          | English |
+| BEHAVIOR RUNAWAY            | English |
+| BENEATH RUSH                | English |
+| BERETS AGENT                | English |
+| BETRAYED REAR               | English |
+| BEVERLY OUTLAW              | English |
+| BIKINI BORROWERS            | English |
+| BILKO ANONYMOUS             | English |
+| BILL OTHERS                 | English |
+| BINGO TALENTED              | English |
+| BIRCH ANTITRUST             | English |
+| BIRD INDEPENDENCE           | English |
+| BIRDCAGE CASPER             | English |
+| BIRDS PERDITION             | English |
+| BLACKOUT PRIVATE            | English |
+| BLADE POLISH                | English |
+| BLANKET BEVERLY             | English |
+| BLINDNESS GUN               | English |
+| BLOOD ARGONAUTS             | English |
+| BLUES INSTINCT              | English |
+| BOILED DARES                | English |
+| BONNIE HOLOCAUST            | English |
+| BOOGIE AMELIE               | English |
+| BOONDOCK BALLROOM           | English |
+| BORN SPINAL                 | English |
+| BORROWERS BEDAZZLED         | English |
+| BOULEVARD MOB               | English |
+| BOUND CHEAPER               | English |
+| BOWFINGER GABLES            | English |
+| BRANNIGAN SUNRISE           | English |
+| BRAVEHEART HUMAN            | English |
+| BREAKFAST GOLDFINGER        | English |
+| BREAKING HOME               | English |
+| BRIDE INTRIGUE              | English |
+| BRIGHT ENCOUNTERS           | English |
+| BRINGING HYSTERICAL         | English |
+| BROOKLYN DESERT             | English |
+| BROTHERHOOD BLANKET         | English |
+| BUBBLE GROSSE               | English |
+| BUCKET BROTHERHOOD          | English |
+| BUGSY SONG                  | English |
+| BULL SHAWSHANK              | English |
+| BULWORTH COMMANDMENTS       | English |
+| BUNCH MINDS                 | English |
+| BUTCH PANTHER               | English |
+| BUTTERFLY CHOCOLAT          | English |
+| CABIN FLASH                 | English |
+| CADDYSHACK JEDI             | English |
+| CALENDAR GUNFIGHT           | English |
+| CALIFORNIA BIRDS            | English |
+| CAMELOT VACATION            | English |
+| CAMPUS REMEMBER             | English |
+| CANDIDATE PERDITION         | English |
+| CANDLES GRAPES              | English |
+| CANYON STOCK                | English |
+| CAPER MOTIONS               | English |
+| CARIBBEAN LIBERTY           | English |
+| CAROL TEXAS                 | English |
+| CARRIE BUNCH                | English |
+| CASABLANCA SUPER            | English |
+| CASPER DRAGONFLY            | English |
+| CASSIDY WYOMING             | English |
+| CASUALTIES ENCINO           | English |
+| CAT CONEHEADS               | English |
+| CATCH AMISTAD               | English |
+| CAUSE DATE                  | English |
+| CELEBRITY HORN              | English |
+| CENTER DINOSAUR             | English |
+| CHAINSAW UPTOWN             | English |
+| CHAMBER ITALIAN             | English |
+| CHAMPION FLATLINERS         | English |
+| CHANCE RESURRECTION         | English |
+| CHAPLIN LICENSE             | English |
+| CHARADE DUFFEL              | English |
+| CHARIOTS CONSPIRACY         | English |
+| CHASING FIGHT               | English |
+| CHEAPER CLYDE               | English |
+| CHICAGO NORTH               | English |
+| CHICKEN HELLFIGHTERS        | English |
+| CHILL LUCK                  | English |
+| CHINATOWN GLADIATOR         | English |
+| CHISUM BEHAVIOR             | English |
+| CHITTY LOCK                 | English |
+| CHOCOLAT HARRY              | English |
+| CHOCOLATE DUCK              | English |
+| CHRISTMAS MOONSHINE         | English |
+| CIDER DESIRE                | English |
+| CINCINATTI WHISPERER        | English |
+| CIRCUS YOUTH                | English |
+| CITIZEN SHREK               | English |
+| CLASH FREDDY                | English |
+| CLEOPATRA DEVIL             | English |
+| CLERKS ANGELS               | English |
+| CLOCKWORK PARADISE          | English |
+| CLONES PINOCCHIO            | English |
+| CLOSER BANG                 | English |
+| CLUB GRAFFITI               | English |
+| CLUE GRAIL                  | English |
+| CLUELESS BUCKET             | English |
+| CLYDE THEORY                | English |
+| COAST RAINBOW               | English |
+| COLDBLOODED DARLING         | English |
+| COLOR PHILADELPHIA          | English |
+| COMA HEAD                   | English |
+| COMANCHEROS ENEMY           | English |
+| COMFORTS RUSH               | English |
+| COMMAND DARLING             | English |
+| COMMANDMENTS EXPRESS        | English |
+| CONEHEADS SMOOCHY           | English |
+| CONFESSIONS MAGUIRE         | English |
+| CONFIDENTIAL INTERVIEW      | English |
+| CONFUSED CANDLES            | English |
+| CONGENIALITY QUEST          | English |
+| CONNECTICUT TRAMP           | English |
+| CONNECTION MICROCOSMOS      | English |
+| CONQUERER NUTS              | English |
+| CONSPIRACY SPIRIT           | English |
+| CONTACT ANONYMOUS           | English |
+| CONTROL ANTHEM              | English |
+| CONVERSATION DOWNHILL       | English |
+| CORE SUIT                   | English |
+| COWBOY DOOM                 | English |
+| CRAFT OUTFIELD              | English |
+| CRANES RESERVOIR            | English |
+| CRAZY HOME                  | English |
+| CREATURES SHAKESPEARE       | English |
+| CREEPERS KANE               | English |
+| CROOKED FROGMEN             | English |
+| CROSSING DIVORCE            | English |
+| CROSSROADS CASUALTIES       | English |
+| CROW GREASE                 | English |
+| CROWDS TELEMARK             | English |
+| CRUELTY UNFORGIVEN          | English |
+| CRUSADE HONEY               | English |
+| CRYSTAL BREAKING            | English |
+| CUPBOARD SINNERS            | English |
+| CURTAIN VIDEOTAPE           | English |
+| CYCLONE FAMILY              | English |
+| DADDY PITTSBURGH            | English |
+| DAISY MENAGERIE             | English |
+| DALMATIONS SWEDEN           | English |
+| DANCES NONE                 | English |
+| DANCING FEVER               | English |
+| DANGEROUS UPTOWN            | English |
+| DARES PLUTO                 | English |
+| DARKNESS WAR                | English |
+| DARKO DORADO                | English |
+| DARLING BREAKING            | English |
+| DARN FORRESTER              | English |
+| DATE SPEED                  | English |
+| DAUGHTER MADIGAN            | English |
+| DAWN POND                   | English |
+| DAY UNFAITHFUL              | English |
+| DAZED PUNK                  | English |
+| DECEIVER BETRAYED           | English |
+| DEEP CRUSADE                | English |
+| DEER VIRGINIAN              | English |
+| DELIVERANCE MULHOLLAND      | English |
+| DESERT POSEIDON             | English |
+| DESIRE ALIEN                | English |
+| DESPERATE TRAINSPOTTING     | English |
+| DESTINATION JERK            | English |
+| DESTINY SATURDAY            | English |
+| DETAILS PACKER              | English |
+| DETECTIVE VISION            | English |
+| DEVIL DESIRE                | English |
+| DIARY PANIC                 | English |
+| DINOSAUR SECRETARY          | English |
+| DIRTY ACE                   | English |
+| DISCIPLE MOTHER             | English |
+| DISTURBING SCARFACE         | English |
+| DIVIDE MONSTER              | English |
+| DIVINE RESURRECTION         | English |
+| DIVORCE SHINING             | English |
+| DOCTOR GRAIL                | English |
+| DOGMA FAMILY                | English |
+| DOLLS RAGE                  | English |
+| DONNIE ALLEY                | English |
+| DOOM DANCING                | English |
+| DOORS PRESIDENT             | English |
+| DORADO NOTTING              | English |
+| DOUBLE WRATH                | English |
+| DOUBTFIRE LABYRINTH         | English |
+| DOWNHILL ENOUGH             | English |
+| DOZEN LION                  | English |
+| DRACULA CRYSTAL             | English |
+| DRAGON SQUAD                | English |
+| DRAGONFLY STRANGERS         | English |
+| DREAM PICKUP                | English |
+| DRIFTER COMMANDMENTS        | English |
+| DRIVER ANNIE                | English |
+| DRIVING POLISH              | English |
+| DROP WATERFRONT             | English |
+| DRUMLINE CYCLONE            | English |
+| DRUMS DYNAMITE              | English |
+| DUCK RACER                  | English |
+| DUDE BLINDNESS              | English |
+| DUFFEL APOCALYPSE           | English |
+| DUMBO LUST                  | English |
+| DURHAM PANKY                | English |
+| DWARFS ALTER                | English |
+| DYING MAKER                 | English |
+| DYNAMITE TARZAN             | English |
+| EAGLES PANKY                | English |
+| EARLY HOME                  | English |
+| EARRING INSTINCT            | English |
+| EARTH VISION                | English |
+| EASY GLADIATOR              | English |
+| EDGE KISSING                | English |
+| EFFECT GLADIATOR            | English |
+| EGG IGBY                    | English |
+| EGYPT TENENBAUMS            | English |
+| ELEMENT FREDDY              | English |
+| ELEPHANT TROJAN             | English |
+| ELF MURDER                  | English |
+| ELIZABETH SHANE             | English |
+| EMPIRE MALKOVICH            | English |
+| ENCINO ELF                  | English |
+| ENCOUNTERS CURTAIN          | English |
+| ENDING CROWDS               | English |
+| ENEMY ODDS                  | English |
+| ENGLISH BULWORTH            | English |
+| ENOUGH RAGING               | English |
+| ENTRAPMENT SATISFACTION     | English |
+| ESCAPE METROPOLIS           | English |
+| EVE RESURRECTION            | English |
+| EVERYONE CRAFT              | English |
+| EVOLUTION ALTER             | English |
+| EXCITEMENT EVE              | English |
+| EXORCIST STING              | English |
+| EXPECATIONS NATURAL         | English |
+| EXPENDABLE STALLION         | English |
+| EXPRESS LONELY              | English |
+| EXTRAORDINARY CONQUERER     | English |
+| EYES DRIVING                | English |
+| FACTORY DRAGON              | English |
+| FALCON VOLUME               | English |
+| FAMILY SWEET                | English |
+| FANTASIA PARK               | English |
+| FANTASY TROOPERS            | English |
+| FARGO GANDHI                | English |
+| FATAL HAUNTED               | English |
+| FEATHERS METAL              | English |
+| FELLOWSHIP AUTUMN           | English |
+| FERRIS MOTHER               | English |
+| FEUD FROGMEN                | English |
+| FEVER EMPIRE                | English |
+| FICTION CHRISTMAS           | English |
+| FIDDLER LOST                | English |
+| FIDELITY DEVIL              | English |
+| FIGHT JAWBREAKER            | English |
+| FINDING ANACONDA            | English |
+| FIRE WOLVES                 | English |
+| FIREBALL PHILADELPHIA       | English |
+| FIREHOUSE VIETNAM           | English |
+| FISH OPUS                   | English |
+| FLAMINGOS CONNECTICUT       | English |
+| FLASH WARS                  | English |
+| FLATLINERS KILLER           | English |
+| FLIGHT LIES                 | English |
+| FLINTSTONES HAPPINESS       | English |
+| FLOATS GARDEN               | English |
+| FLYING HOOK                 | English |
+| FOOL MOCKINGBIRD            | English |
+| FOREVER CANDIDATE           | English |
+| FORREST SONS                | English |
+| FORRESTER COMANCHEROS       | English |
+| FORWARD TEMPLE              | English |
+| FRANKENSTEIN STRANGER       | English |
+| FREAKY POCUS                | English |
+| FREDDY STORM                | English |
+| FREEDOM CLEOPATRA           | English |
+| FRENCH HOLIDAY              | English |
+| FRIDA SLIPPER               | English |
+| FRISCO FORREST              | English |
+| FROGMEN BREAKING            | English |
+| FRONTIER CABIN              | English |
+| FROST HEAD                  | English |
+| FUGITIVE MAGUIRE            | English |
+| FULL FLATLINERS             | English |
+| FURY MURDER                 | English |
+| GABLES METROPOLIS           | English |
+| GALAXY SWEETHEARTS          | English |
+| GAMES BOWFINGER             | English |
+| GANDHI KWAI                 | English |
+| GANGS PRIDE                 | English |
+| GARDEN ISLAND               | English |
+| GASLIGHT CRUSADE            | English |
+| GATHERING CALENDAR          | English |
+| GENTLEMEN STAGE             | English |
+| GHOST GROUNDHOG             | English |
+| GHOSTBUSTERS ELF            | English |
+| GIANT TROOPERS              | English |
+| GILBERT PELICAN             | English |
+| GILMORE BOILED              | English |
+| GLADIATOR WESTWARD          | English |
+| GLASS DYING                 | English |
+| GLEAMING JAWBREAKER         | English |
+| GLORY TRACY                 | English |
+| GO PURPLE                   | English |
+| GODFATHER DIARY             | English |
+| GOLD RIVER                  | English |
+| GOLDFINGER SENSIBILITY      | English |
+| GOLDMINE TYCOON             | English |
+| GONE TROUBLE                | English |
+| GOODFELLAS SALUTE           | English |
+| GORGEOUS BINGO              | English |
+| GOSFORD DONNIE              | English |
+| GRACELAND DYNAMITE          | English |
+| GRADUATE LORD               | English |
+| GRAFFITI LOVE               | English |
+| GRAIL FRANKENSTEIN          | English |
+| GRAPES FURY                 | English |
+| GREASE YOUTH                | English |
+| GREATEST NORTH              | English |
+| GREEDY ROOTS                | English |
+| GREEK EVERYONE              | English |
+| GRINCH MASSAGE              | English |
+| GRIT CLOCKWORK              | English |
+| GROOVE FICTION              | English |
+| GROSSE WONDERFUL            | English |
+| GROUNDHOG UNCUT             | English |
+| GUMP DATE                   | English |
+| GUN BONNIE                  | English |
+| GUNFIGHT MOON               | English |
+| GUNFIGHTER MUSSOLINI        | English |
+| GUYS FALCON                 | English |
+| HALF OUTFIELD               | English |
+| HALL CASSIDY                | English |
+| HALLOWEEN NUTS              | English |
+| HAMLET WISDOM               | English |
+| HANDICAP BOONDOCK           | English |
+| HANGING DEEP                | English |
+| HANKY OCTOBER               | English |
+| HANOVER GALAXY              | English |
+| HAPPINESS UNITED            | English |
+| HARDLY ROBBERS              | English |
+| HAROLD FRENCH               | English |
+| HARPER DYING                | English |
+| HARRY IDAHO                 | English |
+| HATE HANDICAP               | English |
+| HAUNTED ANTITRUST           | English |
+| HAUNTING PIANIST            | English |
+| HAWK CHILL                  | English |
+| HEAD STRANGER               | English |
+| HEARTBREAKERS BRIGHT        | English |
+| HEAVEN FREEDOM              | English |
+| HEAVENLY GUN                | English |
+| HEAVYWEIGHTS BEAST          | English |
+| HEDWIG ALTER                | English |
+| HELLFIGHTERS SIERRA         | English |
+| HIGH ENCINO                 | English |
+| HIGHBALL POTTER             | English |
+| HILLS NEIGHBORS             | English |
+| HOBBIT ALIEN                | English |
+| HOCUS FRIDA                 | English |
+| HOLES BRANNIGAN             | English |
+| HOLIDAY GAMES               | English |
+| HOLLOW JEOPARDY             | English |
+| HOLLYWOOD ANONYMOUS         | English |
+| HOLOCAUST HIGHBALL          | English |
+| HOLY TADPOLE                | English |
+| HOME PITY                   | English |
+| HOMEWARD CIDER              | English |
+| HOMICIDE PEACH              | English |
+| HONEY TIES                  | English |
+| HOOK CHARIOTS               | English |
+| HOOSIERS BIRDCAGE           | English |
+| HOPE TOOTSIE                | English |
+| HORN WORKING                | English |
+| HORROR REIGN                | English |
+| HOTEL HAPPINESS             | English |
+| HOURS RAGE                  | English |
+| HOUSE DYNAMITE              | English |
+| HUMAN GRAFFITI              | English |
+| HUNCHBACK IMPOSSIBLE        | English |
+| HUNGER ROOF                 | English |
+| HUNTER ALTER                | English |
+| HUNTING MUSKETEERS          | English |
+| HURRICANE AFFAIR            | English |
+| HUSTLER PARTY               | English |
+| HYDE DOCTOR                 | English |
+| HYSTERICAL GRAIL            | English |
+| ICE CROSSING                | English |
+| IDAHO LOVE                  | English |
+| IDENTITY LOVER              | English |
+| IDOLS SNATCHERS             | English |
+| IGBY MAKER                  | English |
+| ILLUSION AMELIE             | English |
+| IMAGE PRINCESS              | English |
+| IMPACT ALADDIN              | English |
+| IMPOSSIBLE PREJUDICE        | English |
+| INCH JET                    | English |
+| INDEPENDENCE HOTEL          | English |
+| INDIAN LOVE                 | English |
+| INFORMER DOUBLE             | English |
+| INNOCENT USUAL              | English |
+| INSECTS STONE               | English |
+| INSIDER ARIZONA             | English |
+| INSTINCT AIRPORT            | English |
+| INTENTIONS EMPIRE           | English |
+| INTERVIEW LIAISONS          | English |
+| INTOLERABLE INTENTIONS      | English |
+| INTRIGUE WORST              | English |
+| INVASION CYCLONE            | English |
+| IRON MOON                   | English |
+| ISHTAR ROCKETEER            | English |
+| ISLAND EXORCIST             | English |
+| ITALIAN AFRICAN             | English |
+| JACKET FRISCO               | English |
+| JADE BUNCH                  | English |
+| JAPANESE RUN                | English |
+| JASON TRAP                  | English |
+| JAWBREAKER BROOKLYN         | English |
+| JAWS HARRY                  | English |
+| JEDI BENEATH                | English |
+| JEEPERS WEDDING             | English |
+| JEKYLL FROGMEN              | English |
+| JEOPARDY ENCINO             | English |
+| JERICHO MULAN               | English |
+| JERK PAYCHECK               | English |
+| JERSEY SASSY                | English |
+| JET NEIGHBORS               | English |
+| JINGLE SAGEBRUSH            | English |
+| JOON NORTHWEST              | English |
+| JUGGLER HARDLY              | English |
+| JUMANJI BLADE               | English |
+| JUMPING WRATH               | English |
+| JUNGLE CLOSER               | English |
+| KANE EXORCIST               | English |
+| KARATE MOON                 | English |
+| KENTUCKIAN GIANT            | English |
+| KICK SAVANNAH               | English |
+| KILL BROTHERHOOD            | English |
+| KILLER INNOCENT             | English |
+| KING EVOLUTION              | English |
+| KISS GLORY                  | English |
++-----------------------------+---------+
+500 rows in set (0.0106 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL >
