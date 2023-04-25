@@ -1,0 +1,118 @@
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > desc mysql_users;
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL >
+ MySQL  localhost:3306 ssl  SQL > select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| bloquear         |
+| consultas        |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| prueba2          |
+| prueba3          |
+| prueba4          |
+| root             |
+| soloconsultas    |
+| solotabla        |
++------------------+
+11 rows in set (0.1056 sec)
+ MySQL  localhost:3306 ssl  SQL > show grants for 'bloquear'@'localhost';
++----------------------------------------------+
+| Grants for bloquear@localhost                |
++----------------------------------------------+
+| GRANT USAGE ON *.* TO `bloquear`@`localhost` |
++----------------------------------------------+
+1 row in set (0.0321 sec)
+ MySQL  localhost:3306 ssl  SQL > show grants for 'consultas'@'localhost';
++-------------------------------------------------------+
+| Grants for consultas@localhost                        |
++-------------------------------------------------------+
+| GRANT USAGE ON *.* TO `consultas`@`localhost`         |
+| GRANT SELECT ON `sakila`.* TO `consultas`@`localhost` |
++-------------------------------------------------------+
+2 rows in set (0.0004 sec)
+ MySQL  localhost:3306 ssl  SQL > show grants for 'root'@'localhost';
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `root`@`localhost` WITH GRANT OPTION                                                                                                                                               |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `root`@`localhost` WITH GRANT OPTION |
+| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  SQL > show grants for 'prueba3'@'localhost';
++------------------------------------------------------------------------------------------+
+| Grants for prueba3@localhost                                                             |
++------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `prueba3`@`localhost`                                              |
+| GRANT SELECT (`first_name`, `last_name`) ON `sakila`.`customer` TO `prueba3`@`localhost` |
++------------------------------------------------------------------------------------------+
+2 rows in set (0.2956 sec)
+ MySQL  localhost:3306 ssl  SQL > set default role all to 'bloquear'@'localhost';
+Query OK, 0 rows affected (0.5215 sec)
+ MySQL  localhost:3306 ssl  SQL > use eva__
+MySQL Error 1049: Unknown database 'eva__'
+ MySQL  localhost:3306 ssl  SQL > use eva__
+MySQL Error 1049: Unknown database 'eva__'
+ MySQL  localhost:3306 ssl  SQL > use eva_3;
+Default schema set to `eva_3`.
+Fetching table and column names from `eva_3` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_3  SQL > select regresa_uno();
++---------------+
+| regresa_uno() |
++---------------+
+|             1 |
++---------------+
+1 row in set (0.1069 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > select regresa_mensaje('Hola');
++-------------------------+
+| regresa_mensaje('Hola') |
++-------------------------+
+| Hola Como estasHola     |
++-------------------------+
+1 row in set (0.0319 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > select regresa_mensaje('Hola') as mensaje;
++---------------------+
+| mensaje             |
++---------------------+
+| Hola Como estasHola |
++---------------------+
+1 row in set (0.0004 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > select regresa_mensaje('?') as mensaje;
++------------------+
+| mensaje          |
++------------------+
+| Hola Como estas? |
++------------------+
+1 row in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > \use sakila
+Default schema set to `sakila`.
+Fetching table and column names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > \use eva_3
+Default schema set to `eva_3`.
+Fetching table and column names from `eva_3` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_3  SQL > select contar_actor() as actores;
++---------+
+| actores |
++---------+
+|     200 |
++---------+
+1 row in set (0.1083 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL >
