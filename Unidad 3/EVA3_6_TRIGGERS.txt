@@ -1,0 +1,113 @@
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > set @mensaje ='';
+Query OK, 0 rows affected (0.0002 sec)
+ MySQL  localhost:3306 ssl  SQL > select @mensaje;
++----------+
+| @mensaje |
++----------+
+|          |
++----------+
+1 row in set (0.0003 sec)
+ MySQL  localhost:3306 ssl  SQL > insert into personas (nombre) values(Juan);
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > use eva_3;
+Default schema set to `eva_3`.
+Fetching table and column names from `eva_3` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  eva_3  SQL > insert into personas (nombre) values(Juan);
+ERROR: 1054 (42S22): Unknown column 'Juan' in 'field list'
+ MySQL  localhost:3306 ssl  eva_3  SQL > insert into personas (nombre) values('Juan');
+ERROR: 1364 (HY000): Field 'apeliido_pat' doesn't have a default value
+ MySQL  localhost:3306 ssl  eva_3  SQL > insert into personas (nombre, apellido_pat) values('Juan', 'Tavares');
+ERROR: 1054 (42S22): Unknown column 'apellido_pat' in 'field list'
+ MySQL  localhost:3306 ssl  eva_3  SQL > desc personas;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| id           | int         | NO   | PRI | NULL    | auto_increment |
+| nombre       | varchar(50) | NO   |     | NULL    |                |
+| apeliido_pat | varchar(50) | NO   |     | NULL    |                |
+| apellido_mat | varchar(50) | YES  |     | NULL    |                |
+| fecha_nac    | date        | YES  |     | NULL    |                |
+| clave_rfc    | varchar(30) | YES  |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > insert into personas (nombre, apeliido_pat) values('Juan', 'Tavares');
+Query OK, 1 row affected (3.7149 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > select @mensaje;
++-------------------------------+
+| @mensaje                      |
++-------------------------------+
+| PERSONA INSERTADA CON EXITO!! |
++-------------------------------+
+1 row in set (0.0003 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > show triggers;
++---------+--------+----------+------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+| Trigger | Event  | Table    | Statement                                      | Timing | Created                | sql_mode                                   | Definer        | character_set_client | collation_connection | Database Collation |
++---------+--------+----------+------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+| mensaje | INSERT | personas | set @mensaje = 'PERSONA INSERTADA CON EXITO!!' | AFTER  | 2023-05-11 11:10:56.04 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++---------+--------+----------+------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+1 row in set (0.2269 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > desc auditoria_perso;
+ERROR: 1146 (42S02): Table 'eva_3.auditoria_perso' doesn't exist
+ MySQL  localhost:3306 ssl  eva_3  SQL > show tables;
++-----------------+
+| Tables_in_eva_3 |
++-----------------+
+| actor           |
+| auditoria_per   |
+| personas        |
++-----------------+
+3 rows in set (0.0355 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > desc auditoria_pers;
+ERROR: 1146 (42S02): Table 'eva_3.auditoria_pers' doesn't exist
+ MySQL  localhost:3306 ssl  eva_3  SQL > desc auditoria_per;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| id_perso      | int         | YES  |     | NULL    |       |
+| nombre_per    | varchar(50) | YES  |     | NULL    |       |
+| ap_pat_per    | varchar(50) | YES  |     | NULL    |       |
+| ap_mat_per    | varchar(50) | YES  |     | NULL    |       |
+| fecha_nac_per | date        | YES  |     | NULL    |       |
+| rfc           | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.0213 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > update personas set nombre = 'Yayo', apellido_pat = 'Tavares', apellido_mat= 'Tena', fecha_nac = '2000-02-25', clave_rfc = 'vskfhjgsdjfh' where id = 11;
+ERROR: 1054 (42S22): Unknown column 'apellido_pat' in 'field list'
+ MySQL  localhost:3306 ssl  eva_3  SQL > update personas set nombre = 'Yayo', apeliido_pat = 'Tavares', apellido_mat= 'Tena', fecha_nac = '2000-02-25', clave_rfc = 'vskfhjgsdjfh' where id = 11;
+Query OK, 1 row affected (0.8209 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  eva_3  SQL > select + from persomas where id = 11;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from persomas where id = 11' at line 1
+ MySQL  localhost:3306 ssl  eva_3  SQL > select * from persomas where id = 11;
+ERROR: 1146 (42S02): Table 'eva_3.persomas' doesn't exist
+ MySQL  localhost:3306 ssl  eva_3  SQL > select * from personas where id = 11;
++----+--------+--------------+--------------+------------+--------------+
+| id | nombre | apeliido_pat | apellido_mat | fecha_nac  | clave_rfc    |
++----+--------+--------------+--------------+------------+--------------+
+| 11 | Yayo   | Tavares      | Tena         | 2000-02-25 | vskfhjgsdjfh |
++----+--------+--------------+--------------+------------+--------------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL > select * from auditoria_per;
++----------+------------+------------+------------+---------------+------+
+| id_perso | nombre_per | ap_pat_per | ap_mat_per | fecha_nac_per | rfc  |
++----------+------------+------------+------------+---------------+------+
+|       11 | Juan       | Tavares    | NULL       | NULL          | NULL |
++----------+------------+------------+------------+---------------+------+
+1 row in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  eva_3  SQL >
